@@ -4,6 +4,7 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} .*\.html [OR]
 RewriteCond %{REQUEST_URI} .*\.md [OR]
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !.*\.(css|js|png|gif|jpg|pdf|ico)
 RewriteRule ^ index.php [QSA,L]
 # Fix a bug where mdwiki might be invoked, which might invoke index.php in turn for embedding
 DirectoryIndex index.php index.html

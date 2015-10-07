@@ -40,14 +40,26 @@ if (is_file($filePath.$uri.'.md')) {
 } else {
     echo '404 File not found'; // TODO: Improve!
 }
-echo $file;
-echo $_SERVER['QUERY_STRING'];
-
 
 $parser = new \cebe\markdown\Markdown();
 $parser->html5 = true;
 $markdown = file_get_contents($file);
 $markup = $parser->parse($markdown);
+
+$navParser = new \Innovacy\Up\Navigation();
+$navigation = $navParser->parse(file_get_contents($filePath.'/navigation.md'));
+$css = '';
+if (is_file($filePath.'/css/innovacy.css')) {
+    $css = '<link rel="stylesheet" href="'.'/css/innovacy.css'.'" type="text/css">';
+}
+
+$footer = '';
+if (is_file($filePath.'/footer.md')) {
+    $footerParser = new \cebe\markdown\Markdown();
+    $footerParser->html5 = true;
+    $footer = $footerParser->parse(file_get_contents($filePath . '/footer.md'));
+}
+
 
 echo <<<HTML
 <!doctype html>
@@ -55,6 +67,7 @@ echo <<<HTML
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="Up!" />
+	$css
 	<style>
 		body { font-family: Arial, sans-serif; }
 		code { background: #eeeeff; padding: 2px; }
@@ -64,7 +77,9 @@ echo <<<HTML
 	</style>
 </head>
 <body>
+$navigation
 $markup
+$footer
 </body>
 </html>
 HTML;
