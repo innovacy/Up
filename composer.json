@@ -1,0 +1,22 @@
+{
+  "name": "Innovacy/Up",
+  "description": "An extremely simple, yet powerful markdown-based CMS",
+  "minimum-stability": "stable",
+  "license": "gpl-3.0",
+  "authors": [
+    {
+      "name": "Dimitrios Karvounaris",
+      "email": "d.karvounaris@innvoacy.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "lib-pcre": "*",
+    "cebe/markdown": "1.1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Innovacy\\": ""
+    }
+  }
+}

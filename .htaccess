@@ -1,0 +1,9 @@
+RewriteEngine On
+# RewriteBase /
+# This blocks calls to md and html files, as also replaces fully mdwiki (when installed) explicit calls
+RewriteCond %{REQUEST_URI} .*\.html [OR]
+RewriteCond %{REQUEST_URI} .*\.md [OR]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
+# Fix a bug where mdwiki might be invoked, which might invoke index.php in turn for embedding
+DirectoryIndex index.php index.html
