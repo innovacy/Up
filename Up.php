@@ -64,6 +64,7 @@ class Up
             }
         }
 
+        $meta = '';
         // load generic configuration in main directory if exists
         if ($fileConfig = $this->discoverFile('config.json')) {
             $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
@@ -73,14 +74,16 @@ class Up
             $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
         }
 
+        if (!empty($this->config['loadCss'])) {
+            if ($fileCss = $this->discoverFile($this->virtualUri, true, $this->config['loadCss'])) {
+                $meta .= '<link rel="stylesheet" type="text/css" href="'.
+                    str_replace($this->basePath, '', $fileCss).'">';
+            }
+        }
         $markdown = file_get_contents($file);
         $markup = $this->parserMain->parse($markdown);
 
         $navigation = $this->parserNavigation->parse(file_get_contents($this->basePath .'/navigation.md'));
-        $css = '';
-        if (is_file($this->basePath .'/css/innovacy.css')) {
-            $css = '<link rel="stylesheet" href="'.'/css/innovacy.css'.'" type="text/css">';
-        }
 
         $footer = '';
         if (is_file($this->basePath .'/footer.md')) {
@@ -93,7 +96,7 @@ class Up
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="generator" content="Up!" />
-	$css
+	$meta
 	<style>
 		body { font-family: Arial, sans-serif; }
 		code { background: #eeeeff; padding: 2px; }

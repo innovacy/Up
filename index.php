@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require "vendor/autoload.php";
-$up = new \Innovacy\Up();
-$output = $up->run();
+$app = new \Innovacy\Up();
+$html = $app->run();
 // TODO: Caching for faster processing - on the other side, is this not superfast already? (Low priority)
-echo $output;
+echo $html;

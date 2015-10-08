@@ -166,11 +166,32 @@ To add custom styles, simply create a custom.css file in the main folder. It wil
 For now, as no such list exists, inspect the generated files to see what classes and id's are available for
 custom styling.
 
-### config.json (work in progress)
+### Changing settings with config.json
 
+You can have a config.json file in the main folder and in any of the subdirectories.
+
+Up! looks first in the main folder for config.json file and will load it. Then it will search resursively beginning
+with requested path all parents folders for a config.json. The first file that will be found, will be loaded and can
+overwrite settings of the main config.json file. Only one additional config.json will be loaded, other files further up
+in the folder structure will be ignored.
+
+#### Valid settings in config.json (work in progress)
 If a config.json file exists, Up! will check it. It is mostly compatible with mdwiki's settings with small differences.
 
 Currently supported are (the values shown are defaults):
+
+##### config.json: loadCss
+
+This setting indicates a CSS filename without a path to load. Up! then searches for this file starting from
+the requested path through all parents. The first that is found is loaded in the site.
+
+This way, you can overwrite your styles in every folder (incl. all it's child folders) you want to.
+
+    {
+        "loadCss": "mystyle.css"
+    }
+
+#####  Settings to be documented (work in progress)
 
     {
       "useSideNav": "true",      // Won't create a side navigation if false
