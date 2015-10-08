@@ -30,6 +30,9 @@ class Up
     /** @var string Base local path */
     protected $basePath;
 
+    /** @var array Configuration */
+    protected $config = array();
+
     /**
      * Constructor
      */
@@ -56,7 +59,20 @@ class Up
         if (!$file = $this->discoverFile($this->virtualUri)) {
             $file = $this->discoverFile($this->virtualUri, true, '404');
             header("HTTP/1.0 404 Not Found");
+            if (!$file) {
+                die('404 File not found');
+            }
         }
+
+        // load generic configuration in main directory if exists
+        if ($fileConfig = $this->discoverFile('config.json')) {
+            $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
+        }
+        // allow overriding configuration in a subdirectory, also partially. Only takes the first file found in parents
+        if ($fileConfig = $this->discoverFile($this->virtualUri, true, 'config.json')) {
+            $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
+        }
+
         $markdown = file_get_contents($file);
         $markup = $this->parserMain->parse($markdown);
 
@@ -171,7 +187,7 @@ HTML;
                 } elseif (is_readable($path.$pathBits['filename'].'.html')) {
                     return $path.$pathBits['filename'].'.html';
                 }
-            } else {
+            } elseif ($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md') {
                 // always prefer md over html if both exist, but uri could have been called as html
                 if ($pathBits['extension'] == 'html'
                     && is_readable($path.$pathBits['filename'].'.md')
@@ -187,6 +203,11 @@ HTML;
                     && is_readable($path.$pathBits['filename'].'.html')
                 ) {
                     return $path.$pathBits['filename'].'.html';
+                }
+            } else {
+                // so we can search resursively for other file types for other purposes too
+                if (is_readable($path.$pathBits['filename'].'.'.$pathBits['extension'])) {
+                    return $path . $pathBits['filename'] . '.' . $pathBits['extension'];
                 }
             }
         }
