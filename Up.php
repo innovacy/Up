@@ -55,8 +55,8 @@ class Up
     {
         if (!$file = $this->discoverFile($this->virtualUri)) {
             $file = $this->discoverFile($this->virtualUri, true, '404');
+            header("HTTP/1.0 404 Not Found");
         }
-
         $markdown = file_get_contents($file);
         $markup = $this->parserMain->parse($markdown);
 
@@ -140,7 +140,7 @@ HTML;
         $relativePath .= (substr($relativePath, -1) == '/') ? 'index' : '';
         $pathBits = pathinfo($relativePath);
         $pathBits['dirname'] = str_replace('\\', '', $pathBits['dirname']); // windows
-        $pathBits['dirname'] = ltrim($pathBits['dirname'], '/');
+        $pathBits['dirname'] = '/'.ltrim($pathBits['dirname'], '/');
         $paths = array();
         if ($recursive) {
             // construct a list of all parent paths
@@ -157,6 +157,7 @@ HTML;
         if (!empty($overrideFile)) {
             $_p = pathinfo($overrideFile);
             $pathBits['basename'] = $_p['basename'];
+            $pathBits['filename'] = $_p['filename'];
             $pathBits['extension'] = isset($_p['extension']) ? $_p['extension'] : '';  // avoid warning when undefined
         }
         $pathBits['extension'] = !isset($pathBits['extension']) ? '' : $pathBits['extension'];
@@ -165,27 +166,27 @@ HTML;
         foreach ($paths as $path) {
             if (empty($pathBits['extension'])) {
                 // uri without extension called, look for md first, html second
-                if (is_readable($path.$pathBits['basename'].'.md')) {
-                    return $path.$pathBits['basename'].'.md';
-                } elseif (is_readable($path.$pathBits['basename'].'.html')) {
-                    return $path.$pathBits['basename'].'.html';
+                if (is_readable($path.$pathBits['filename'].'.md')) {
+                    return $path.$pathBits['filename'].'.md';
+                } elseif (is_readable($path.$pathBits['filename'].'.html')) {
+                    return $path.$pathBits['filename'].'.html';
                 }
             } else {
                 // always prefer md over html if both exist, but uri could have been called as html
                 if ($pathBits['extension'] == 'html'
-                    && is_readable($path.$pathBits['basename'].'.md')
+                    && is_readable($path.$pathBits['filename'].'.md')
                 ) {
-                    return $path.$pathBits['basename'].'.md';
+                    return $path.$pathBits['filename'].'.md';
                 // next, check if html or md was requested and if it exists
                 } elseif (($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md')
-                    && is_readable($path.$pathBits['basename'].$pathBits['extension'])
+                    && is_readable($path.$pathBits['filename'].'.'.$pathBits['extension'])
                 ) {
-                    return $path.$pathBits['basename'].$pathBits['extension'];
+                    return $path.$pathBits['filename'].'.'.$pathBits['extension'];
                 // last, look for html if md was requested but not found (i.e. old link referring, changed to new file)
                 } elseif ($pathBits['extension'] == 'md'
-                    && is_readable($path.$pathBits['basename'].'.html')
+                    && is_readable($path.$pathBits['filename'].'.html')
                 ) {
-                    return $path.$pathBits['basename'].$pathBits['html'];
+                    return $path.$pathBits['filename'].'.html';
                 }
             }
         }
