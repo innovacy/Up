@@ -53,10 +53,9 @@ class Up
      */
     public function run()
     {
-
-        $checkNeedsUpdate = false;
-        $redirectToHtml = false;
-        $file = $this->lookupFile();
+        if (!$file = $this->discoverFile($this->virtualUri)) {
+            $file = $this->discoverFile($this->virtualUri, true, '404');
+        }
 
         $markdown = file_get_contents($file);
         $markup = $this->parserMain->parse($markdown);
@@ -121,48 +120,76 @@ HTML;
     }
 
     /**
-     * Checks all valid forms of a virtualUri and tries to find a matching file
-     * @return string
+     * Checks all valid forms of a virtualUri and tries to find a matching file on disk.
+     * Leave out the extension on $relativePath or $overrideFile, to search for all options
+     * @param string $relativePath Relative path, optionally including a filename to lookup
+     * @param bool|false $recursive
+     * @param null|string $overrideFile Overrides an optional file on $relativePath with $overrideFile
+     * @return bool|string
      */
-    public function lookupFile()
+    protected function discoverFile($relativePath, $recursive = false, $overrideFile = null)
     {
-        if (is_file($this->basePath . $this->virtualUri . '.md')) {
-            $file = $this->basePath . $this->virtualUri . '.md';
-            return $file;
-        } elseif (is_file($this->basePath . str_replace('.html', '', $this->virtualUri) . '.md')) {
-            $file = $this->basePath . str_replace('.html', '', $this->virtualUri) . '.md';
-            return $file;
-            // todo needs to check if html exists and updateable
-# Recognize all supported linking styles from possible markdown documents outside, using mdwiki or not converted by Up!
-        } elseif (is_file($this->basePath . $this->virtualUri . '.html')) {
-            // this should never be reached now
-            $file = $this->basePath . $this->virtualUri;
-            $checkNeedsUpdate = true;
-            $redirectToHtml = true;
-            return $file;
-        } elseif (is_file($this->basePath . str_replace('.md', '', $this->virtualUri) . '.html')) {
-            $file = $this->basePath . str_replace('.md', '', $this->virtualUri);
-            $checkNeedsUpdate = true;
-            $redirectToHtml = true;
-            return $file;
-        } elseif (is_file($this->basePath . $this->virtualUri)) {
-            $file = $this->basePath . $this->virtualUri;
-            return $file;
-            // TODO: remove! This (#!) isn't working, it's not possible to parse the fragment at all, so we only can change url's we encounter in documents, but not serve any that is called this way
-            // TODO #2: Once a page is created (as example index.html) a javascript might be able to recognize if (index.html#!something.md) were called and sent this to the server recognizable
-        } elseif (is_file($this->basePath . str_replace('#!', '', $this->virtualUri))) {
-            $file = $this->basePath . str_replace('#!', '', $this->virtualUri);
-            return $file;
-        } elseif (is_file($this->basePath . $this->virtualUri . '/index.md')) {
-            $file = $this->basePath . $this->virtualUri . '/index.md';
-            return $file;
-        } elseif (is_file($this->basePath . '/404.md')) { // TODO: Separate "not found" logic from looking up file
-            $file = $this->basePath . '/404.md';
-            return $file;
-        } else {
-            echo '404 File not found'; // TODO: No output!
-            return $file; // TODO: Improve!
+        $relativePath = ($relativePath == '') ? '/' : $relativePath;
+        if (is_dir($this->basePath.$relativePath)
+            && !is_file($this->basePath.$relativePath)
+            && substr($relativePath, -1) != "/"
+        ) {
+            $relativePath .= '/';
         }
-    }
+        // taking care of 'index' here makes separate comparisons later obsolete
+        $relativePath .= (substr($relativePath, -1) == '/') ? 'index' : '';
+        $pathBits = pathinfo($relativePath);
+        $pathBits['dirname'] = str_replace('\\', '', $pathBits['dirname']); // windows
+        $pathBits['dirname'] = ltrim($pathBits['dirname'], '/');
+        $paths = array();
+        if ($recursive) {
+            // construct a list of all parent paths
+            $ls = explode('/', $pathBits['dirname']);
+            $e = '';
+            foreach ($ls as $l) {
+                $e .= $l . '/';
+                $paths[] = $this->basePath.$e;
+            }
+        } else {
+            $paths[] = $this->basePath.rtrim($pathBits['dirname'], '/').'/';
+        }
 
+        if (!empty($overrideFile)) {
+            $_p = pathinfo($overrideFile);
+            $pathBits['basename'] = $_p['basename'];
+            $pathBits['extension'] = isset($_p['extension']) ? $_p['extension'] : '';  // avoid warning when undefined
+        }
+        $pathBits['extension'] = !isset($pathBits['extension']) ? '' : $pathBits['extension'];
+
+        $paths = array_reverse($paths);
+        foreach ($paths as $path) {
+            if (empty($pathBits['extension'])) {
+                // uri without extension called, look for md first, html second
+                if (is_readable($path.$pathBits['basename'].'.md')) {
+                    return $path.$pathBits['basename'].'.md';
+                } elseif (is_readable($path.$pathBits['basename'].'.html')) {
+                    return $path.$pathBits['basename'].'.html';
+                }
+            } else {
+                // always prefer md over html if both exist, but uri could have been called as html
+                if ($pathBits['extension'] == 'html'
+                    && is_readable($path.$pathBits['basename'].'.md')
+                ) {
+                    return $path.$pathBits['basename'].'.md';
+                // next, check if html or md was requested and if it exists
+                } elseif (($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md')
+                    && is_readable($path.$pathBits['basename'].$pathBits['extension'])
+                ) {
+                    return $path.$pathBits['basename'].$pathBits['extension'];
+                // last, look for html if md was requested but not found (i.e. old link referring, changed to new file)
+                } elseif ($pathBits['extension'] == 'md'
+                    && is_readable($path.$pathBits['basename'].'.html')
+                ) {
+                    return $path.$pathBits['basename'].$pathBits['html'];
+                }
+            }
+        }
+        // we just return false, leave 'not found' decisions and handling for caller
+        return false;
+    }
 }
