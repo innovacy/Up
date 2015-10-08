@@ -86,10 +86,9 @@ class Up
         $navigation = $this->parserNavigation->parse(file_get_contents($this->basePath .'/navigation.md'));
 
         $footer = '';
-        if (is_file($this->basePath .'/footer.md')) {
-            $footer = $this->parserFooter->parse(file_get_contents($this->basePath . '/footer.md'));
-        }
-
+        if ($fileFooter = $this->discoverFile($this->virtualUri, true, 'footer')) {
+            $footer = $this->parserFooter->parse(file_get_contents($fileFooter));
+        };
         return <<<HTML
 <!doctype html>
 <html>

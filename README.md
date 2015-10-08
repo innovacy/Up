@@ -139,9 +139,19 @@ the 404.md file.
 If no 404 file is found, a simple "File not found" error will be shown.
 
 
-### Custom footer (work in progress)
+### Using a custom footer
 
-You can add a custom footer to your pages. All you need to do is just create a footer.md file.
+A custom footer can be added to pages. A footer.md or a footer.html will be searched in the requested path.
+
+If no file is found, the parent directories up to the location of the script will be searched recursively for such
+a file.
+
+A footer.md has priority over a footer.html, so make sure there is no footer.md is present or is found before your
+preferred footer.html file.
+
+You can add a different custom footer for some pages by creating one in a child folder. All pages in this folder and
+their child folders will have this footer.
+
 
 ### Selecting a theme (work in progress)
 
