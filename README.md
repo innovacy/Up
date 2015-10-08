@@ -126,10 +126,17 @@ This is optional though. If Up! can't find a navigation.md in the folder the md 
 one and use it.
 
 
-### Page not found (404) (work in progress)
+### Page not found (404)
 
-You can add a 404.md in your main folder, if you want to serve specific content when a page is not found. There are
-no special requirements to this file. Otherwise Up! will simply show a simple message and load the main navigation.
+If the requested page is not found, a 404.md or a 404.html file will be searched in the requested path.
+
+If no file is found, the parent directories up to the location of the script will be searched recursively for such
+a file.
+
+A 404.md has priority over a 404.html file, so if you want to have a html file loaded and served, make sure you remove
+the 404.md file.
+
+If no 404 file is found, a simple "File not found" error will be shown.
 
 
 ### Custom footer (work in progress)
