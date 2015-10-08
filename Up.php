@@ -38,6 +38,7 @@ class Up
      */
     public function __construct()
     {
+        // Warning: basepath is wrong if class would be moved elsewhere (TODO?)
         $this->basePath = dirname(__FILE__);
         $this->virtualUri = $this->getVirtualUri();
 
@@ -56,6 +57,8 @@ class Up
      */
     public function run()
     {
+        header('Content-Type: text/html; charset=utf-8');
+
         if (!$file = $this->discoverFile($this->virtualUri)) {
             $file = $this->discoverFile($this->virtualUri, true, '404');
             header("HTTP/1.0 404 Not Found");
@@ -64,7 +67,7 @@ class Up
             }
         }
 
-        $meta = '';
+        $meta = '<meta name="generator" content="Up!">';
         // load generic configuration in main directory if exists
         if ($fileConfig = $this->discoverFile('config.json')) {
             $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
@@ -89,28 +92,14 @@ class Up
         if ($fileFooter = $this->discoverFile($this->virtualUri, true, 'footer')) {
             $footer = $this->parserFooter->parse(file_get_contents($fileFooter));
         };
-        return <<<HTML
-<!doctype html>
-<html>
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="generator" content="Up!" />
-	$meta
-	<style>
-		body { font-family: Arial, sans-serif; }
-		code { background: #eeeeff; padding: 2px; }
-		li { margin-bottom: 5px; }
-		img { max-width: 1200px; }
-		table, td, th { border: solid 1px #ccc; border-collapse: collapse; }
-	</style>
-</head>
-<body>
-$navigation
-$markup
-$footer
-</body>
-</html>
-HTML;
+
+        $reflector = new \ReflectionClass(get_class($this));
+        $tpl = file_get_contents(dirname($reflector->getFileName()).'/page.tpl');
+        $tpl = str_replace('{$meta}', $meta, $tpl);
+        $tpl = str_replace('{$markup}', $markup, $tpl);
+        $tpl = str_replace('{$navigation}', $navigation, $tpl);
+        $tpl = str_replace('{$footer}', $footer, $tpl);
+        return $tpl;
     }
 
     /**
@@ -217,3 +206,11 @@ HTML;
         return false;
     }
 }
+
+/** TODO: For mdwiki-style links #!name.md and making them crawlable, speak returning the rendered version when links
+ * on a different server couldn't have been modified by Up!,
+ * see https://developers.google.com/webmasters/ajax-crawling/docs/specification,
+ * Quick infos: https://prerender.io/js-seo/angularjs-seo-get-your-site-indexed-and-to-the-top-of-the-search-results/
+ */
+
+/** To Decide: Force redirect *.md reqeusts to .html? Or leave them as is? Or leave that as a task for .htaccess? */

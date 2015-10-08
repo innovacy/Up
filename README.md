@@ -212,3 +212,7 @@ This way, you can overwrite your styles in every folder (incl. all it's child fo
       "cacheNoUpdates": false    // if set to true, no checks will be performed if a file was updated, once a md file was parsed. You will have to delete the cache manually.
     }
 
+### Custom modifications for all pages
+
+You want to add your own modifications in the html that is generated? Nothing easier than that. Find the file
+page.tpl in the Up folder and edit it as you wish. You only need to keep the variables like {$meta} in place.
