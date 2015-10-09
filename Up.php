@@ -87,8 +87,7 @@ class Up
                     str_replace($this->basePath, '', $fileCss).'">';
             }
         }
-
-        if (empty($this->config['highlightJs']) || $this->config['highlightJs']) {
+        if (!isset($this->config['highlightJs']) || $this->config['highlightJs']) {
             $meta .=
             '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">';
             $scripts .= '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>';

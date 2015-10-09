@@ -233,10 +233,20 @@ This way, you can overwrite your styles in every folder (incl. all it's child fo
         "loadCss": "mystyle.css"
     }
 
+#### config.json: highlightJs
+
+    {
+        "highlightJs": false
+    }
+
+By default, the highlight.js javascript library is loaded for automatic code highlighting. However, if you have
+no use of this feature for your pages or just don't want to use it, you can deactivate loading of any highlightJs
+resources alltogether, by setting this config setting explicitly to false.
+
 #####  Settings to be documented (work in progress)
 
     {
-      "useSideNav": "true",      // Won't create a side navigation if false
+      "useSideNav": true,      // Won't create a side navigation if false
       "title": "",               // If set, will add this to the title of all pages, otherwise it will take the first header only
       "lineBreaks": "original",  // Can be "gfm" for Github flavoured line breaks
       "anchorCharacter": "#"     // Is shown on links
