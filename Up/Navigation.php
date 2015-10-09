@@ -71,7 +71,9 @@ class Navigation extends Markdown
                 return $block['orig'];
             }
         }
-        $block['url'] = preg_replace('/.md$/', '.html', $block['url']);
+        if (isset($block['url']) && strpos($block['url'], '://') === false) {
+            $block['url'] = preg_replace('/\.md$/', '.html', $block['url']);
+        }
         $li_start = empty($block['url']) ? '<li class="dropdown">' : '<li>';
         $li_end = '';
         $this->withinDropdown = (bool)empty($block['url']) || $this->withinDropdown;

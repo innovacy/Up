@@ -91,9 +91,24 @@ class Markdown extends GithubMarkdown
      */
     protected function renderLink($block)
     {
-        if (strpos($block['orig'], '[gimmick:') === false) {
-            return parent::renderLink($block);
+        if (strpos($block['orig'], '[gimmick:') !== false) {
+            return '';
         }
+        if (isset($block['refkey'])) {
+            if (($ref = $this->lookupReference($block['refkey'])) !== false) {
+                $block = array_merge($block, $ref);
+            } else {
+                return $block['orig'];
+            }
+        }
+        if (isset($block['url']) && strpos($block['url'], '://') === false) {
+            $block['url'] = preg_replace('/\.md$/', '.html', $block['url']);
+        }
+        return '<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"'
+        . (empty($block['title'])
+            ? ''
+            : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
+        . '>' . $this->renderAbsy($block['text']) . '</a>';
     }
 
     /**
