@@ -68,6 +68,10 @@ class Up
         }
 
         $meta = '<meta name="generator" content="Up!">';
+        $scripts =
+         '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>'.
+         '<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
+        $scripts_footer = '';
         // load generic configuration in main directory if exists
         if ($fileConfig = $this->discoverFile('config.json')) {
             $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
@@ -83,6 +87,22 @@ class Up
                     str_replace($this->basePath, '', $fileCss).'">';
             }
         }
+
+        if (empty($this->config['highlightJs']) || $this->config['highlightJs']) {
+            $meta .=
+            '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">';
+            $scripts .= '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>';
+            $scripts_footer .= <<<HIGHLIGHTJS
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+    </script>
+HIGHLIGHTJS;
+        }
+
         $markdown = file_get_contents($file);
         $markup = $this->parserMain->parse($markdown);
 
@@ -90,7 +110,11 @@ class Up
         $hide_navigation = '';
         if (is_readable($this->basePath .'/navigation.md')) {
             $navContent = file_get_contents($this->basePath . '/navigation.md');
-            if (preg_match('/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/', $navContent, $matches)) {
+            if (preg_match(
+                '/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/',
+                $navContent,
+                $matches
+            )) {
                 $navContent = str_replace($matches[0], '', $navContent);
                 $meta .= '<link rel="stylesheet" type="text/css" '.
                     'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$matches[3].'/bootstrap.min.css">';
@@ -111,6 +135,8 @@ class Up
         $reflector = new \ReflectionClass(get_class($this));
         $tpl = file_get_contents(dirname($reflector->getFileName()).'/page.tpl');
         $tpl = str_replace('{$meta}', $meta, $tpl);
+        $tpl = str_replace('{$scripts}', $scripts, $tpl);
+        $tpl = str_replace('{$scripts_footer}', $scripts_footer, $tpl);
         $tpl = str_replace('{$markup}', $markup, $tpl);
         $tpl = str_replace('{$navigation}', $navigation, $tpl);
         $tpl = str_replace('{$hide_navigation}', $hide_navigation, $tpl);

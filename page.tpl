@@ -7,15 +7,10 @@
     <meta name="robots" content="index,follow">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.png">
-    <link rel="stylesheet" href="//yandex.st/highlightjs/7.3/styles/github.min.css" type="text/css">
     {$meta}
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//yandex.st/highlightjs/7.3/highlight.min.js"></script>
+    {$scripts}
 
     <style>
-        img { max-width: 1200px; }
-        table, td, th { border: solid 1px #ccc; border-collapse: collapse; }
         .md-navbar-margin {
             margin-top: 60px;
         }
@@ -69,5 +64,6 @@
         </div>
     </div>
 
+    {$scripts_footer}
 </body>
 </html>
