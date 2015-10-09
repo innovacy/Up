@@ -24,6 +24,23 @@
             opacity: 1;
             transition: all 500ms ease-in-out;
         }
+        #up-content-view-container {
+            height: 100vh;
+            overflow: hidden;
+            padding-top: 52px;
+        }
+        #up-content-view {
+            overflow: auto;
+            height: 100%;
+        }
+        .md-copyright-footer {
+            padding-top: 1.5em;
+            padding-bottom: 1.5em;
+            text-align: right;
+        }
+        #up-footer {
+            margin-top: 2em;
+        }
     </style>
 </head>
 <body>
@@ -32,29 +49,33 @@
 
         <div id="md-menu" class="{$hide_navigation}">
             <div id="md-main-navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-
                 {$navigation}
             </div>
         </div>
 
-        <div class="container" id="md-body-container">
-            <div class="row" id="md-body-row">
-                <div id="md-body" class="md-navbar-margin{$hide_navigation}">
+        <div id="up-content-view-container{$hide_navigation}"><div id="up-content-view{$hide_navigation}">
 
-                    {$markup}
-
+            <div class="container" id="md-body-container">
+                <div class="row" id="md-body-row">
+                    <div id="md-body" class="md-navbar-margin{$hide_navigation}">
+                        {$markup}
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="container" style="position: relative; margin-top: 1em;">
-        <div class="pull-right md-copyright-footer">
-            <span id="md-footer-additional">
-                {$footer}
-            </span>
-            Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> &mdash; &copy; Innovacy, Dimitrios Karvounaris.
-        </div>
+            <div class="" id="up-footer">
+                <div class="container md-copyright-footer">
+                    <span id="md-footer-additional">
+                        {$footer}
+                    </span>
+                    <p>
+                    Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> &mdash; &copy; Innovacy, Dimitrios Karvounaris.
+                    </p>
+                </div>
+            </div>
+
+        </div></div>
+
     </div>
 
     {$scripts_footer}
