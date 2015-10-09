@@ -194,7 +194,7 @@ class Markdown extends GithubMarkdown
 
                     <div class="container" id="md-content-container">
                         <div class="row" id="md-content-row">
-                        '.($this->useSideNav
+                        '.($this->useSideNav && !empty($this->sideNav)
                             ? '
                             <div class="col-md-3" id="md-left-column">
                                 <div class="panel panel-default">
