@@ -83,4 +83,15 @@ class Markdown extends GithubMarkdown
         (!empty($alertClass) ? '</p></div>' : '</p>') . "\n";
     }
 
+    /**
+     * Handles gimmick links by currently removing them to avoid text like "gimmick:something" with invalid links
+     * @param $block
+     * @return string
+     */
+    protected function renderLink($block)
+    {
+        if (strpos($block['orig'], '[gimmick:') === false) {
+            return parent::renderLink($block);
+        }
+    }
 }

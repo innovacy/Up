@@ -268,3 +268,6 @@ All but two gimmicks are currently unsupported. The only gimmicks supported are 
 It's unsure, if more gimmicks will be supported in future. If demand is high or someone else wants to implement
 them, they might be supported at some time in future.
 
+Unsupported gimmick features with the `[gimmick:feature]` syntax are currently completely removed from output
+to simply showing something like `gimmick:feature` with a broken link.
+
