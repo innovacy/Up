@@ -33,7 +33,8 @@ class Up
     /** @var array Configuration */
     protected $config = array(
         'useSideNav' => true,
-        'highlightJs' => true
+        'highlightJs' => true,
+        'theme' => ''
     );
 
     /**
@@ -120,17 +121,18 @@ HIGHLIGHTJS;
                 $matches
             )) {
                 $navContent = str_replace($matches[0], '', $navContent);
-                $meta .= '<link rel="stylesheet" type="text/css" '.
-                    'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$matches[3].'/bootstrap.min.css">';
-            } else {
-                $meta .= '<link rel="stylesheet" type="text/css" '.
-                    'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
+                $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
             }
             $navigation = $this->parserNavigation->parse($navContent);
         } else {
+            $hide_navigation = 'hide';
+        }
+        if (empty($this->config['theme']) || $this->config['theme'] == 'bootstrap') {
             $meta .= '<link rel="stylesheet" type="text/css" '.
                 'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
-            $hide_navigation = 'hide';
+        } else {
+            $meta .= '<link rel="stylesheet" type="text/css" '.
+                'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$this->config['theme'].'/bootstrap.min.css">';
         }
 
         $footer = '';
