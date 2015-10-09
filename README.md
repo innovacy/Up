@@ -242,7 +242,7 @@ This way, you can overwrite your styles in every folder (incl. all it's child fo
         "loadCss": "mystyle.css"
     }
 
-#### config.json: highlightJs
+##### config.json: highlightJs
 
     {
         "highlightJs": false
@@ -251,6 +251,16 @@ This way, you can overwrite your styles in every folder (incl. all it's child fo
 By default, the highlight.js javascript library is loaded for automatic code highlighting. However, if you have
 no use of this feature for your pages or just don't want to use it, you can deactivate loading of any highlightJs
 resources alltogether, by setting this config setting explicitly to false.
+
+##### config.json: theme
+
+    {
+        "theme": "bootstrap"
+    }
+
+This setting sets a theme. In case there's a theme defined in navigation.md, this setting has priority over it.
+The available styles and their names to use can be seen on http://bootswatch.com. The default bootstrap theme's name
+is "bootstrap".
 
 #####  Settings to be documented (work in progress)
 
