@@ -166,12 +166,15 @@ their child folders will have this footer.
 Up! comes with support for several bootstrap themes. This works the same as in mdwiki. In the file navigation.md add
 a line like this:
 
-    [gimmick:theme (inverse: false)](theme-name)
+    [gimmick:theme](theme-name)
 
 The supported themes and their names can be found at http://bootswatch.com/ where you can see all their styles too.
 Just replace 'theme-name' in the above line with your choice of theme.
 
 If this line is missing, the default bootstrap look will be loaded.
+
+Note: This is a simplified mdwiki syntax, the full mdwiki syntax is also supported, however the inverse-attribute
+isn't applied.
 
 ### Alert gimmick
 

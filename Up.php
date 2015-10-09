@@ -90,10 +90,10 @@ class Up
         $hide_navigation = '';
         if (is_readable($this->basePath .'/navigation.md')) {
             $navContent = file_get_contents($this->basePath . '/navigation.md');
-            if (preg_match('/\[gimmick\:theme \(inverse\: false\)\]\(([a-z]+)\)/', $navContent, $matches)) {
-                $navContent = str_replace('[gimmick:theme (inverse: false)]('.$matches[1].')', '', $navContent);
+            if (preg_match('/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/', $navContent, $matches)) {
+                $navContent = str_replace($matches[0], '', $navContent);
                 $meta .= '<link rel="stylesheet" type="text/css" '.
-                    'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$matches[1].'/bootstrap.min.css">';
+                    'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$matches[3].'/bootstrap.min.css">';
             } else {
                 $meta .= '<link rel="stylesheet" type="text/css" '.
                     'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
