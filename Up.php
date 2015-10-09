@@ -89,7 +89,8 @@ class Up
         }
         if (!isset($this->config['highlightJs']) || $this->config['highlightJs']) {
             $meta .=
-            '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">';
+             '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">'
+             .'<style type="text/css">.hljs {background:transparent;}</style>';
             $scripts .= '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>';
             $scripts_footer .= <<<HIGHLIGHTJS
     <script type="text/javascript">

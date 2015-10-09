@@ -10,13 +10,23 @@ namespace Innovacy\Up;
 
 use cebe\markdown\GithubMarkdown;
 
+/**
+ * Class Markdown
+ * @package Innovacy\Up
+ */
 class Markdown extends GithubMarkdown
 {
     private $tableCellTag = 'td';
     private $tableCellCount = 0;
     private $tableCellAlign = [];
-    private $firstHeadline = true;
+    private $isFirstBlock = true;
 
+    protected $title;
+
+    /**
+     * @param $block
+     * @return string
+     */
     protected function renderTable($block)
     {
         $content = '';
@@ -25,9 +35,12 @@ class Markdown extends GithubMarkdown
         $first = true;
         foreach ($block['rows'] as $row) {
             $this->tableCellTag = $first ? 'th' : 'td';
-            $align = empty($this->tableCellAlign[$this->tableCellCount]) ? '' : ' align="' . $this->tableCellAlign[$this->tableCellCount] . '"';
+            $align = empty($this->tableCellAlign[$this->tableCellCount])
+                ? '' : ' align="' . $this->tableCellAlign[$this->tableCellCount] . '"';
             $this->tableCellCount++;
-            $tds = "<$this->tableCellTag$align>" . trim($this->renderAbsy($this->parseInline($row))) . "</$this->tableCellTag>"; // TODO move this to the consume step
+            $tds = "<$this->tableCellTag$align>" .
+                trim($this->renderAbsy($this->parseInline($row)))
+                . "</$this->tableCellTag>"; // TODO move this to the consume step
             $content .= "<tr>$tds</tr>\n";
             if ($first) {
                 $content .= "</thead>\n<tbody>\n";
@@ -35,7 +48,7 @@ class Markdown extends GithubMarkdown
             $first = false;
             $this->tableCellCount = 0;
         }
-        return "<table class=\"table table-bordered\">\n$content</tbody>\n</table>\n";
+        return '<table class="table table-bordered">'.$content.'</tbody>\n</table>'."\n";
     }
 
     /**
@@ -112,20 +125,59 @@ class Markdown extends GithubMarkdown
     }
 
     /**
-     * Renders the first headline (only if it is a <h1>) as page header
-     * @param $block
+     * @param $blocks
      * @return string
      */
-    protected function renderHeadline($block)
+    protected function renderAbsy($blocks)
     {
         $output = '';
-        if ($block['level'] == 1 && $this->firstHeadline) {
-            $output = '<div class="page-header"><h1>'.$this->renderAbsy($block['content']).'</h1></div>';
-        } else {
-            $tag = 'h' . $block['level'];
-            $output = "<$tag>" . $this->renderAbsy($block['content']) . "</$tag>\n";
+        if ($this->isFirstBlock && $blocks[0][0] == 'headline' && $blocks[0]['level'] == 1) {
+            $this->isFirstBlock = false;
+            $b = array_shift($blocks);
+            $this->title = $this->renderAbsy($b['content']);
         }
-        $this->firstHeadline = false;
+        foreach ($blocks as $block) {
+            array_unshift($this->context, $block[0]);
+            $output .= $this->{'render' . $block[0]}($block);
+            array_shift($this->context);
+        }
         return $output;
     }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    public function parse($text)
+    {
+        $head = '';
+        $markup = parent::parse($text);
+        if (!empty($this->title)) {
+            $head = '
+                <div class="container" id="md-title-container">
+                    <div class="row" id="md-title-row">
+                        <div id="md-title" class="col-md-12">
+                            '.'<div class="page-header"><h1>'.$this->title.'</h1></div>'.'
+                        </div>
+                    </div>
+                </div>
+            ';
+        }
+        $markup = $head.'
+                    <div class="container" id="md-menu-container">
+                        <div class="row" id="md-menu-row"></div>
+                    </div>
+
+                    <div class="container" id="md-content-container">
+                        <div class="row" id="md-content-row">
+                            <div id="md-content" class="col-md-12">
+                                '.$markup.'
+                            </div>
+                        </div>
+                    </div>
+
+        ';
+        return $markup;
+    }
+
 }

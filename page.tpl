@@ -31,24 +31,7 @@
             <div class="row" id="md-body-row">
                 <div id="md-body" class="md-navbar-margin{$hide_navigation}">
 
-                    <div class="container" id="md-title-container">
-                        <div class="row" id="md-title-row">
-                            <div id="md-title" class="col-md-12">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="container" id="md-menu-container">
-                        <div class="row" id="md-menu-row"></div>
-                    </div>
-
-                    <div class="container" id="md-content-container">
-                        <div class="row" id="md-content-row">
-                            <div id="md-content" class="col-md-12">
-                                {$markup}
-                            </div>
-                        </div>
-                    </div>
+                    {$markup}
 
                 </div>
             </div>
