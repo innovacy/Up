@@ -128,6 +128,8 @@ HIGHLIGHTJS;
             }
             $navigation = $this->parserNavigation->parse($navContent);
         } else {
+            $meta .= '<link rel="stylesheet" type="text/css" '.
+                'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
             $hide_navigation = 'hide';
         }
 
