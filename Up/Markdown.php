@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
  *
- * @version 0.9.0
+ * @version 0.9.1
  * @copyright 2015 Innovacy - Dimitrios Karvounaris
  * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
  * @license See LICENSE file.
