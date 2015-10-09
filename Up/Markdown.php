@@ -15,6 +15,7 @@ class Markdown extends GithubMarkdown
     private $tableCellTag = 'td';
     private $tableCellCount = 0;
     private $tableCellAlign = [];
+    private $firstHeadline = true;
 
     protected function renderTable($block)
     {
@@ -93,5 +94,23 @@ class Markdown extends GithubMarkdown
         if (strpos($block['orig'], '[gimmick:') === false) {
             return parent::renderLink($block);
         }
+    }
+
+    /**
+     * Renders the first headline (only if it is a <h1>) as page header
+     * @param $block
+     * @return string
+     */
+    protected function renderHeadline($block)
+    {
+        $output = '';
+        if ($block['level'] == 1 && $this->firstHeadline) {
+            $output = '<div class="page-header"><h1>'.$this->renderAbsy($block['content']).'</h1></div>';
+        } else {
+            $tag = 'h' . $block['level'];
+            $output = "<$tag>" . $this->renderAbsy($block['content']) . "</$tag>\n";
+        }
+        $this->firstHeadline = false;
+        return $output;
     }
 }
