@@ -173,6 +173,19 @@ Just replace 'theme-name' in the above line with your choice of theme.
 
 If this line is missing, the default bootstrap look will be loaded.
 
+### Alert gimmick
+
+Whenever a paragraph starts with a special trigger word that is followed by a colon `:` or exclamation mark `!`,
+they are rendered as alert boxes.
+
+These trigger words are case insensitive and are:
+
+Type       | Trigger
+-----------|---------
+Warning    |warning, achtung, attention, warnung, atención, guarda, advertimiento
+Note       |note, beachte
+Hint       |hint, tip, tipp, hinweis
+
 
 ## Advanced Features
 
@@ -246,9 +259,12 @@ some additional options.
 ### How compatible is Up! with mdwiki?
 
 Up! is working very well as a drop-in replacement for mdwiki, as it is mostly compatible. So if you use Up! instead of
-mdwiki with the same files, you should get a very similar output.
+mdwiki with the same files, you should get a very similar output. The features not supported are gimmicks (read below).
 
-The only features not supported at this time are gimmicks (the only exception is the themes suppoprt).
-It's unsure, if they ever will. If demand is high or someone else wants to implement gimmicks, this might
-be supported at some time in future.
+### What mdwiki gimmicks are supported?
+
+All but two gimmicks are currently unsupported. The only gimmicks supported are alerts and themes.
+
+It's unsure, if more gimmicks will be supported in future. If demand is high or someone else wants to implement
+them, they might be supported at some time in future.
 

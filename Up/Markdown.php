@@ -43,10 +43,44 @@ class Markdown extends GithubMarkdown
     protected function parseTd($markdown)
     {
         if (isset($this->context[1]) && $this->context[1] === 'table') {
-            $align = empty($this->tableCellAlign[$this->tableCellCount]) ? '' : ' align="' . $this->tableCellAlign[$this->tableCellCount] . '"';
+            $align = empty($this->tableCellAlign[$this->tableCellCount])
+                ? ''
+                : ' align="' . $this->tableCellAlign[$this->tableCellCount] . '"';
             $this->tableCellCount++;
-            return [['text', "</$this->tableCellTag><$this->tableCellTag$align>"], isset($markdown[1]) && $markdown[1] === ' ' ? 2 : 1]; // TODO make a absy node
+            return [['text', "</$this->tableCellTag><$this->tableCellTag$align>"],
+                isset($markdown[1]) && $markdown[1] === ' ' ? 2 : 1];
         }
         return [['text', $markdown[0]], 1];
     }
+
+    /**
+     * Handles alert triggers in paragraph
+     * @param $block
+     * @return string
+     */
+    protected function renderParagraph($block)
+    {
+        $alertClass = '';
+        // concatenates from an array of arrays of 2-column arrays (index 0 is type and index 1 is content)
+        // all content that is of type text
+        $text = join('', array_map(
+            function ($arr) {
+                return $arr[1];
+            },
+            array_filter($block['content'], function ($var) {
+                return ($var[0] == 'text');
+            })
+        ));
+        if (preg_match('/^(warning|achtung|attention|warnung|atención|guarda|advertimiento)[\:\!]\s/i', $text)) {
+            $alertClass = 'warning';
+        } elseif (preg_match('/^(note|beachte)[\:\!]\s/i', $text)) {
+            $alertClass = 'info';
+        } elseif (preg_match('/^(hint|tip|tipp|hinweis)[\:\!]\s/i', $text)) {
+            $alertClass = 'success';
+        }
+        return (!empty($alertClass) ? '<div class="alert alert-'.$alertClass.'"><p class="md-text">' : '<p>') .
+        $this->renderAbsy($block['content']) .
+        (!empty($alertClass) ? '</p></div>' : '</p>') . "\n";
+    }
+
 }
