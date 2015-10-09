@@ -11,9 +11,6 @@
     {$scripts}
 
     <style>
-        .md-navbar-margin {
-            margin-top: 60px;
-        }
         .md-inpage-anchor .anchor-highlight {
             font-size: 0.7em;
             margin-left: 0.25em;
@@ -57,7 +54,7 @@
 
             <div class="container" id="md-body-container">
                 <div class="row" id="md-body-row">
-                    <div id="md-body" class="md-navbar-margin{$hide_navigation}">
+                    <div id="md-body">
                         {$markup}
                     </div>
                 </div>
