@@ -12,15 +12,93 @@ use cebe\markdown\Markdown;
 
 class Navigation extends Markdown
 {
+    private $firstLink = true;
+    private $withinDropdown = false;
+
     protected function renderHeadline($block)
     {
-        $tag = 'h' . $block['level'];
-        return "<$tag>" . $this->renderAbsy($block['content']) . "</$tag>\n";
+        if ($block['level'] == 1 && !$this->withinDropdown) {
+            return '<div class="navbar-header">'.
+                '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">'
+                .'<span class="sr-only">Toggle navigation</span>'
+                .'<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>'
+                .'</button>'
+                .'<a class="navbar-brand" href="#">'.$this->renderAbsy($block['content']).'</a>'
+                .'</div>';
+        } elseif ($block['level'] == 1 && $this->withinDropdown) {
+            return '<li class="dropdown-header">'.$this->renderAbsy($block['content']).'</li>';
+        } else {
+            $tag = 'h' . $block['level'];
+            return "<$tag>" . $this->renderAbsy($block['content']) . "</$tag>\n";
+        }
+    }
+
+    protected function renderHr($block)
+    {
+        return '<li class="divider"></li>';
+    }
+
+    protected function renderLink($block)
+    {
+        $pre = '';
+        if ($this->firstLink) {
+            $this->firstLink = false;
+            $pre = '<ul class="nav navbar-nav">';
+        }
+        if (isset($block['refkey'])) {
+            if (($ref = $this->lookupReference($block['refkey'])) !== false) {
+                $block = array_merge($block, $ref);
+            } else {
+                return $block['orig'];
+            }
+        }
+        $block['url'] = preg_replace('/.md$/', '.html', $block['url']);
+        $li_start = empty($block['url']) ? '<li class="dropdown">' : '<li>';
+        $li_end = '';
+        $this->withinDropdown = (bool)empty($block['url']) || $this->withinDropdown;
+        // avoid duplicate <li>'s within dropdowns as they are rendered as list already
+        if ($this->withinDropdown && !empty($block['url'])) {
+            $li_start = '';
+            $li_end = '';
+        }
+
+        return $pre . $li_start . '<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"'
+        . (empty($block['title'])
+            ? ''
+            : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
+        . (empty($block['url'])
+            ? '  data-toggle="dropdown" class="dropdown-toggle"'
+            : ''
+        )
+        . '>' . $this->renderAbsy($block['text'])
+        . (empty($block['url']) ? '<b class="caret"></b>' : '')
+        . '</a>'
+        . (($this->withinDropdown && empty($block['url'])) ? '' : $li_end) . "\n";
+    }
+
+    protected function renderParagraph($block)
+    {
+        return $this->renderAbsy($block['content']) . "\n";
+    }
+
+    protected function renderList($block)
+    {
+        $type = $block['list'];
+        $output = '<' . $type . ' class="dropdown-menu">' . "\n";
+        foreach ($block['items'] as $item => $itemLines) {
+            $output .= '<li class="dropdown">' . $this->renderAbsy($itemLines) . '</li>' . "\n";
+        }
+        $output .= "</$type>\n";
+        if ($this->withinDropdown) {
+            $output .= '</li>' . "\n";
+            $this->withinDropdown = false;
+        }
+        return $output;
     }
 
     public function parse($text)
     {
         $markup = parent::parse($text);
-        return $markup;
+        return '<div class="collapse navbar-collapse navbar-ex1-collapse">'.$markup.'</div>';
     }
 }

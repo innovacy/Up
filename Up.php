@@ -86,7 +86,13 @@ class Up
         $markdown = file_get_contents($file);
         $markup = $this->parserMain->parse($markdown);
 
-        $navigation = $this->parserNavigation->parse(file_get_contents($this->basePath .'/navigation.md'));
+        $navigation = '';
+        $hide_navigation = '';
+        if (is_readable($this->basePath .'/navigation.md')) {
+            $navigation = $this->parserNavigation->parse(file_get_contents($this->basePath . '/navigation.md'));
+        } else {
+            $hide_navigation = 'hide';
+        }
 
         $footer = '';
         if ($fileFooter = $this->discoverFile($this->virtualUri, true, 'footer')) {
@@ -98,6 +104,7 @@ class Up
         $tpl = str_replace('{$meta}', $meta, $tpl);
         $tpl = str_replace('{$markup}', $markup, $tpl);
         $tpl = str_replace('{$navigation}', $navigation, $tpl);
+        $tpl = str_replace('{$hide_navigation}', $hide_navigation, $tpl);
         $tpl = str_replace('{$footer}', $footer, $tpl);
         return $tpl;
     }

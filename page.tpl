@@ -17,23 +17,25 @@
     <style>
         img { max-width: 1200px; }
         table, td, th { border: solid 1px #ccc; border-collapse: collapse; }
+        .md-navbar-margin {
+            margin-top: 60px;
+        }
     </style>
 </head>
 <body>
 
     <div id="md-all">
 
-        <div id="md-menu">
+        <div id="md-menu" class="{$hide_navigation}">
             <div id="md-main-navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    {$navigation}
-                </div>
+
+                {$navigation}
             </div>
         </div>
 
         <div class="container" id="md-body-container">
             <div class="row" id="md-body-row">
-                <div id="md-body" style="margin-top: 60px;">
+                <div id="md-body" class="md-navbar-margin{$hide_navigation}">
 
                     <div class="container" id="md-title-container">
                         <div class="row" id="md-title-row">
