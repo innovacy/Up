@@ -216,3 +216,21 @@ This way, you can overwrite your styles in every folder (incl. all it's child fo
 
 You want to add your own modifications in the html that is generated? Nothing easier than that. Find the file
 page.tpl in the Up folder and edit it as you wish. You only need to keep the variables like {$meta} in place.
+
+
+## FAQ
+
+### Can I use Up! as replacement for mdwiki?
+
+You can. My intention creating Up! was not to replace mdwiki. I'm still using both, they are just useful for different
+cases, where I however need the same content. All I do is to remove the index.html from something I prepared for mdwiki
+and I have the same content served by Up!, just with the benefit that it can be fully crawled by search engines and
+some additional options.
+
+### How compatible is Up! with mdwiki?
+
+Up! is working very well as a drop-in replacement for mdwiki, as it is mostly compatible. So if you use Up! instead of
+mdwiki with the same files, you should get a very similar output. The only features not supported at this time are
+gimmicks. It's unsure, if they ever will. If demand is high or someone else wants to implement gimmicks, this might be
+supported at some time in future.
+

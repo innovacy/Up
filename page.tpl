@@ -15,16 +15,58 @@
     <script type="text/javascript" src="//yandex.st/highlightjs/7.3/highlight.min.js"></script>
 
     <style>
-        body { font-family: Arial, sans-serif; }
-        code { background: #eeeeff; padding: 2px; }
-        li { margin-bottom: 5px; }
         img { max-width: 1200px; }
         table, td, th { border: solid 1px #ccc; border-collapse: collapse; }
     </style>
 </head>
 <body>
-    {$navigation}
-    {$markup}
-    {$footer}
+
+    <div id="md-all">
+
+        <div id="md-menu">
+            <div id="md-main-navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    {$navigation}
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="md-body-container">
+            <div class="row" id="md-body-row">
+                <div id="md-body" style="margin-top: 60px;">
+
+                    <div class="container" id="md-title-container">
+                        <div class="row" id="md-title-row">
+                            <div id="md-title" class="col-md-12">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" id="md-menu-container">
+                        <div class="row" id="md-menu-row"></div>
+                    </div>
+
+                    <div class="container" id="md-content-container">
+                        <div class="row" id="md-content-row">
+                            <div id="md-content" class="col-md-12">
+                                {$markup}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="position: relative; margin-top: 1em;">
+        <div class="pull-right md-copyright-footer">
+            <span id="md-footer-additional">
+                {$footer}
+            </span>
+            Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> &mdash; &copy; Innovacy, Dimitrios Karvounaris.
+        </div>
+    </div>
+
 </body>
 </html>
