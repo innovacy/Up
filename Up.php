@@ -89,7 +89,16 @@ class Up
         $navigation = '';
         $hide_navigation = '';
         if (is_readable($this->basePath .'/navigation.md')) {
-            $navigation = $this->parserNavigation->parse(file_get_contents($this->basePath . '/navigation.md'));
+            $navContent = file_get_contents($this->basePath . '/navigation.md');
+            if (preg_match('/\[gimmick\:theme \(inverse\: false\)\]\(([a-z]+)\)/', $navContent, $matches)) {
+                $navContent = str_replace('[gimmick:theme (inverse: false)]('.$matches[1].')', '', $navContent);
+                $meta .= '<link rel="stylesheet" type="text/css" '.
+                    'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$matches[1].'/bootstrap.min.css">';
+            } else {
+                $meta .= '<link rel="stylesheet" type="text/css" '.
+                    'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
+            }
+            $navigation = $this->parserNavigation->parse($navContent);
         } else {
             $hide_navigation = 'hide';
         }

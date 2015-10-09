@@ -161,9 +161,17 @@ You can add a different custom footer for some pages by creating one in a child 
 their child folders will have this footer.
 
 
-### Selecting a theme (work in progress)
+### Selecting a theme
 
-Up! comes with support for several themes. (Documentation to be added)
+Up! comes with support for several bootstrap themes. This works the same as in mdwiki. In the file navigation.md add
+a line like this:
+
+    [gimmick:theme (inverse: false)](theme-name)
+
+The supported themes and their names can be found at http://bootswatch.com/ where you can see all their styles too.
+Just replace 'theme-name' in the above line with your choice of theme.
+
+If this line is missing, the default bootstrap look will be loaded.
 
 
 ## Advanced Features
@@ -238,7 +246,9 @@ some additional options.
 ### How compatible is Up! with mdwiki?
 
 Up! is working very well as a drop-in replacement for mdwiki, as it is mostly compatible. So if you use Up! instead of
-mdwiki with the same files, you should get a very similar output. The only features not supported at this time are
-gimmicks. It's unsure, if they ever will. If demand is high or someone else wants to implement gimmicks, this might be
-supported at some time in future.
+mdwiki with the same files, you should get a very similar output.
+
+The only features not supported at this time are gimmicks (the only exception is the themes suppoprt).
+It's unsure, if they ever will. If demand is high or someone else wants to implement gimmicks, this might
+be supported at some time in future.
 
