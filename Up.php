@@ -153,7 +153,9 @@ HIGHLIGHTJS;
         $footer = '';
         if ($fileFooter = $this->discoverFile($this->virtualUri, true, 'footer')) {
             $footer = $this->parserFooter->parse(file_get_contents($fileFooter));
-        };
+        } elseif (isset($this->config['additionalFooterText'])) {
+            $footer = $this->config['additionalFooterText'];
+        }
 
         $reflector = new \ReflectionClass(get_class($this));
         $tpl = file_get_contents(dirname($reflector->getFileName()).'/page.tpl');

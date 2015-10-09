@@ -262,10 +262,18 @@ This setting sets a theme. In case there's a theme defined in navigation.md, thi
 The available styles and their names to use can be seen on http://bootswatch.com. The default bootstrap theme's name
 is "bootstrap".
 
+##### config.json: additionalFooterText
+
+    {
+        "additionalFooterText": "This site is created by Innovacy"
+    }
+
+Adds the text defined to the footer. This setting is overridden and does nothing, if a footer.md or footer.html file
+is added instead.
+
 #####  Settings to be documented (work in progress)
 
     {
-      "useSideNav": true,      // Won't create a side navigation if false
       "title": "",               // If set, will add this to the title of all pages, otherwise it will take the first header only
       "lineBreaks": "original",  // Can be "gfm" for Github flavoured line breaks
       "anchorCharacter": "#"     // Is shown on links
