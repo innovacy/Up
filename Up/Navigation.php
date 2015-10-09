@@ -10,11 +10,20 @@ namespace Innovacy\Up;
 
 use cebe\markdown\Markdown;
 
+/**
+ * Renders the navigation.md file
+ * @package Innovacy\Up
+ */
 class Navigation extends Markdown
 {
     private $firstLink = true;
     private $withinDropdown = false;
 
+    /**
+     * Renders Headlines as header of the navbar or as dropdown header
+     * @param $block
+     * @return string
+     */
     protected function renderHeadline($block)
     {
         if ($block['level'] == 1 && !$this->withinDropdown) {
@@ -33,11 +42,21 @@ class Navigation extends Markdown
         }
     }
 
+    /**
+     * Renders dividers as list item
+     * @param $block
+     * @return string
+     */
     protected function renderHr($block)
     {
         return '<li class="divider"></li>';
     }
 
+    /**
+     * Creates links as part of a list, replaces '.md' to '.html' and handles the beginning of dropdowns
+     * @param $block
+     * @return string
+     */
     protected function renderLink($block)
     {
         $pre = '';
@@ -62,7 +81,9 @@ class Navigation extends Markdown
             $li_end = '';
         }
 
-        return $pre . $li_start . '<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"'
+        return $pre . $li_start . '<a href="'
+        . (empty($block['url']) ? '#' : htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8'))
+        . '"'
         . (empty($block['title'])
             ? ''
             : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
@@ -76,11 +97,21 @@ class Navigation extends Markdown
         . (($this->withinDropdown && empty($block['url'])) ? '' : $li_end) . "\n";
     }
 
+    /**
+     * Is responsible to ignore paragraphs in navigation
+     * @param $block
+     * @return string
+     */
     protected function renderParagraph($block)
     {
         return $this->renderAbsy($block['content']) . "\n";
     }
 
+    /**
+     * Is responsible to handle the dropdown submenus and the end of the dropdown
+     * @param $block
+     * @return string
+     */
     protected function renderList($block)
     {
         $type = $block['list'];
@@ -96,6 +127,14 @@ class Navigation extends Markdown
         return $output;
     }
 
+    /**
+     * Parses the given text considering the full language.
+     *
+     * This includes parsing block elements as well as inline elements.
+     *
+     * @param string $text the text to parse
+     * @return string parsed markup
+     */
     public function parse($text)
     {
         $markup = parent::parse($text);
