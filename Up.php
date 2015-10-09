@@ -31,7 +31,10 @@ class Up
     protected $basePath;
 
     /** @var array Configuration */
-    protected $config = array();
+    protected $config = array(
+        'useSideNav' => true,
+        'highlightJs' => true
+    );
 
     /**
      * Constructor
@@ -87,7 +90,7 @@ class Up
                     str_replace($this->basePath, '', $fileCss).'">';
             }
         }
-        if (!isset($this->config['highlightJs']) || $this->config['highlightJs']) {
+        if ($this->config['highlightJs']) {
             $meta .=
              '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">'
              .'<style type="text/css">.hljs {background:transparent;}</style>';
@@ -104,6 +107,7 @@ HIGHLIGHTJS;
         }
 
         $markdown = file_get_contents($file);
+        $this->parserMain->useSideNav = $this->config['useSideNav'];
         $markup = $this->parserMain->parse($markdown);
 
         $navigation = '';

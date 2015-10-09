@@ -14,6 +14,16 @@
         .md-navbar-margin {
             margin-top: 60px;
         }
+        .md-inpage-anchor .anchor-highlight {
+            font-size: 0.7em;
+            margin-left: 0.25em;
+            opacity: 0;
+            transition: all 500ms ease-in-out;
+        }
+        .md-inpage-anchor:hover .anchor-highlight {
+            opacity: 1;
+            transition: all 500ms ease-in-out;
+        }
     </style>
 </head>
 <body>

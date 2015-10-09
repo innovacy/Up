@@ -20,6 +20,9 @@ class Markdown extends GithubMarkdown
     private $tableCellCount = 0;
     private $tableCellAlign = [];
     private $isFirstBlock = true;
+    public $useSideNav = false;
+    private $sideNav = '';
+    public $anchorCharacter = '&para;';
 
     protected $title;
 
@@ -125,6 +128,27 @@ class Markdown extends GithubMarkdown
     }
 
     /**
+     * @param $block
+     * @return string
+     */
+    protected function renderHeadline($block)
+    {
+        $_r = $this->renderAbsy($block['content']);
+        $_rs = str_replace(' ', '_', strip_tags($_r));
+        if ($this->useSideNav && $block['level'] == 2) {
+            $this->sideNav .= '<li class="list-group-item"><a href="#'.
+                $_rs.'">'.strip_tags($_r).'</a></li>';
+        }
+        $tag = 'h' . $block['level'];
+        return '<'.$tag.' id="'.$_rs.'"'.
+        ((!empty($this->anchorCharacter))
+            ? ' class="md-inpage-anchor">'.$_r.'<span class="anchor-highlight"><a
+                href="#'.$_rs.'">'.$this->anchorCharacter.'</a></span>'
+            : '>' . $_r ).
+        '</'.$tag.'>'."\n";
+    }
+
+    /**
      * @param $blocks
      * @return string
      */
@@ -170,8 +194,20 @@ class Markdown extends GithubMarkdown
 
                     <div class="container" id="md-content-container">
                         <div class="row" id="md-content-row">
-                            <div id="md-content" class="col-md-12">
-                                '.$markup.'
+                        '.($this->useSideNav
+                            ? '
+                            <div class="col-md-3" id="md-left-column">
+                                <div class="panel panel-default">
+                                    <ul class="list-group">
+                                    '.$this->sideNav.'
+                                    </ul>
+                                </div>
+                            </div>
+                            <div id="md-content" class="col-md-9">'
+                            : '
+                            <div id="md-content" class="col-md-12">'
+                        ) .
+                                $markup.'
                             </div>
                         </div>
                     </div>
