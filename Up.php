@@ -57,8 +57,7 @@ class Up
      */
     public function __construct()
     {
-        // Warning: basePath is wrong if class would be moved elsewhere (TODO?)
-        $this->basePath = dirname(__FILE__);
+        $this->basePath = $this->getBasePath();
         $this->virtualUri = $this->getVirtualUri();
 
         $this->parserMain = new Markdown();
@@ -91,6 +90,7 @@ class Up
          '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>'.
          '<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
         $scripts_footer = '';
+
         // load generic configuration in main directory if exists
         if ($fileConfig = $this->discoverFile('config.json')) {
             $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
@@ -101,7 +101,7 @@ class Up
         }
 
         if (!empty($this->config['loadCss'])) {
-            if ($fileCss = $this->discoverFile($this->virtualUri, true, $this->config['loadCss'])) {
+            if ($fileCss = $this->discoverFile($fileConfig, true, $this->config['loadCss'])) {
                 $meta .= '<link rel="stylesheet" type="text/css" href="'.
                     str_replace($this->basePath, '', $fileCss).'">';
             }
@@ -272,6 +272,16 @@ HIGHLIGHTJS;
         // we just return false, leave 'not found' decisions and handling for caller
         return false;
     }
+
+    /**
+     * @return string
+     */
+    private function getBasePath()
+    {
+        return isset($_SERVER['CONTEXT_DOCUMENT_ROOT']) ? $_SERVER['CONTEXT_DOCUMENT_ROOT'] : (
+        isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT']
+            : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME']));
+    }
 }
 
 /** TODO: For mdwiki-style links #!name.md and making them crawlable, speak returning the rendered version when links
@@ -281,3 +291,4 @@ HIGHLIGHTJS;
  */
 
 /** To Decide: Force redirect *.md reqeusts to .html? Or leave them as is? Or leave that as a task for .htaccess? */
+
