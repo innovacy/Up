@@ -57,7 +57,7 @@ class Up
      */
     public function __construct()
     {
-        // Warning: basepath is wrong if class would be moved elsewhere (TODO?)
+        // Warning: basePath is wrong if class would be moved elsewhere (TODO?)
         $this->basePath = dirname(__FILE__);
         $this->virtualUri = $this->getVirtualUri();
 

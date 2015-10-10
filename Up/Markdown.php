@@ -230,5 +230,4 @@ class Markdown extends GithubMarkdown
         ';
         return $markup;
     }
-
 }

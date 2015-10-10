@@ -81,8 +81,8 @@
                 </div>
             </div>
 
-            <div class="" id="up-footer">
-                <div class="container md-copyright-footer">
+            <div  id="up-footer" class="md-copyright-footer">
+                <div class="container">
                     <span id="md-footer-additional">
                         {$footer}
                     </span>
