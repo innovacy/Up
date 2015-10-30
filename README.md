@@ -271,11 +271,21 @@ is "bootstrap".
 Adds the text defined to the footer. This setting is overridden and does nothing, if a footer.md or footer.html file
 is added instead.
 
+##### config.json: lineBreaks
+
+    {
+      "lineBreaks": "original"  // Can be "gfm" for Github flavoured line breaks
+    }
+
+Can have either the value "original" or "gfm". The default value is "gfm".
+
+If set to "original", line breaks in markdown are interpreted as <br />.
+See https://help.github.com/articles/writing-on-github/ for further explanation regarding newlines.
+
 #####  Settings to be documented (work in progress)
 
     {
       "title": "",               // If set, will add this to the title of all pages, otherwise it will take the first header only
-      "lineBreaks": "original",  // Can be "gfm" for Github flavoured line breaks
       "anchorCharacter": "#"     // Is shown on links
     }
 
