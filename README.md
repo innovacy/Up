@@ -12,8 +12,6 @@ Supports:
 
 ... without writing one line of any code, HTML or CSS.
 
-**WARNING:** This is a work in progress (where stated). This document describes for now the features of the very first planned release that will follow very shortly.
-
 ## There are hundreds markdown parsers, why one more?
 
 Because there is none like this one. All markdown parsers I found generally take a markdown line and convert it.
