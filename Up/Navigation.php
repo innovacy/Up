@@ -102,7 +102,7 @@ class Navigation extends Markdown
         }
 
         return $pre . $li_start . '<a href="'
-        . $this->baseUri
+        . (preg_match('#^(\w+:)?//#', $block['url']) ? '' : $this->baseUri)
         . (empty($block['url']) ? '#' : htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8'))
         . '"'
         . (empty($block['title'])
