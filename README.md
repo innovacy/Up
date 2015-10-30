@@ -277,8 +277,6 @@ is added instead.
       "title": "",               // If set, will add this to the title of all pages, otherwise it will take the first header only
       "lineBreaks": "original",  // Can be "gfm" for Github flavoured line breaks
       "anchorCharacter": "#"     // Is shown on links
-      "noCache": false           // If set to true, the content will be created every time, by default the cache automatically recognizes a necessary update.
-      "cacheNoUpdates": false    // if set to true, no checks will be performed if a file was updated, once a md file was parsed. You will have to delete the cache manually.
     }
 
 ### Custom modifications for all pages
