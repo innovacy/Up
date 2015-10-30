@@ -128,17 +128,19 @@ HIGHLIGHTJS;
 
         $navigation = '';
         $hide_navigation = '';
-        if (is_readable($this->basePath .'/navigation.md')) {
-            $navContent = file_get_contents($this->basePath . '/navigation.md');
-            if (preg_match(
-                '/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/',
-                $navContent,
-                $matches
-            )) {
-                $navContent = str_replace($matches[0], '', $navContent);
-                $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
+        if ($fileNav = $this->discoverFile($this->virtualUri, true, 'navigation.md')) {
+            if (is_readable($fileNav)) {
+                $navContent = file_get_contents($fileNav);
+                if (preg_match(
+                    '/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/',
+                    $navContent,
+                    $matches
+                )) {
+                    $navContent = str_replace($matches[0], '', $navContent);
+                    $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
+                }
+                $navigation = $this->parserNavigation->parse($navContent, $this->getVirtualUriFromFile($fileNav));
             }
-            $navigation = $this->parserNavigation->parse($navContent, $this->getVirtualUriFromFile($this->basePath));
         } else {
             $hide_navigation = 'hide';
         }
@@ -200,10 +202,16 @@ HIGHLIGHTJS;
      */
     private function getVirtualUriFromFile($filename)
     {
+        if (is_file($filename)) {
+            $pathBits = pathinfo($filename);
+            $dir = $pathBits['dirname'];
+        } else {
+            $dir = rtrim($filename, '/') . '/';
+        }
         $document_root = isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
             ? $_SERVER['CONTEXT_DOCUMENT_ROOT'] : $_SERVER['DOCUMENT_ROOT'];
-        $path = str_replace($document_root, '', $filename);
-        $virtualUri = '/' . ltrim(str_replace('\\', '/', $path), '/');
+        $path = str_replace($document_root, '', $dir);
+        $virtualUri = rtrim('/' . ltrim(str_replace('\\', '/', $path), '/'), '/') . '/';
         return $virtualUri;
     }
 
