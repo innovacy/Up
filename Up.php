@@ -48,6 +48,7 @@ class Up
     /** @var array Configuration */
     protected $config = array(
         'useSideNav' => true,
+        'lineBreaks' => 'gfm',
         'highlightJs' => true,
         'theme' => ''
     );
@@ -128,6 +129,7 @@ HIGHLIGHTJS;
 
         $markdown = file_get_contents($file);
         $this->parserMain->useSideNav = $this->config['useSideNav'];
+        $this->parserMain->enableNewlines = $this->config['lineBreaks'] == 'original';
         $markup = $this->parserMain->parse($markdown);
 
         $navigation = '';
