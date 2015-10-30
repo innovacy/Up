@@ -34,6 +34,9 @@ class Navigation extends Markdown
     private $firstLink = true;
     private $withinDropdown = false;
 
+    /** @var string Relative path for links */
+    private $baseUri = '';
+
     /**
      * Renders Headlines as header of the navbar or as dropdown header
      * @param $block
@@ -99,6 +102,7 @@ class Navigation extends Markdown
         }
 
         return $pre . $li_start . '<a href="'
+        . $this->baseUri
         . (empty($block['url']) ? '#' : htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8'))
         . '"'
         . (empty($block['title'])
@@ -150,10 +154,12 @@ class Navigation extends Markdown
      * This includes parsing block elements as well as inline elements.
      *
      * @param string $text the text to parse
+     * @param string $baseUri relative path for links
      * @return string parsed markup
      */
-    public function parse($text)
+    public function parse($text, $baseUri = '')
     {
+        $this->baseUri = $baseUri;
         $markup = parent::parse($text);
         return '<div class="collapse navbar-collapse navbar-ex1-collapse">'.$markup.'</div>';
     }

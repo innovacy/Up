@@ -33,7 +33,7 @@ use Innovacy\Up\Navigation;
 class Up
 {
     protected $virtualUri;
-    /** @var MarkDown The parser class */
+    /** @var Navigation The parser class */
     protected $parserNavigation;
 
     /** @var MarkDown The parser class */
@@ -138,7 +138,7 @@ HIGHLIGHTJS;
                 $navContent = str_replace($matches[0], '', $navContent);
                 $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
             }
-            $navigation = $this->parserNavigation->parse($navContent);
+            $navigation = $this->parserNavigation->parse($navContent, $this->getVirtualUriFromFile($this->basePath));
         } else {
             $hide_navigation = 'hide';
         }
@@ -191,6 +191,20 @@ HIGHLIGHTJS;
         $pathInfo = parse_url($pathInfo, PHP_URL_PATH);
         $pathInfo = '/' . ltrim($pathInfo, '/');
         return $pathInfo;
+    }
+
+    /**
+     * Returns an uri path relative to the file given
+     * @param $filename
+     * @return mixed
+     */
+    private function getVirtualUriFromFile($filename)
+    {
+        $document_root = isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
+            ? $_SERVER['CONTEXT_DOCUMENT_ROOT'] : $_SERVER['DOCUMENT_ROOT'];
+        $path = str_replace($document_root, '', $filename);
+        $virtualUri = '/' . ltrim(str_replace('\\', '/', $path), '/');
+        return $virtualUri;
     }
 
     /**
