@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
  *
- * @version 0.9.1
+ * @version 1.0.0
  * @copyright 2015 Innovacy - Dimitrios Karvounaris
  * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
  * @license See LICENSE file.
@@ -33,7 +33,7 @@ use Innovacy\Up\Navigation;
 class Up
 {
     protected $virtualUri;
-    /** @var MarkDown The parser class */
+    /** @var Navigation The parser class */
     protected $parserNavigation;
 
     /** @var MarkDown The parser class */
@@ -48,6 +48,7 @@ class Up
     /** @var array Configuration */
     protected $config = array(
         'useSideNav' => true,
+        'lineBreaks' => 'gfm',
         'highlightJs' => true,
         'theme' => ''
     );
@@ -57,8 +58,7 @@ class Up
      */
     public function __construct()
     {
-        // Warning: basepath is wrong if class would be moved elsewhere (TODO?)
-        $this->basePath = dirname(__FILE__);
+        $this->basePath = $this->getBasePath();
         $this->virtualUri = $this->getVirtualUri();
 
         $this->parserMain = new Markdown();
@@ -91,6 +91,7 @@ class Up
          '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>'.
          '<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
         $scripts_footer = '';
+
         // load generic configuration in main directory if exists
         if ($fileConfig = $this->discoverFile('config.json')) {
             $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
@@ -101,7 +102,11 @@ class Up
         }
 
         if (!empty($this->config['loadCss'])) {
-            if ($fileCss = $this->discoverFile($this->virtualUri, true, $this->config['loadCss'])) {
+            $cssUri = $this->config['loadCss'];
+            // is it an absolute url?
+            if (preg_match('#^(\w+:)?//#', $cssUri)) {
+                $meta .= '<link rel="stylesheet" type="text/css" href="'.$cssUri.'">';
+            } elseif ($fileCss = $this->discoverFile($this->getVirtualUriFromFile($fileConfig), true, $cssUri)) {
                 $meta .= '<link rel="stylesheet" type="text/css" href="'.
                     str_replace($this->basePath, '', $fileCss).'">';
             }
@@ -124,21 +129,24 @@ HIGHLIGHTJS;
 
         $markdown = file_get_contents($file);
         $this->parserMain->useSideNav = $this->config['useSideNav'];
+        $this->parserMain->enableNewlines = $this->config['lineBreaks'] == 'original';
         $markup = $this->parserMain->parse($markdown);
 
         $navigation = '';
         $hide_navigation = '';
-        if (is_readable($this->basePath .'/navigation.md')) {
-            $navContent = file_get_contents($this->basePath . '/navigation.md');
-            if (preg_match(
-                '/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/',
-                $navContent,
-                $matches
-            )) {
-                $navContent = str_replace($matches[0], '', $navContent);
-                $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
+        if ($fileNav = $this->discoverFile($this->virtualUri, true, 'navigation.md')) {
+            if (is_readable($fileNav)) {
+                $navContent = file_get_contents($fileNav);
+                if (preg_match(
+                    '/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/',
+                    $navContent,
+                    $matches
+                )) {
+                    $navContent = str_replace($matches[0], '', $navContent);
+                    $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
+                }
+                $navigation = $this->parserNavigation->parse($navContent, $this->getVirtualUriFromFile($fileNav));
             }
-            $navigation = $this->parserNavigation->parse($navContent);
         } else {
             $hide_navigation = 'hide';
         }
@@ -194,6 +202,26 @@ HIGHLIGHTJS;
     }
 
     /**
+     * Returns an uri path relative to the file given
+     * @param $filename
+     * @return mixed
+     */
+    private function getVirtualUriFromFile($filename)
+    {
+        if (is_file($filename)) {
+            $pathBits = pathinfo($filename);
+            $dir = $pathBits['dirname'];
+        } else {
+            $dir = rtrim($filename, '/') . '/';
+        }
+        $document_root = isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
+            ? $_SERVER['CONTEXT_DOCUMENT_ROOT'] : $_SERVER['DOCUMENT_ROOT'];
+        $path = str_replace($document_root, '', $dir);
+        $virtualUri = rtrim('/' . ltrim(str_replace('\\', '/', $path), '/'), '/') . '/';
+        return $virtualUri;
+    }
+
+    /**
      * Checks all valid forms of a virtualUri and tries to find a matching file on disk.
      * Leave out the extension on $relativePath or $overrideFile, to search for all options
      * @param string $relativePath Relative path, optionally including a filename to lookup
@@ -228,8 +256,10 @@ HIGHLIGHTJS;
             $paths[] = $this->basePath.rtrim($pathBits['dirname'], '/').'/';
         }
 
+        $extraPath = '';
         if (!empty($overrideFile)) {
             $_p = pathinfo($overrideFile);
+            $extraPath = rtrim(ltrim(str_replace('\\', '', $_p['dirname']), '/'), '/').'/';
             $pathBits['basename'] = $_p['basename'];
             $pathBits['filename'] = $_p['filename'];
             $pathBits['extension'] = isset($_p['extension']) ? $_p['extension'] : '';  // avoid warning when undefined
@@ -248,29 +278,39 @@ HIGHLIGHTJS;
             } elseif ($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md') {
                 // always prefer md over html if both exist, but uri could have been called as html
                 if ($pathBits['extension'] == 'html'
-                    && is_readable($path.$pathBits['filename'].'.md')
+                    && is_readable($path.$extraPath.$pathBits['filename'].'.md')
                 ) {
-                    return $path.$pathBits['filename'].'.md';
+                    return $path.$extraPath.$pathBits['filename'].'.md';
                 // next, check if html or md was requested and if it exists
                 } elseif (($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md')
-                    && is_readable($path.$pathBits['filename'].'.'.$pathBits['extension'])
+                    && is_readable($path.$extraPath.$pathBits['filename'].'.'.$pathBits['extension'])
                 ) {
-                    return $path.$pathBits['filename'].'.'.$pathBits['extension'];
+                    return $path.$extraPath.$pathBits['filename'].'.'.$pathBits['extension'];
                 // last, look for html if md was requested but not found (i.e. old link referring, changed to new file)
                 } elseif ($pathBits['extension'] == 'md'
-                    && is_readable($path.$pathBits['filename'].'.html')
+                    && is_readable($path.$extraPath.$pathBits['filename'].'.html')
                 ) {
-                    return $path.$pathBits['filename'].'.html';
+                    return $path.$extraPath.$pathBits['filename'].'.html';
                 }
             } else {
                 // so we can search resursively for other file types for other purposes too
-                if (is_readable($path.$pathBits['filename'].'.'.$pathBits['extension'])) {
-                    return $path . $pathBits['filename'] . '.' . $pathBits['extension'];
+                if (is_readable($path.$extraPath.$pathBits['filename'].'.'.$pathBits['extension'])) {
+                    return $path.$extraPath.$pathBits['filename'] . '.' . $pathBits['extension'];
                 }
             }
         }
         // we just return false, leave 'not found' decisions and handling for caller
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    private function getBasePath()
+    {
+        return isset($_SERVER['CONTEXT_DOCUMENT_ROOT']) ? $_SERVER['CONTEXT_DOCUMENT_ROOT'] : (
+        isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT']
+            : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME']));
     }
 }
 
@@ -281,3 +321,4 @@ HIGHLIGHTJS;
  */
 
 /** To Decide: Force redirect *.md reqeusts to .html? Or leave them as is? Or leave that as a task for .htaccess? */
+

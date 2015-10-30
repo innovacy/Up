@@ -6,7 +6,7 @@
 *
 * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
 *
-* @version 0.9.1
+* @version 1.0.0
 * @copyright 2015 Innovacy - Dimitrios Karvounaris
 * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
 * @license See LICENSE file.
@@ -81,8 +81,8 @@
                 </div>
             </div>
 
-            <div class="" id="up-footer">
-                <div class="container md-copyright-footer">
+            <div id="up-footer" class="md-copyright-footer">
+                <div class="container">
                     <span id="md-footer-additional">
                         {$footer}
                     </span>
