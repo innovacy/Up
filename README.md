@@ -280,6 +280,15 @@ Can have either the value "original" or "gfm". The default value is "gfm".
 If set to "original", line breaks in markdown are interpreted as <br />.
 See https://help.github.com/articles/writing-on-github/ for further explanation regarding newlines.
 
+##### config.json: gAnalytics
+
+    {
+      "gAnalytics": "UA-45601234-1"
+    }
+
+This setting adds automatically all required Google Analytics tracking to all generated sites.
+It accepts your Analytics Property Tracking ID as parameter.
+
 #####  Settings to be documented (work in progress)
 
     {
