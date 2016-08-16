@@ -14,7 +14,9 @@ Start by creating an index.md in the main folder. This will become your frontpag
 "page not found" appears any longer, when the installation path is called without a filename specified. 
 The latter applies also, to all directories you may create. 
 
-From here you can name and structure your files and your directories any way you see fit for your site. Up! imposes no rules or limitations in that matter.
+From here you can name and structure your files and your directories any way you see fit for your site. Up! imposes nearly no rules or limitations in that matter.
+
+Note: You cannot use however 404.md, navigation.md and footer.md as regular filenames, as they have a special meaning for Up! features. 
 
 ## MarkDown Syntax
 
