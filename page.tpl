@@ -6,10 +6,11 @@
 *
 * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
 *
-* @version 1.0.1
+* @version 2.0.0
 * @copyright 2015 Innovacy - Dimitrios Karvounaris
 * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
 * @license See LICENSE file.
+* @url https://www.github.com/Innovacy/Up
 *
 * --
 *
@@ -22,6 +23,7 @@
 -->
 <html>
 <head>
+    <title>{$title}</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

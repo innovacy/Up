@@ -71,20 +71,15 @@ Reference-style (external):
 
 #### Images as Links
 
-To use an image as a link, use the following syntax:
-
-    [![ImageCaption](path/to/image.png)](http://www.linktarget.com)
-
-    Example:
-    [![A kitten](http://placekitten.com/g/400/400)](http://www.placekitten.com)
-
 [![A kitten](http://placekitten.com/g/400/400)](http://www.placekitten.com)
+
+[![A kitten](http://placekitten.com/g/400/400)](http://www.placekitten.com "Miau")
 
 ----------------
 
 Inline `code` has `back-ticks around` it.
 
-    Indented `code`block
+    Indented `code` block
     This should render with [Markdown](getting-started.md) syntax highlighting.
 
 ```javascript
@@ -99,7 +94,7 @@ print s
  
 ```
 No language indicated, so no syntax highlighting. 
-But let's throw in a <b>tag</b>.
+But let's throw in a <b>tag</b>. Did it recognize it?
 ```
 
 ****************
@@ -153,16 +148,16 @@ ________________
 
 1. First ordered list item
 2. Another item
-⋅⋅* Unordered sub-list. 
+  * Unordered sub-list. 
 1. Actual numbers don't matter, just that it's a number
-⋅⋅1. Ordered sub-list
+  1. Ordered sub-list
 4. And another item.
 
-⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
+   You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
 
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
-⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
-⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
+   To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
+   Note that this line is separate, but within the same paragraph.⋅⋅
+   (This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
 
 * Unordered list can use asterisks
 - Or minuses
@@ -252,3 +247,15 @@ $$
 [gimmick:Disqus](twitter)
 
 [gimmick:chart ({dataColumns: ['Avg'], labelColumn: "Sprint", chartType: 'Line', width: '660px', height: '300px'})]()
+
+
+------------- 
+
+HTML character encoding
+
+Less-than sign: <
+ 
+Greather-than sign: >
+
+Ampersand: &
+

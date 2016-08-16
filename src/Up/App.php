@@ -6,9 +6,10 @@
  *
  * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
  *
- * @version 1.1.0
+ * @version 2.0.0
  * @copyright 2015 Innovacy - Dimitrios Karvounaris
  * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
+ * @url https://www.github.com/Innovacy/Up
  * @license See LICENSE file.
  *
  * --
@@ -21,17 +22,16 @@
  *
  */
 
-namespace Innovacy;
-
-use Innovacy\Up\Markdown;
-use Innovacy\Up\Navigation;
+namespace Innovacy\Up;
 
 /**
  * Class Up
  * @package Innovacy
  */
-class Up
+class App
 {
+    /** @var string Up! Release */
+    public $version = '2.0.0';
     protected $virtualUri;
     /** @var Navigation The parser class */
     protected $parserNavigation;

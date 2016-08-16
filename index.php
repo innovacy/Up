@@ -27,10 +27,13 @@ error_reporting(E_ALL);
 
 ini_set('default_charset', 'utf-8');
 
-if (!file_exists('vendor/autoload.php')) {
-    die("You must install first Up! properly, by running: composer install. See also the documentation.");
-}
-require 'vendor/autoload.php';
-$app = new \Innovacy\Up();
+require __DIR__.'/src/Up/Autoloader.php';
+
+$autoloader = new \Innovacy\Up\Psr4Autoloader();
+$autoloader->register();
+$autoloader->addNamespace('Innovacy\Up', __DIR__.'/src/Up');
+$autoloader->addNamespace('cebe\markdown', __DIR__.'/src/markdown');
+
+$app = new \Innovacy\Up\App();
 $html = $app->run();
 echo $html;

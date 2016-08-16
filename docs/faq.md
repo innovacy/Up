@@ -1,6 +1,10 @@
 
 ## FAQ
 
+### In my installation some inline elements are not parsed. Why?
+Please check that when you are using PHP's Opcode cache, PHPDocs are not removed from source code. 
+There is a setting in the php.ini, which should be left at `opcache.save_comments=1` and not be turned off.
+
 ### Can I use Up! as replacement for mdwiki?
 
 You can. My intention creating Up! was not to replace mdwiki. I'm still using both, they are just useful for different
