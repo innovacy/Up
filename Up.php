@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
  *
- * @version 1.0.1
+ * @version 1.1.0
  * @copyright 2015 Innovacy - Dimitrios Karvounaris
  * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
  * @license See LICENSE file.
@@ -184,6 +184,13 @@ HIGHLIGHTJS;
         $tpl = str_replace('{$navigation}', $navigation, $tpl);
         $tpl = str_replace('{$hide_navigation}', $hide_navigation, $tpl);
         $tpl = str_replace('{$footer}', $footer, $tpl);
+        if (strpos($tpl, '{$copyright}') === false) {
+            die('You are not allowed to remove the copyright footer notice by the software\'s license. 
+                Please contact the author for a commercial license allowing you to remove the copyright footer.');
+        }
+        $copyright = '<p>Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> '.
+            '&mdash; &copy; 2015-'.date('Y').' Innovacy, Dimitrios Karvounaris.</p>';
+        $tpl = str_replace('{$copyright}', $copyright, $tpl);
         return $tpl;
     }
 

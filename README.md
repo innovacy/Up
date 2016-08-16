@@ -1,328 +1,115 @@
-# Up!
-An extremely simple, yet powerful markdown-based CMS
+# An extremely simple, yet powerful markdown-based CMS/Wiki
 
-Supports:
+Up! is an extremely simple, yet powerful markdown-based CMS/Wiki, to create easily and fast 
+the most light-weight and fastest wiki's, documentations or simple websites, without writing 
+one line of any PHP code, HTML or CSS. 
 
-  * HTML5 and CSS3
-  * Navigation
-  * Bootstrap
-  * Themes
-  * jQuery
-  * Search
+## Features
 
-... without writing one line of any code, HTML or CSS.
+  * Uses [Markdown](http://daringfireball.net/projects/markdown/basics) (an easy-to-read, easy-to-write plain text format), which ... 
+  * ... it automatically converts to a fully styled and navigational wiki-like site.
+  * Simply focus on the authoring task, not on coding or styling
+  * Create any individual navigation including dropdown menus
+  * Uses HTML5, CSS3, jQuery, Bootstrap
+  * Select from several ready-to-use themes
+  * Requires no knowledge of these technologies by the author
+  * No complex installations and no database required
 
-## There are hundreds markdown parsers, why one more?
+### Also supports:
 
-Because there is none like this one. All markdown parsers I found generally take a markdown line and convert it.
-They are usually not file-focused and anything more complex requires writing code.
+  * Structure your documents and navigation any way you want them
+  * Create several depths of different sections each with it's navigation, if needed
+  * Create a multi-language wiki easily
+  * Can be fully crawled and indexed by search engines
+  * Custom styles (if you really need to add some CSS)
+  * Custom footer and 404 "page not found"
+  * Add Google Analytics by simply adding your property ID (don't worry about implementation details)
+  * Activate code syntax highlighting
+  * Gimmicks advance Markdown with rich client functions like alerts and youtube video integration
+  * Advanced users can also modify the default page layout html
 
-Up! serves a very specific purpose: Not to just parse markdown, but easily create associated markdown files that
-make up a complete website.
+### Planned features in near future:
 
-##### My problem was this:
+  * Site search
 
-I needed to write documentation for end users with three requirements:
-   1. It should been easy editable by translators
-   2. It should work system-independent, be effortless integrated in various systems and served to end users formatted
-   3. I needed the markdown files to make up a structure (speak: navigation) and not just parsed
+## How is Up! different from other MarkDown parsers? Why one more?
 
-The solution to 1. was Markdown. One could say, I could have used Wordpress. But then, any system
-I had liked to implement this documentation would depend on a wordpress installation and this was
-a bad requirement. So I needed something to fulfill point 2. The solution to this was [mdwiki](http://www.mdwiki.info),
-which can load and parse markdown in browser, so it was independent of anything installed on the server
-or the system and technologies within which the same markdown would be implemented. And point 3 was
-fulfilled by mdwiki too, as it's creating a navigation with the help of markdown, adds bootstrap, jquery,
-CSS and more. Perfect!
+The main difference is, that almost every MarkDown parser is like a raw tool. It takes a piece of 
+MarkDown text, parses and converts it into another format or for the browser. 
 
-Now, I had documentation from several software, which I served in any system (Wordpress, Prestashop, Smarty, Twig)
-just with mdwiki. But I wanted to be able to combine these into one larger Helpdesk site with little to no additional
-effort every time I add another software.
+However, these ones are rarely file-focused, one needs to write additional code to even have a file read, parsed and stored or served to the browser.
 
-Though it's possible to have several separate navigations, languages and documentations, by dropping
-separate mdwiki copies in the subdirectories, this would become soon become too complex and it would
-still lack additional functionality or flexibility such a helpdesk would need, like search functionality,
-search crawling for better SEO, better language handling and more.
+Nearly none of them deals with multiple files (some not even with files), let alone with document structuring, navigation, styling and more. 
 
-##### The solution to this...
+This is what Up! does, it provides a simple ready-to-use solution to create a fully styled and navigable wiki/site 
+as simple and fast as possible, while allowing the author to focus almost completely on the actual task of authoring. Just 
+get your wiki quickly Up! ;)
 
-As far I could research, such a solution doesn't exist at the time of this writing! So "Up!" was born.
+## Documentation
 
-Up! integrates a markdown parser, keeps and extends a mkdwiki fully compatible structure to create similar pages,
-that it stores as static html. Not only can the same files be used without modifications like this, but all previous
-issues can be solved now with Up! and new features added to the pages.
+The documentation has been split from this document into the docs folder, for two reasons:
 
-However, Up! doesn't have to be used like in my special case with mdwiki. Up! in itself is a markdown-based CMS,
-that allows anyone with extremely little effort to create complete sites with Navigation, CSS, Bootstrap, jQuery,
-Themes, search functionality and in future maybe more functionality, without installing any CMS, knowing any
-of these technologies and writing any HTML, CSS or other code.
+  * To be easier to read
+  * To serve as an example/starting point how you can use Up!
+  
+  * [Getting started](docs/getting-started.md)
+  * [Nagivation]()
+  * [Configuration]()
+  * [Advanced Features](docs/advanced-features.md)
+  * [FAQ](docs/faq.md)
 
-The perfect solution, when the focus is the content, no matter if someone is an expert in web technologies
-or has never installed or worked with Wordpress.
+Also, once you install Up!, you can browse the documentation in your browser where you installed Up!
+and you can use these files as starting point to experiment.
 
-It's very simple, requires very little to learn and it takes less a minute to set up and takes care of everything.
-As a bonus, it serves pages as fast as a server can serve static html pages.
+## Installation
 
+Installation is simple and completed in less a minute. PHP 5.4 or higher is required to use it.
 
-## Getting Started (work in progress)
+After cloning the repository, installation is recommended to be done via composer by running:
 
-You'll find that everything is extremely simple to use and set up, even the advanced features are ridiculous easy to use.
+    composer install
 
-As first step, you need to either download and extract the zip in an empty folder or clone the repository.
+A manual installation is not recommended, as you will need to add an autoloader yourself then or require() all classes. 
 
-Now create a file index.md and start adding your text for the front page. Create more files as you need. You can
-name them anything you want and also create subdirectories as you wish, to create any structure that serves your needs.
-There are really no rules or limitations here.
+A zip-file without composer requirements will be published with the next release. 
 
-That's all for a start! You could just start writing your documentation, your Helpdesk or your site right away
-and concentrate on the content without worrying about anything else for now.
+## History
 
-### Linking to other files (work in progress)
+Up! started as an drop-in replacement for [MDwiki](http://dynalon.github.io/mdwiki/), because I needed a tool to 
+provide documentation without additional installations to clients who purchased modules to use within another software. 
 
-At some point, you'll probably want to link to other files in your markdown.
+MDWiki served me at beginning well. However, I wanted to provide that same documentation under a common domain, speak have 
+them all into a helpdesk-like site. Having several MDWiki installations for each one would been overkill and too much maintenance. 
+Also, I would not be able to combine them all into one navigation without maintaining several versions, 
+one for the central helpdesk and one for the one included in the modules purchased by clients. 
 
-Say, you want to link to a file called Help.md, you can write any of the following lines:
+Further, MDWiki sites have some drawbacks, the most important is that they can't be indexed by search engines at all. 
+But it was important that someone searching for the articles would find them in Google&Co.
 
-    This a [link](Help) to Help.
-    This a [link](Help.md) to Help.
-    This a [link](Help.html) to Help.
-    This a [link](!#Help.md) to Help. Btw, this is a mdwiki link.
+As such, I created Up! that would render the sites before sending them to the browser instead of doing it in Javascript like MDWiki, 
+would allow search engines to crawl everything, would allow to have it splitted into sections and combined them as needed with each 
+section having their own individual navigation. 
 
-Up! will properly recognize that Help.md exists and will replace it in the resulting html with a proper link.
-The result will be always the same. For compatibility reasons you might want to stay though with "Help.md".
-If you want to keep everything working with mdwiki, use "!#Help.md".
+Up! is as light-weight as MDWiki, it is so lightweight that it will serve pages nearly as lightning-fast as static html pages. 
+The server-side rendering also benefits those with slower devices, as the pages will render faster in the browser as no additional 
+client-side processing is taking place. This helps providing a consequently similar experience on all devices. 
 
+Because of this history, sites using MDWiki can use Up! in most cases as drop-in replacement, special care was given that both 
+are mostly compatible. See the [FAQ](docs/faq.md#mdwiki-compatibility) for compatibility details.
 
-### Adding navigation
+## Credits
 
-You can add anytime a navigation bar to your content. Create a file navigation.md in the folder you created your
-index.md. In the navigation.md you create a structure like this:
+Up! is created by Dimitrios Karvounaris. 
 
-    [Home](index.md)
+Thank you to all that inspired and made Up! possible:
 
-    [Sample Dropdown]()
+  * [MDWiki](http://dynalon.github.io/mdwiki/) - *Inspired* by this software
+  * [Bootswatch](http://www.bootswatch.com/) - Provides *theme support* for Up!
+  * [cebe/markdown](http://markdown.cebe.cc/) - super *fast*, highly *extensible* markdown parser
+    
+## License
 
-      * [First Submenu](first.md)
-      * [Second Submenu](second.md)
-      * [Divider below this](divider.md)
-      - - - -
-      * # Sub Title
-      * [Another Submenu](another.md)
+Up! is licensed under the terms of the [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html) with [additional terms and
+linking exceptions](LICENSE.txt). 
 
-    [Page 1](page1.md)
-    [Page 2](page2.md)
-
-    [Visit Innovacy](http://www.innovacy.com/)
-
-Up! will create a complete navigation bar with a title, dropdown menus and links from this, fully styled with CSS.
-
-This would create a menu that looks like this:
-
-![](img/menu-sample.png "Navigation")
-
-and a dropdown like this:
-
-![](img/menu-sample-dropdown.png)
-
-
-You have the feature to create separate navigations for subfolders. By adding a navigation.md in the specific subfolder,
-Up! will create a different navigation for all files in this subfolder and all subfolders.
-
-This is optional though. If Up! can't find a navigation.md in the folder the md file exists, it will search the parent folders until it finds
-one and use it.
-
-
-### Page not found (404)
-
-If the requested page is not found, a 404.md or a 404.html file will be searched in the requested path.
-
-If no such file is found, the parent directories up to the location of the script will be searched recursively for such
-a file.
-
-A 404.md has priority over a 404.html file, so if you want to have a html file loaded and served, make sure you remove
-the 404.md file.
-
-If no 404 file is found, a simple "File not found" error will be shown.
-
-
-### Using a custom footer
-
-A custom footer can be added to pages. A footer.md or a footer.html will be searched in the requested path.
-
-If no such file is found, the parent directories up to the location of the script will be searched recursively for such
-a file.
-
-A footer.md has priority over a footer.html, so make sure there is no footer.md is present or is found before your
-preferred footer.html file.
-
-You can add a different custom footer for some pages by creating one in a child folder. All pages in this folder and
-their child folders will have this footer.
-
-
-### Selecting a theme
-
-There are two methods to set the theme:
-  * In the config.json (new method, preferred, works also without navigation)
-  * In the navigation.md (backwards compatible to mdwiki)
-
-Up! comes with support for several bootstrap themes. For the preferred method, look under config.json:theme.
-The following text describes only the theme feature available in navigation.md.
-
-This works the same as in mdwiki. In the file navigation.md add a line like this:
-
-    [gimmick:theme](theme-name)
-
-The supported themes and their names can be found at http://bootswatch.com/ where you can see all their styles too.
-Just replace 'theme-name' in the above line with your choice of theme. The default bootstrap theme can now be choicen
-with "bootstrap".
-
-If this line in navigation.md is missing, the default bootstrap look will be loaded.
-
-The setting in config.json has priority over the one in navigation.md.
-
-Note: This is a simplified mdwiki syntax, the full mdwiki syntax is also supported, however the inverse-attribute
-isn't applied.
-
-### Alert gimmick
-
-Whenever a paragraph starts with a special trigger word that is followed by a colon `:` or exclamation mark `!`,
-they are rendered as alert boxes.
-
-These trigger words are case insensitive and are:
-
-Type       | Trigger
------------|---------
-Warning    |warning, achtung, attention, warnung, atención, guarda, advertimiento
-Note       |note, beachte
-Hint       |hint, tip, tipp, hinweis
-
-
-## Advanced Features
-
-### Advanced custom footer (work in progress)
-
-Alternatively to a footer.md file, the parser looks first for a footer.html and if it finds one, it will use this one
-instead. This allows you to add any html code. It can also contain bootstrap classes and features, as also jQuery.
-You don't need to include any of these libraries yourself, they are already automatically loaded.
-
-### Using a custom style (work in progress)
-
-Up! adds classes and id's to sections like navigation and footer. This way, you can change the look of any elements
-of the final pages.
-
-To add custom styles, simply create a custom.css file in the main folder. It will be loaded after any other styles.
-
-For now, as no such list exists, inspect the generated files to see what classes and id's are available for
-custom styling.
-
-### Changing settings with config.json
-
-You can have a config.json file in the main folder and in any of the subdirectories.
-
-Up! looks first in the main folder for config.json file and will load it. Then it will search resursively beginning
-with requested path all parents folders for a config.json. The first file that will be found, will be loaded and can
-overwrite settings of the main config.json file. Only one additional config.json will be loaded, other files further up
-in the folder structure will be ignored.
-
-#### Valid settings in config.json (work in progress)
-If a config.json file exists, Up! will check it. It is mostly compatible with mdwiki's settings with small differences.
-
-Currently supported are (the values shown are defaults):
-
-##### config.json: loadCss
-
-This setting indicates a CSS filename without a path to load. Up! then searches for this file starting from
-the requested path through all parents. The first that is found is loaded in the site.
-
-This way, you can overwrite your styles in every folder (incl. all it's child folders) you want to.
-
-    {
-        "loadCss": "mystyle.css"
-    }
-
-##### config.json: highlightJs
-
-    {
-        "highlightJs": false
-    }
-
-By default, the highlight.js javascript library is loaded for automatic code highlighting. However, if you have
-no use of this feature for your pages or just don't want to use it, you can deactivate loading of any highlightJs
-resources alltogether, by setting this config setting explicitly to false.
-
-##### config.json: theme
-
-    {
-        "theme": "bootstrap"
-    }
-
-This setting sets a theme. In case there's a theme defined in navigation.md, this setting has priority over it.
-The available styles and their names to use can be seen on http://bootswatch.com. The default bootstrap theme's name
-is "bootstrap".
-
-##### config.json: additionalFooterText
-
-    {
-        "additionalFooterText": "This site is created by Innovacy"
-    }
-
-Adds the text defined to the footer. This setting is overridden and does nothing, if a footer.md or footer.html file
-is added instead.
-
-##### config.json: lineBreaks
-
-    {
-      "lineBreaks": "original"  // Can be "gfm" for Github flavoured line breaks
-    }
-
-Can have either the value "original" or "gfm". The default value is "gfm".
-
-If set to "original", line breaks in markdown are interpreted as <br />.
-See https://help.github.com/articles/writing-on-github/ for further explanation regarding newlines.
-
-##### config.json: gAnalytics
-
-    {
-      "gAnalytics": "UA-45601234-1"
-    }
-
-This setting adds automatically all required Google Analytics tracking to all generated sites.
-It accepts your Analytics Property Tracking ID as parameter.
-
-#####  Settings to be documented (work in progress)
-
-    {
-      "title": "",               // If set, will add this to the title of all pages, otherwise it will take the first header only
-      "anchorCharacter": "#"     // Is shown on links
-    }
-
-### Custom modifications for all pages
-
-You want to add your own modifications in the html that is generated? Nothing easier than that. Find the file
-page.tpl in the Up folder and edit it as you wish. You only need to keep the variables like {$meta} in place.
-
-
-## FAQ
-
-### Can I use Up! as replacement for mdwiki?
-
-You can. My intention creating Up! was not to replace mdwiki. I'm still using both, they are just useful for different
-cases, where I however need the same content. All I do is to remove the index.html from something I prepared for mdwiki
-and I have the same content served by Up!, just with the benefit that it can be fully crawled by search engines and
-some additional options.
-
-### How compatible is Up! with mdwiki?
-
-Up! is working very well as a drop-in replacement for mdwiki, as it is mostly compatible. So if you use Up! instead of
-mdwiki with the same files, you should get a very similar output. The features not supported are gimmicks (read below).
-
-### What mdwiki gimmicks are supported?
-
-All but two gimmicks are currently unsupported. The only gimmicks supported are alerts and themes.
-
-It's unsure, if more gimmicks will be supported in future. If demand is high or someone else wants to implement
-them, they might be supported at some time in future.
-
-Unsupported gimmick features with the `[gimmick:feature]` syntax are currently completely removed from output
-to simply showing something like `gimmick:feature` with a broken link.
-
+A commercial license is available upon request without some of these restrictions. Contact the author for details. 

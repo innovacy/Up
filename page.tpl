@@ -86,9 +86,7 @@
                     <span id="md-footer-additional">
                         {$footer}
                     </span>
-                    <p>
-                    Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> &mdash; &copy; Innovacy, Dimitrios Karvounaris.
-                    </p>
+                    {$copyright}
                 </div>
             </div>
 
