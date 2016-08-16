@@ -65,11 +65,7 @@ class Psr4Autoloader
 
         $base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
 
-        if (isset($this->prefixes[$prefix]) === false) {
-            $this->prefixes[$prefix] = array();
-        }
-
-        array_push($this->prefixes[$prefix], $base_dir);
+        $this->prefixes[$prefix] = $base_dir;
     }
 
     /**
