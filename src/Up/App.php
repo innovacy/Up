@@ -175,8 +175,10 @@ HIGHLIGHTJS;
             $footer = $this->config['additionalFooterText'];
         }
 
-        $reflector = new \ReflectionClass(get_class($this));
-        $tpl = file_get_contents(dirname($reflector->getFileName()).'/page.tpl');
+        if (!file_exists($this->basePath.'/page.tpl')) {
+            throw new \RuntimeException('File page.tpl not found, but is required');
+        }
+        $tpl = file_get_contents($this->basePath.'/page.tpl');
         $tpl = str_replace('{$meta}', $meta, $tpl);
         $tpl = str_replace('{$scripts}', $scripts, $tpl);
         $tpl = str_replace('{$scripts_footer}', $scripts_footer, $tpl);
@@ -325,9 +327,15 @@ HIGHLIGHTJS;
      */
     private function getBasePath()
     {
-        return isset($_SERVER['CONTEXT_DOCUMENT_ROOT']) ? $_SERVER['CONTEXT_DOCUMENT_ROOT'] : (
-        isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT']
-            : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME']));
+        return rtrim(
+            isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
+                ? $_SERVER['CONTEXT_DOCUMENT_ROOT']
+                : (
+                    isset($_SERVER['DOCUMENT_ROOT'])
+                        ? $_SERVER['DOCUMENT_ROOT']
+                        : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME'])
+                )
+        , '/');
     }
 }
 
