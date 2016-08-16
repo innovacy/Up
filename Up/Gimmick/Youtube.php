@@ -6,7 +6,7 @@
  *
  * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
  *
- * @version 1.0.1
+ * @version 1.2.1
  * @copyright 2015 Innovacy - Dimitrios Karvounaris
  * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
  * @license See LICENSE file.
@@ -21,16 +21,11 @@
  *
  */
 
-ini_set('display_startup_errors', 1);
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+namespace Innovacy\Up\Gimmick;
 
-ini_set('default_charset', 'utf-8');
-
-if (!file_exists('vendor/autoload.php')) {
-    die("You must install first Up! properly, by running: composer install. See also the documentation.");
+class Youtube
+{
+    // TODO: Generic gimmick class auto-loading
+    // TODO: Integrating gimmick classes dynamically into the parsing process
+    // TODO: Youtube gimmick-specific class code
 }
-require 'vendor/autoload.php';
-$app = new \Innovacy\Up();
-$html = $app->run();
-echo $html;

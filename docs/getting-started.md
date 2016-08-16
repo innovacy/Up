@@ -1,132 +1,103 @@
-## Getting Started (work in progress)
+# Getting Started
 
-You'll find that everything is extremely simple to use and set up, even the advanced features are ridiculous easy to use.
+You'll find that everything is extremely simple to use and set up, even the advanced features should be as easy.
 
-As first step, you need to either download and extract the zip in an empty folder or clone the repository.
+In your installation you can browse the docs folder (yes, this documentation, as it's written in MarkDown and 
+adds Up! functionality) to see examples of how to write yours or experiment around. 
 
-Now create a file index.md and start adding your text for the front page. Create more files as you need. You can
-name them anything you want and also create subdirectories as you wish, to create any structure that serves your needs.
-There are really no rules or limitations here.
+It is easy to understand most things by just looking on the source files of the documentation and how they are rendered, 
+if you prefer that over reading documentation.
 
-That's all for a start! You could just start writing your documentation, your Helpdesk or your site right away
-and concentrate on the content without worrying about anything else for now.
+## First Steps
 
-### Linking to other files (work in progress)
+Start by creating an index.md in the main folder. This will become your frontpage. This also will ensure that no 
+"page not found" appears any longer, when the installation path is called without a filename specified. 
+The latter applies also, to all directories you may create. 
 
-At some point, you'll probably want to link to other files in your markdown.
+From here you can name and structure your files and your directories any way you see fit for your site. Up! imposes no rules or limitations in that matter.
 
-Say, you want to link to a file called Help.md, you can write any of the following lines:
+## MarkDown Syntax
 
+To learn specifics about the MarkDown language, you should read one or all of the following sources:
+
+  * http://daringfireball.net/projects/markdown/basics
+  * https://guides.github.com/features/mastering-markdown/
+  
+Up! uses the Github flavoured markdown syntax, so you would want to refer 
+to https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet for a complete reference after learning the basics. 
+
+Exceptions and extensions are handled in this documentation.
+
+A simple example shows how easy it is to format and outline a document in MarkDown:
+
+    # This is a headline
+    
+    This is a paragraph that can span several lines, 
+    several lines... 
+    
+    ## This is a second level header
+    
+    ### Third level header
+    
+    You can specify up to 6th level headers this way.
+     
+    This is an alternative way of a headline
+    ================================
+    
+    This is an alternative way of a second level header
+    -------------
+    
+    I am a link with an [anchor text, so click me](http://www.innovacy.com/)
+    The guy coming after me is simply an automatic link pointing to http://www.innovacy.com without anchor text
+    
+       * This is an unordered list.
+       * Notice the two spaces in front.
+         * Nothing wrong with me, just a list under another list
+    
+       1. You can also specify ordered/numbered lists.
+       3. simply followed by a horizontal dividing line
+       
+     *****************
+     
+     I am so **bold** to just refer you to the other documents to further study MarkDown syntax, but I'm not *italic*. 
+
+This will be rendered similar to (a dark style was choosen simply to separate it clearly here): 
+
+![](img/markdown-example.png)
+
+
+For a truely extensive example, check the file [test.md](test.md)
+
+
+## Document Title in browser / SEO Titles
+
+Up! will pick (as far it will find one) the first 1st level headline as the title of the page for browsers and search engines.
+
+If you have none specified and you have a title specific in the config, it will pick this one.
+
+If there is a headline and a title in the config, it will append the title from the config to the headline and use the combined one as title.
+This allows to have some common title text throughout the whole site.
+
+
+## Linking to other documents
+
+At some point, you'll want to directly link to other documents in your MarkDown. 
+
+Refer to https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links for a complete reference.
+
+Say, you want to link to a file called Help.md, Up! understands and resolves all of these file notations:
+
+    This a [link](Help.md) to Help. This is the default all-compatible way.
     This a [link](Help) to Help.
-    This a [link](Help.md) to Help.
     This a [link](Help.html) to Help.
-    This a [link](!#Help.md) to Help. Btw, this is a mdwiki link.
+    This a [link](!#Help.md) to Help. This is a mdwiki-style link.
 
-Up! will properly recognize that Help.md exists and will replace it in the resulting html with a proper link.
-The result will be always the same. For compatibility reasons you might want to stay though with "Help.md".
-If you want to keep everything working with mdwiki, use "!#Help.md".
+No matter which you prefer to use, Up! will always create links with the `.html` extension in the rendered document, 
+which it can automatically resolve to the proper file. However, if compatibility with other parsers is important to you, 
+you should use only the first syntax in your documents.
 
+The last syntax with the `!#`, is only supported for mdwiki compatibility, however it should rather not be used, as mdwiki recognizes also the first. 
 
-### Adding navigation
-
-You can add anytime a navigation bar to your content. Create a file navigation.md in the folder you created your
-index.md. In the navigation.md you create a structure like this:
-
-    [Home](index.md)
-
-    [Sample Dropdown]()
-
-      * [First Submenu](first.md)
-      * [Second Submenu](second.md)
-      * [Divider below this](divider.md)
-      - - - -
-      * # Sub Title
-      * [Another Submenu](another.md)
-
-    [Page 1](page1.md)
-    [Page 2](page2.md)
-
-    [Visit Innovacy](http://www.innovacy.com/)
-
-Up! will create a complete navigation bar with a title, dropdown menus and links from this, fully styled with CSS.
-
-This would create a menu that looks like this:
-
-![](img/menu-sample.png "Navigation")
-
-and a dropdown like this:
-
-![](img/menu-sample-dropdown.png)
-
-
-You have the feature to create separate navigations for subfolders. By adding a navigation.md in the specific subfolder,
-Up! will create a different navigation for all files in this subfolder and all subfolders.
-
-This is optional though. If Up! can't find a navigation.md in the folder the md file exists, it will search the parent folders until it finds
-one and use it.
-
-
-### Page not found (404)
-
-If the requested page is not found, a 404.md or a 404.html file will be searched in the requested path.
-
-If no such file is found, the parent directories up to the location of the script will be searched recursively for such
-a file.
-
-A 404.md has priority over a 404.html file, so if you want to have a html file loaded and served, make sure you remove
-the 404.md file.
-
-If no 404 file is found, a simple "File not found" error will be shown.
-
-
-### Using a custom footer
-
-A custom footer can be added to pages. A footer.md or a footer.html will be searched in the requested path.
-
-If no such file is found, the parent directories up to the location of the script will be searched recursively for such
-a file.
-
-A footer.md has priority over a footer.html, so make sure there is no footer.md is present or is found before your
-preferred footer.html file.
-
-You can add a different custom footer for some pages by creating one in a child folder. All pages in this folder and
-their child folders will have this footer.
-
-
-### Selecting a theme
-
-There are two methods to set the theme:
-  * In the config.json (new method, preferred, works also without navigation)
-  * In the navigation.md (backwards compatible to mdwiki)
-
-Up! comes with support for several bootstrap themes. For the preferred method, look under config.json:theme.
-The following text describes only the theme feature available in navigation.md.
-
-This works the same as in mdwiki. In the file navigation.md add a line like this:
-
-    [gimmick:theme](theme-name)
-
-The supported themes and their names can be found at http://bootswatch.com/ where you can see all their styles too.
-Just replace 'theme-name' in the above line with your choice of theme. The default bootstrap theme can now be choicen
-with "bootstrap".
-
-If this line in navigation.md is missing, the default bootstrap look will be loaded.
-
-The setting in config.json has priority over the one in navigation.md.
-
-Note: This is a simplified mdwiki syntax, the full mdwiki syntax is also supported, however the inverse-attribute
-isn't applied.
-
-### Alert gimmick
-
-Whenever a paragraph starts with a special trigger word that is followed by a colon `:` or exclamation mark `!`,
-they are rendered as alert boxes.
-
-These trigger words are case insensitive and are:
-
-Type       | Trigger
------------|---------
-Warning    |warning, achtung, attention, warnung, atenci�n, guarda, advertimiento
-Note       |note, beachte
-Hint       |hint, tip, tipp, hinweis
-
+Note: Be aware, since you can add and link any other files, even html files, if you have added two files 
+like Help.md and Help.html, the `.html` file with the same name will have priority over a `.md` file and 
+will be the one called in the browser, even if you defined `Help.md`. This implementation detail may change in future. 

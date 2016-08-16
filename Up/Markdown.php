@@ -103,7 +103,7 @@ class Markdown extends GithubMarkdown
                 return ($var[0] == 'text');
             })
         ));
-        if (preg_match('/^(warning|achtung|attention|warnung|atención|guarda|advertimiento)[\:\!]\s/i', $text)) {
+        if (preg_match('/^(warning|achtung|attention|warnung|atenciÃ³n|guarda|advertimiento)[\:\!]\s/i', $text)) {
             $alertClass = 'warning';
         } elseif (preg_match('/^(note|beachte)[\:\!]\s/i', $text)) {
             $alertClass = 'info';

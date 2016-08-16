@@ -1,6 +1,34 @@
 
 ## Advanced Features
 
+
+## Page not found (404)
+
+If the requested page is not found, a 404.md or a 404.html file will be searched in the requested path.
+
+If no such file is found, the parent directories up to the location of the script will be searched recursively for such
+a file.
+
+A 404.md has priority over a 404.html file, so if you want to have a html file loaded and served, make sure you remove
+the 404.md file.
+
+If no 404 file is found, a simple "File not found" error will be shown.
+
+
+## Using a custom footer
+
+A custom footer can be added to pages. A footer.md or a footer.html will be searched in the requested path.
+
+If no such file is found, the parent directories up to the location of the script will be searched recursively for such
+a file.
+
+A footer.md has priority over a footer.html, so make sure there is no footer.md is present or is found before your
+preferred footer.html file.
+
+You can add a different custom footer for some pages by creating one in a child folder. All pages in this folder and
+their child folders will have this footer.
+
+
 ### Advanced custom footer (work in progress)
 
 Alternatively to a footer.md file, the parser looks first for a footer.html and if it finds one, it will use this one

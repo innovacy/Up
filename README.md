@@ -34,7 +34,7 @@ one line of any PHP code, HTML or CSS.
   * Site search
 
 
-## How is Up! different from other MarkDown parsers? Why one more?
+## How is Up! different from other MarkDown parsers?
 
 The main difference is, that almost every MarkDown parser is like a raw tool. It takes a piece of 
 MarkDown text, parses and converts it into another format or for the browser. 
@@ -55,7 +55,7 @@ The documentation has been split from this document into the docs folder, for tw
   * To be easier to read
   * To provide an example implementation of how you can use Up!
 
-Once you install Up!, you can browse the documentation in your browser where you installed Up!
+Once you install Up!, you can browse the documentation by opening http://<yourhost>/docs/ in your browser 
 and you can use these files as starting point to modify and experiment with.
 
 Browse the documentation:
