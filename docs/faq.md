@@ -13,7 +13,7 @@ some additional options.
 Up! is working very well as a drop-in replacement for mdwiki, as it is mostly compatible. So if you use Up! instead of
 mdwiki with the same files, you should get a very similar output. The features not supported are gimmicks (read below).
 
-### What mdwiki gimmicks are supported?
+### Which mdwiki gimmicks are supported?
 
 All but two gimmicks are currently unsupported. The only gimmicks supported are alerts and themes.
 
@@ -23,3 +23,16 @@ them, they might be supported at some time in future.
 Unsupported gimmick features with the `[gimmick:feature]` syntax are currently completely removed from output
 to simply showing something like `gimmick:feature` with a broken link.
 
+### Is it planned to add caching support?
+
+No. Up! itself is already extremely light-weight and lightning-fast, even if it parses the files every time. 
+
+Caching would only make sense, if there would be a significant performance benefit to gain, 
+but additional cache checks, and resource usage by more classes would make any such small benefit forfeit.
+
+The most processing time in Up! comes from parsing the documents, however the integrated MarkDown parser is already extremely fast. 
+The benchmarks at https://travis-ci.org/kzykhys/Markbench/jobs/19502391 show it: 
+  * 1000 "empty document" parses take 49ms, that's less 1ms per run.
+  * 1000 regular document parses require 5335ms, that is just 5.3ms per parsing with memory usage below 1MB.
+
+There's currently nothing to gain from a cache than only adding more complexity. 

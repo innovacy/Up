@@ -1,8 +1,9 @@
-# An extremely simple, yet powerful markdown-based CMS/Wiki
+# A simple, fast and powerful markdown-based CMS/Wiki
 
 Up! is an extremely simple, yet powerful markdown-based CMS/Wiki, to create easily and fast 
 the most light-weight and fastest wiki's, documentations or simple websites, without writing 
 one line of any PHP code, HTML or CSS. 
+
 
 ## Features
 
@@ -32,6 +33,7 @@ one line of any PHP code, HTML or CSS.
 
   * Site search
 
+
 ## How is Up! different from other MarkDown parsers? Why one more?
 
 The main difference is, that almost every MarkDown parser is like a raw tool. It takes a piece of 
@@ -45,21 +47,25 @@ This is what Up! does, it provides a simple ready-to-use solution to create a fu
 as simple and fast as possible, while allowing the author to focus almost completely on the actual task of authoring. Just 
 get your wiki quickly Up! ;)
 
+
 ## Documentation
 
 The documentation has been split from this document into the docs folder, for two reasons:
 
   * To be easier to read
-  * To serve as an example/starting point how you can use Up!
-  
+  * To provide an example implementation of how you can use Up!
+
+Once you install Up!, you can browse the documentation in your browser where you installed Up!
+and you can use these files as starting point to modify and experiment with.
+
+Browse the documentation:
+
   * [Getting started](docs/getting-started.md)
   * [Nagivation]()
   * [Configuration]()
   * [Advanced Features](docs/advanced-features.md)
   * [FAQ](docs/faq.md)
-
-Also, once you install Up!, you can browse the documentation in your browser where you installed Up!
-and you can use these files as starting point to experiment.
+  
 
 ## Installation
 
@@ -72,6 +78,7 @@ After cloning the repository, installation is recommended to be done via compose
 A manual installation is not recommended, as you will need to add an autoloader yourself then or require() all classes. 
 
 A zip-file without composer requirements will be published with the next release. 
+
 
 ## History
 
@@ -97,6 +104,7 @@ client-side processing is taking place. This helps providing a consequently simi
 Because of this history, sites using MDWiki can use Up! in most cases as drop-in replacement, special care was given that both 
 are mostly compatible. See the [FAQ](docs/faq.md#mdwiki-compatibility) for compatibility details.
 
+
 ## Credits
 
 Up! is created by Dimitrios Karvounaris. 
@@ -106,10 +114,10 @@ Thank you to all that inspired and made Up! possible:
   * [MDWiki](http://dynalon.github.io/mdwiki/) - *Inspired* by this software
   * [Bootswatch](http://www.bootswatch.com/) - Provides *theme support* for Up!
   * [cebe/markdown](http://markdown.cebe.cc/) - super *fast*, highly *extensible* markdown parser
-    
+
+
 ## License
 
-Up! is licensed under the terms of the [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html) with [additional terms and
-linking exceptions](LICENSE.txt). 
+Up! is licensed under the terms of the [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html) with [additional terms and linking exceptions](LICENSE.txt). 
 
 A commercial license is available upon request without some of these restrictions. Contact the author for details. 
