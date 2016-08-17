@@ -179,6 +179,14 @@ HIGHLIGHTJS;
             throw new \RuntimeException('File page.tpl not found, but is required');
         }
         $tpl = file_get_contents($this->basePath.'/page.tpl');
+        $tpl = str_replace(
+            '{$title}',
+            (!empty($this->parserMain->title)
+                ? $this->parserMain->title . ' ' : '').
+            (isset($this->config['title'])
+                ? $this->config['title'] : ''),
+            $tpl
+        );
         $tpl = str_replace('{$meta}', $meta, $tpl);
         $tpl = str_replace('{$scripts}', $scripts, $tpl);
         $tpl = str_replace('{$scripts_footer}', $scripts_footer, $tpl);

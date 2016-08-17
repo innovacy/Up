@@ -65,19 +65,17 @@ Browse the documentation:
   * [Configuration]()
   * [Advanced Features](docs/advanced-features.md)
   * [FAQ](docs/faq.md)
-  
+
 
 ## Installation
 
 Installation is simple and completed in less a minute. PHP 5.4 or higher is required to use it.
 
-After cloning the repository, installation is recommended to be done via composer by running:
+After cloning or downloading the repository, no further installation steps are required. 
+Simply refer to the other documentation for first steps on starting to create your wiki/site. 
 
-    composer install
-
-A manual installation is not recommended, as you will need to add an autoloader yourself then or require() all classes. 
-
-A zip-file without composer requirements will be published with the next release. 
+Note: For users upgrading from version 1: the composer dependency exists no longer, everything runs out of the box. 
+You can safely delete any `vendor` directory that your old installation has.
 
 
 ## History

@@ -27,6 +27,7 @@ use cebe\markdown\GithubMarkdown;
 
 /**
  * Class Markdown
+ * Parses a document and converts it into HTML
  * @package Innovacy\Up
  */
 class Markdown extends GithubMarkdown
@@ -34,12 +35,14 @@ class Markdown extends GithubMarkdown
     private $tableCellTag = 'td';
     private $tableCellCount = 0;
     private $tableCellAlign = [];
+    /** @var bool Assists in finding the first 1st level headline and ignore the others */
     private $isFirstBlock = true;
     public $useSideNav = false;
     private $sideNav = '';
     public $anchorCharacter = '&para;';
 
-    protected $title;
+    /** @var string First 1st level headline found in document */
+    public $title;
 
     /**
      * @param $block
