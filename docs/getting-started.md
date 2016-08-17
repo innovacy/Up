@@ -71,7 +71,7 @@ This will be rendered similar to (a dark style was choosen simply to separate it
 For a truely extensive example, check the file [test.md](test.md)
 
 
-## Document Title in browser / SEO Titles
+## Setting document title in browser
 
 Up! will pick (as far it will find one) the first 1st level headline as the title of the page for browsers and search engines.
 

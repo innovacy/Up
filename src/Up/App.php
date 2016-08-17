@@ -4,10 +4,10 @@
  *
  * Up! - An extremely simple, yet powerful markdown-based CMS
  *
- * Copyright (c) 2015 Innovacy, Dimitrios Karvounaris
+ * Copyright (c) 2015-2016 Innovacy, Dimitrios Karvounaris
  *
- * @version 2.0.0
- * @copyright 2015 Innovacy - Dimitrios Karvounaris
+ * @version 1.99.99
+ * @copyright 2015-2016 Innovacy - Dimitrios Karvounaris
  * @author Dimitrios Karvounaris, <d.karvounaris@innovacy.com>
  * @url https://www.github.com/Innovacy/Up
  * @license See LICENSE file.
@@ -31,7 +31,7 @@ namespace Innovacy\Up;
 class App
 {
     /** @var string Up! Release */
-    public $version = '2.0.0';
+    public $version = '1.99.99';
     protected $virtualUri;
     /** @var Navigation The parser class */
     protected $parserNavigation;

@@ -4,6 +4,22 @@ Up! is an extremely simple, yet powerful markdown-based CMS/Wiki, to create easi
 the most light-weight and fastest wiki's, documentations or simple websites, without writing 
 one line of any PHP code, HTML or CSS. 
 
+Website: https://www.github.com/Innovacy/Up
+
+
+## How is Up! different from other MarkDown parsers?
+
+The main difference is, that almost every MarkDown parser is like a raw tool. It takes a piece of 
+MarkDown text, parses and converts it into another format or for the browser. 
+
+However, these ones are rarely file-focused, one needs to write additional code to even have a file read, parsed and stored or served to the browser.
+
+Nearly none of them deals with multiple files (some not even with files), let alone with document structuring, navigation, styling and more. 
+
+This is what Up! does, it provides a simple ready-to-use solution to create a fully styled and navigable wiki/site 
+as simple and fast as possible, while allowing the author to focus almost completely on the actual task of authoring. Just 
+get your wiki quickly Up! ;)
+
 
 ## Features
 
@@ -34,50 +50,6 @@ one line of any PHP code, HTML or CSS.
   * Site search
 
 
-## How is Up! different from other MarkDown parsers?
-
-The main difference is, that almost every MarkDown parser is like a raw tool. It takes a piece of 
-MarkDown text, parses and converts it into another format or for the browser. 
-
-However, these ones are rarely file-focused, one needs to write additional code to even have a file read, parsed and stored or served to the browser.
-
-Nearly none of them deals with multiple files (some not even with files), let alone with document structuring, navigation, styling and more. 
-
-This is what Up! does, it provides a simple ready-to-use solution to create a fully styled and navigable wiki/site 
-as simple and fast as possible, while allowing the author to focus almost completely on the actual task of authoring. Just 
-get your wiki quickly Up! ;)
-
-
-## Documentation
-
-The documentation has been split from this document into the docs folder, for two reasons:
-
-  * To be easier to read
-  * To provide an example implementation of how you can use Up!
-
-Once you install Up!, you can browse the documentation by opening http://<yourhost>/docs/ in your browser 
-and you can use these files as starting point to modify and experiment with.
-
-Browse the documentation:
-
-  * [Getting started](docs/getting-started.md)
-  * [Nagivation]()
-  * [Configuration]()
-  * [Advanced Features](docs/advanced-features.md)
-  * [FAQ](docs/faq.md)
-
-
-## Installation
-
-Installation is simple and completed in less a minute. PHP 5.4 or higher is required to use it.
-
-After cloning or downloading the repository, no further installation steps are required. 
-Simply refer to the other documentation for first steps on starting to create your wiki/site. 
-
-Note: For users upgrading from version 1: the composer dependency exists no longer, everything runs out of the box. 
-You can safely delete any `vendor` directory that your old installation has.
-
-
 ## History
 
 Up! started as an drop-in replacement for [MDwiki](http://dynalon.github.io/mdwiki/), because I needed a tool to 
@@ -100,7 +72,7 @@ The server-side rendering also benefits those with slower devices, as the pages 
 client-side processing is taking place. This helps providing a consequently similar experience on all devices. 
 
 Because of this history, sites using MDWiki can use Up! in most cases as drop-in replacement, special care was given that both 
-are mostly compatible. See the [FAQ](docs/faq.md#mdwiki-compatibility) for compatibility details.
+are mostly compatible. See the [FAQ](faq.md#mdwiki-compatibility) for compatibility details.
 
 
 ## Credits
@@ -116,6 +88,6 @@ Thank you to all that inspired and made Up! possible:
 
 ## License
 
-Up! is licensed under the terms of the [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html) with [additional terms and linking exceptions](LICENSE.txt). 
+Up! is licensed under the terms of the [GNU AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html) with [additional terms and linking exceptions](../LICENSE.txt). 
 
 A commercial license is available upon request without some of these restrictions. Contact the author for details. 

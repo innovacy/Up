@@ -12,6 +12,7 @@ it as easy as it was always intended to be.
   * New extensible gimmick plugin system (planned)
   * Easy installation also without composer (planned)
   * Youtube links can be rendered as Youtube embedded videos (planned)
+  * Mobile optimizations: App-style menu (planned)
   * New `test.md`
     * ... provides examples for all syntax
     * ... assists testing proper rendering of all syntax
