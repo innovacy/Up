@@ -75,7 +75,7 @@ For a truely extensive example, check the file [test.md](test.md)
 
 Up! will pick (as far it will find one) the first 1st level headline as the title of the page for browsers and search engines.
 
-If you have none specified and you have a title specific in the config, it will pick this one.
+If you have none specified and you have a title specific in the config, it will pick this one (see [Configuration](configuration.md#title).
 
 If there is a headline and a title in the config, it will append the title from the config to the headline and use the combined one as title.
 This allows to have some common title text throughout the whole site.
@@ -92,14 +92,24 @@ Say, you want to link to a file called Help.md, Up! understands and resolves all
     This a [link](Help.md) to Help. This is the default all-compatible way.
     This a [link](Help) to Help.
     This a [link](Help.html) to Help.
-    This a [link](!#Help.md) to Help. This is a mdwiki-style link.
 
-No matter which you prefer to use, Up! will always create links with the `.html` extension in the rendered document, 
-which it can automatically resolve to the proper file. However, if compatibility with other parsers is important to you, 
-you should use only the first syntax in your documents.
-
-The last syntax with the `!#`, is only supported for mdwiki compatibility, however it should rather not be used, as mdwiki recognizes also the first. 
+No matter which you prefer to use, Up! will always resolve to the proper document and display it. 
+However, if compatibility with other parsers is important to you, you should use only the first syntax in your documents. 
+One such case would be, if you want your document linking to work on GitHub when displayed there.
+If this is not important to you, the `.html` syntax looks probably most appealing.
 
 Note: Be aware, since you can add and link any other files, even html files, if you have added two files 
-like Help.md and Help.html, the `.html` file with the same name will have priority over a `.md` file and 
-will be the one called in the browser, even if you defined `Help.md`. This implementation detail may change in future. 
+like `Help.md` and `Help.html`, the `.html` file with the same name will have priority over a `.md` file and 
+will be the one called in the browser, if you have linked to it with the extension `.html`. 
+
+**Only important for those upgrading from mdwiki:**
+
+Previously, mdwiki-style linking was planned to be supported, this version doesn't though, because it turned to be problematic 
+to be parsed server-side when clicked in browser, and like too much unnecessary overhead to have a workaround in the browser. 
+
+So the following syntax with a `!#` is not supported and should not be used:
+
+    This a [link](!#Help.md) to Help. This is a mdwiki-style link.
+
+However, this style of links was only created by mkdwiki automatically when rendering the documents, and it still recognizes documents 
+with the default way of linking, so unless you used it explicitly yourself in previous documents, it should impose no compatibility issue. 

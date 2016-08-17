@@ -6,9 +6,9 @@
 
   * # Getting Started
   * [First steps](getting-started.md)
-  * [Markdown Syntax](getting-started.md#markdown-syntax)
-  * [Document titles](getting-started.md#setting-document-title-in-browser)
-  * [Linking documents](getting-started.md#linking-to-other-documents)
+  * [Markdown Syntax](getting-started.md#MarkDown_Syntax)
+  * [Document titles](getting_started.md#Setting_document_title_in_browser)
+  * [Linking documents](getting_started.md#Linking_to_other_documents)
   - - - -
   * [Adding Navigation](adding-navigation.md)
   * [Configuration](configuration.md)

@@ -181,10 +181,10 @@ HIGHLIGHTJS;
         $tpl = file_get_contents($this->basePath.'/page.tpl');
         $tpl = str_replace(
             '{$title}',
-            (!empty($this->parserMain->title)
-                ? $this->parserMain->title . ' ' : '').
+            ((!$titleEmpty = empty($this->parserMain->title))
+                ? $this->parserMain->title : '').
             (isset($this->config['title'])
-                ? $this->config['title'] : ''),
+                ? ($titleEmpty ? '' : ' - ').$this->config['title'] : ''),
             $tpl
         );
         $tpl = str_replace('{$meta}', $meta, $tpl);

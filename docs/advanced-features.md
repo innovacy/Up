@@ -45,6 +45,19 @@ To add custom styles, simply create a custom.css file in the main folder. It wil
 For now, as no such list exists, inspect the generated files to see what classes and id's are available for
 custom styling.
 
+
+### Custom modifications for all pages
+
+You want to add your own modifications in the html that is generated? Nothing easier than that. Find the file
+page.tpl in the Up folder and edit it as you wish. You only need to keep the variables like {$meta} in place.
+
+
+
+
+
+
+
+
 ### Changing settings with config.json
 
 You can have a config.json file in the main folder and in any of the subdirectories.
@@ -122,12 +135,5 @@ It accepts your Analytics Property Tracking ID as parameter.
 #####  Settings to be documented (work in progress)
 
     {
-      "title": "",               // If set, will add this to the title of all pages, otherwise it will take the first header only
       "anchorCharacter": "#"     // Is shown on links
     }
-
-### Custom modifications for all pages
-
-You want to add your own modifications in the html that is generated? Nothing easier than that. Find the file
-page.tpl in the Up folder and edit it as you wish. You only need to keep the variables like {$meta} in place.
-
