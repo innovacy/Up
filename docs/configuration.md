@@ -21,11 +21,9 @@ Hint: Learn how you can overwrite settings for sections of your site in [Advance
 
 ## title
 
-**Syntax:**
-
     "title": "Your individual generic title"
-    
-This setting allows you to define a generic title for the whole site. 
+
+With this setting you define a generic title for your site. 
 
 Your title will be set for all documents that have no individual title (see [Setting document title in browser](getting-started.md#Setting_document_title_in_browser)) 
 and appended with a separator to all documents that have one. 

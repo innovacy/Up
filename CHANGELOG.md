@@ -21,7 +21,10 @@ it as easy as it was always intended to be.
   * Documentation itself serves as example implementation
   * Example config.json provided (wip)
   * Example navigation file provided (wip)
-  * Proper support of mdwiki-like links
+  * Proper support of mdwiki-style links officially dropped and won't be implemented
+  * A generic title can be set/appended for all documents
+  * Default "File not found" message when no 404.md exists is now fully rendered like a 404.md instead of dying with an one-liner
+  * 404.md no longer part of the repository, so it can be created without conflicting with 'git pull' updates
 
 Version 1.0.1
 -------------

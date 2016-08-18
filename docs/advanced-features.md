@@ -1,71 +1,54 @@
+# Advanced Features
 
-## Advanced Features
+## 404 File not found 
 
+If a requested document is not found or it's name misspelled, Up! will send by default a 404 status to the browser 
+and since version 2 render a default 404 page in the same way as any other document (including navigation, custom settings and so on).
 
-## Page not found (404)
+The document will simply state: "We're sorry, but we couldn't find the requested document.".
 
-If the requested page is not found, a 404.md or a 404.html file will be searched in the requested path.
+You can modify this output, by simply creating your own `404.md` file in the main folder where you installed Up!
+and it can contain any MarkDown content you wish to be displayed. 
 
-If no such file is found, the parent directories up to the location of the script will be searched recursively for such
-a file.
+Alternatively, you can create a `404.html` file and this one will be displayed as-is within the site's layout, 
+whenever a document is not found. (see [Rendering HTML files](advanced-features.md#Rendering_HTML_files) for caveats).
 
-A 404.md has priority over a 404.html file, so if you want to have a html file loaded and served, make sure you remove
-the 404.md file.
-
-If no 404 file is found, a simple "File not found" error will be shown.
-
-
-## Using a custom footer
-
-A custom footer can be added to pages. A footer.md or a footer.html will be searched in the requested path.
-
-If no such file is found, the parent directories up to the location of the script will be searched recursively for such
-a file.
-
-A footer.md has priority over a footer.html, so make sure there is no footer.md is present or is found before your
-preferred footer.html file.
-
-You can add a different custom footer for some pages by creating one in a child folder. All pages in this folder and
-their child folders will have this footer.
+If you created multiple sections on your site, you can override your 404 document for [each section](multiple-navigation.md#)
 
 
-### Advanced custom footer (work in progress)
+## Rendering HTML files
 
-Alternatively to a footer.md file, the parser looks first for a footer.html and if it finds one, it will use this one
-instead. This allows you to add any html code. It can also contain bootstrap classes and features, as also jQuery.
-You don't need to include any of these libraries yourself, they are already automatically loaded.
+In general, Up! supports that you write your documents as HTML files instead in MarkDown.
+Up! will then use these file as-is and will not parse them as MarkDown. It also will integrate them 
+into your layout like any other MarkDown parsed file.
 
-### Using a custom style (work in progress)
+This works always where such a file is defined in a configuration or is searched automatically, like with the "404 Page not found" file.
 
-Up! adds classes and id's to sections like navigation and footer. This way, you can change the look of any elements
-of the final pages.
+However, whenever you will link to a document yourself, there are some caveats you should be aware of: 
 
-To add custom styles, simply create a custom.css file in the main folder. It will be loaded after any other styles.
+The html files that you want to become part of your layout should contain only the partial html that should be displayed, 
+but neither a `<head>´ section, nor html, meta or body tags or a document type declaration (Up! sets automatically HTML5).
 
-For now, as no such list exists, inspect the generated files to see what classes and id's are available for
-custom styling.
+If you link from one of your files directly to a `.html` file like this: `[link](file.html)`, once you click 
+on this link in the browser it will simply load the `.html` file directly without going through Up!. 
+This is on purpose, so you can bypass Up! and the layout creation, whenever you explicitly want to load something else. 
 
+If you want a `.html` file however to be part of the site and it's layout, but simply create your document as HTML
+instead in MarkDown, you must link to it like this: `[link](file)` or this: `[link](file.md)`. Up! will then automatically
+discover that there is no `.md` file and will look for a `.html` file and use this one instead. 
 
-### Custom modifications for all pages
-
-You want to add your own modifications in the html that is generated? Nothing easier than that. Find the file
-page.tpl in the Up folder and edit it as you wish. You only need to keep the variables like {$meta} in place.
+This implies, that you should not have a `.md` file with the same name in the same folder, if you want the `.html` file to be loaded.
 
 
 
 
 
+// TODO below here
 
 
 
-### Changing settings with config.json
 
-You can have a config.json file in the main folder and in any of the subdirectories.
 
-Up! looks first in the main folder for config.json file and will load it. Then it will search resursively beginning
-with requested path all parents folders for a config.json. The first file that will be found, will be loaded and can
-overwrite settings of the main config.json file. Only one additional config.json will be loaded, other files further up
-in the folder structure will be ignored.
 
 #### Valid settings in config.json (work in progress)
 If a config.json file exists, Up! will check it. It is mostly compatible with mdwiki's settings with small differences.

@@ -1,9 +1,39 @@
+# FAQ
+
+## Some inline elements are not parsed in my installation. Why?
+
+This can occur if you are using PHP's Opcode cache and PHPDocs are removed from source code. 
+
+There is a setting in the php.ini, which should be left at the default `opcache.save_comments=1` and not be turned off.
+
+
+## Is caching support planned?
+
+No. Up! itself is already extremely light-weight and lightning-fast, even if it parses the files every time. 
+
+Caching would only make sense, if there would be a significant performance benefit to gain, 
+but additional cache checks, and resource usage by more classes would make any such small benefit forfeit.
+
+The most processing time in Up! occurs from parsing the documents, however the integrated MarkDown parser is already extremely fast. 
+The benchmarks at https://travis-ci.org/kzykhys/Markbench/jobs/19502391 show that: 
+  * 1000 "empty document" parses take 49ms, that's less of 1ms per run.
+  * 1000 average document parses require 5335ms, that is just 5.3ms per parsing with memory usage below 1MB.
+
+There's currently nothing to gain from a cache than only adding more complexity. 
+
+
+## Compatibility with mdwiki
+
+Some of the common configuration settings with mdwiki are not necessarily acting 100% the same, 
+however this has no side-effects or drawbacks at all. 
+
+
+
+
+// TODO: below here
 
 ## FAQ
 
-### In my installation some inline elements are not parsed. Why?
-Please check that when you are using PHP's Opcode cache, PHPDocs are not removed from source code. 
-There is a setting in the php.ini, which should be left at `opcache.save_comments=1` and not be turned off.
 
 ### Can I use Up! as replacement for mdwiki?
 
@@ -27,16 +57,3 @@ them, they might be supported at some time in future.
 Unsupported gimmick features with the `[gimmick:feature]` syntax are currently completely removed from output
 to simply showing something like `gimmick:feature` with a broken link.
 
-### Is it planned to add caching support?
-
-No. Up! itself is already extremely light-weight and lightning-fast, even if it parses the files every time. 
-
-Caching would only make sense, if there would be a significant performance benefit to gain, 
-but additional cache checks, and resource usage by more classes would make any such small benefit forfeit.
-
-The most processing time in Up! comes from parsing the documents, however the integrated MarkDown parser is already extremely fast. 
-The benchmarks at https://travis-ci.org/kzykhys/Markbench/jobs/19502391 show it: 
-  * 1000 "empty document" parses take 49ms, that's less 1ms per run.
-  * 1000 regular document parses require 5335ms, that is just 5.3ms per parsing with memory usage below 1MB.
-
-There's currently nothing to gain from a cache than only adding more complexity. 

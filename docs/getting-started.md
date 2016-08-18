@@ -102,6 +102,8 @@ Note: Be aware, since you can add and link any other files, even html files, if 
 like `Help.md` and `Help.html`, the `.html` file with the same name will have priority over a `.md` file and 
 will be the one called in the browser, if you have linked to it with the extension `.html`. 
 
+Attention: See also [Rendering HTML files](advanced-features.md#Rendering_HTML_files) for another caveat with the non-default way of linking to html files.
+
 **Only important for those upgrading from mdwiki:**
 
 Previously, mdwiki-style linking was planned to be supported, this version doesn't though, because it turned to be problematic 

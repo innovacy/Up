@@ -81,9 +81,15 @@ class App
         if (!$file = $this->discoverFile($this->virtualUri)) {
             $file = $this->discoverFile($this->virtualUri, true, '404');
             header("HTTP/1.0 404 Not Found");
-            if (!$file) {
-                die('404 File not found');
-            }
+        }
+        if (!empty($file)) {
+            $markdown = file_get_contents($file);  // this can be also a 404.md
+        } else {
+            $markdown = <<<END_FILE_NOT_FOUND
+# 404 Document not found
+
+We\'re sorry, but we couldn\'t find the requested document.
+END_FILE_NOT_FOUND;
         }
 
         $meta = '<meta name="generator" content="Up!">';
@@ -137,10 +143,13 @@ class App
 HIGHLIGHTJS;
         }
 
-        $markdown = file_get_contents($file);
         $this->parserMain->useSideNav = $this->config['useSideNav'];
         $this->parserMain->enableNewlines = $this->config['lineBreaks'] == 'original';
-        $markup = $this->parserMain->parse($markdown);
+        if (!preg_match('#\.html$#', $file)) { // TODO: simply not very elegant and error-prone
+            $markup = $this->parserMain->parse($markdown);
+        } else {
+            $markup = $markdown;  // do not parse html files, display them as-is
+        }
 
         $navigation = '';
         $hide_navigation = '';
