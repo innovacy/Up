@@ -4,6 +4,7 @@ Up! is an extremely simple, yet powerful markdown-based CMS/Wiki, to create easi
 the most light-weight and fastest wiki's, documentations or simple websites, without writing 
 one line of any PHP code, HTML or CSS. 
 
+This is a pre-release for the Version 2.0. Check the [Changelog](CHANGELOG.md) to see what is and what isn't implemented and what is planned. 
 
 ## Features
 
