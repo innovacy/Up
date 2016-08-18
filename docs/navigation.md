@@ -7,8 +7,8 @@
   * # Getting Started
   * [First steps](getting-started.md)
   * [Markdown Syntax](getting-started.md#MarkDown_Syntax)
-  * [Document titles](getting_started.md#Setting_document_title_in_browser)
-  * [Linking documents](getting_started.md#Linking_to_other_documents)
+  * [Document titles](getting-started.md#Setting_document_title_in_browser)
+  * [Linking documents](getting-started.md#Linking_to_other_documents)
   - - - -
   * [Adding Navigation](adding-navigation.md)
   * [Configuration](configuration.md)
@@ -18,7 +18,7 @@
   * [Themes](themes.md)
   * [Advanced Features](advanced-features.md)
   * [Customizing styles](custom-styles.md)
-  * [Customizing footer]()
+  * [Customizing footer](custom-footer.md)
   * [Gimmicks](gimmicks.md)
 
 [Tutorials]()
