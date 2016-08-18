@@ -1,7 +1,17 @@
 RewriteEngine On
+
+# You may need to uncomment and set this one, if you install Up! in a subdirectory of your domain
 # RewriteBase /
-# This blocks calls to md and html files, as also replaces fully mdwiki (when installed) explicit calls
-RewriteCond %{REQUEST_URI} .*\.html [OR]
+
+# The following RewriteCond rules catch calls to md files/non-existent files,
+# as also replace fully mdwiki (when installed) explicit calls
+
+# Uncommenting the following line will make all calls to .html files be rendered by Up!
+# RewriteCond %{REQUEST_URI} .*\.html [OR]
+
+# Uncommenting the following line will make all .txt files be rendered by Up! (caution: highly experimental!)
+# RewriteCond %{REQUEST_URI} .*\.txt [OR]
+
 RewriteCond %{REQUEST_URI} .*\.md [OR]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !.*\.(css|js|png|gif|jpg|pdf|ico)

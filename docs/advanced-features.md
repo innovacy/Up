@@ -29,7 +29,7 @@ However, whenever you will link to a document yourself, there are some caveats y
 The html files that you want to become part of your layout should contain only the partial html that should be displayed, 
 but neither a `<head>´ section, nor html, meta or body tags or a document type declaration (Up! sets automatically HTML5).
 
-If you link from one of your files directly to a `.html` file like this: `[link](file.html)`, once you click 
+By default, if you link from one of your files directly to a `.html` file like this: `[link](file.html)`, once you click 
 on this link in the browser it will simply load the `.html` file directly without going through Up!. 
 This is on purpose, so you can bypass Up! and the layout creation, whenever you explicitly want to load something else. 
 
@@ -40,6 +40,16 @@ discover that there is no `.md` file and will look for a `.html` file and use th
 This implies, that you should not have a `.md` file with the same name in the same folder, if you want the `.html` file to be loaded.
 
 
+### Forcing all HTML files and links rendered with Up!
+
+Even though not recommended to change the default behaviour, as it's only an experimental feature, 
+you can force all your `.html` files and links to them going through Up! instead of being served directly to the browser.
+
+Warning: Make this change only if you know what you are doing!
+
+In your .htaccess find and uncomment the following line:
+
+    # RewriteCond %{REQUEST_URI} .*\.html [OR]
 
 
 
