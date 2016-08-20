@@ -25,6 +25,9 @@
 
   * [Multi-language sites]()
   * [Individual sections & navigations](multiple-navigation.md)
+  - - - -
+  * # For professionals
+  * [Extending with custom gimmicks](custom-gimmicks.md)
 
 [On Github](https://www.github.com/Innovacy/Up)
 
