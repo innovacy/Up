@@ -193,6 +193,15 @@ class Markdown extends \cebe\markdown\GithubMarkdown
                 $parseText = false;
             }
         }
+        /** @var GimmickBase $gimmick */
+        foreach ($this->gimmicks['paragraph']['implicit'] as $gimmick) {
+            $return = $gimmick->renderLink($block);
+            if ($return === false) {
+                return '';
+            } else if ($return !== true) {
+                return $return;
+            }
+        }
         if (isset($block['refkey'])) {
             if (($ref = $this->lookupReference($block['refkey'])) !== false) {
                 $block = array_merge($block, $ref);
