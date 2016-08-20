@@ -23,6 +23,10 @@
 
 namespace Innovacy\Up\Gimmick;
 
+/**
+ * Class Youtube
+ * @package Innovacy\Up\Gimmick
+ */
 class Youtube extends GimmickBase
 {
     // TODO: Generic gimmick class auto-loading

@@ -44,6 +44,28 @@ class Markdown extends GithubMarkdown
     /** @var string First 1st level headline found in document */
     public $title;
 
+    /** @var array List of gimmick classes */
+    protected $gimmicks = array();
+
+    /**
+     * Markdown constructor.
+     */
+    public function __construct()
+    {
+        $gimmickPath = __DIR__.'/Gimmick';
+
+        if ($d = opendir($gimmickPath)) {
+            while (($filename = readdir($d)) !== false) {
+                if (preg_match('#^(.+)\.php$#', $filename, $match)) {
+                    if ($match[1] != 'GimmickBase') {
+                        array_push($this->gimmicks, $match[1]);
+                    }
+                }
+            }
+        closedir($d);
+        }
+    }
+
     /**
      * @param $block
      * @return string

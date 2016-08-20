@@ -23,13 +23,13 @@
 
 namespace Innovacy\Up;
 
-use cebe\markdown\Markdown;
+use cebe\markdown\Markdown as cebe_MarkDown;
 
 /**
  * Renders the navigation.md file
  * @package Innovacy\Up
  */
-class Navigation extends Markdown
+class Navigation extends cebe_MarkDown
 {
     private $firstLink = true;
     private $withinDropdown = false;
