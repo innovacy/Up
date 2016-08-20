@@ -12,15 +12,20 @@ namespace Innovacy\Up\Gimmick;
  * Class Gimmick
  * All gimmick plugins must inherit this class
  * @method renderLink($block)
- * @method renderParagraph($block)
+ * @method renderParagraph($block, $text)
  * @package Innovacy\Up\Gimmick
  */
 abstract class GimmickBase
 {
     /**
-     * @var \Innovacy\Up\MarkDown active parser calling the gimmick class
+     * @var \Innovacy\Up\MarkDown Active parser calling the gimmick class
      */
     protected $parser = null;
+
+    /**
+     * @var \Innovacy\Up\Configuration Configuration object
+     */
+    protected $config = null;
 
     /**
      * @var bool Should this be registered as link gimmick? Requires the method renderLink() to be implemented.
@@ -43,6 +48,7 @@ abstract class GimmickBase
     public function __construct()
     {
         $this->parser = \Innovacy\Up\IoC::get('parser');
+        $this->config = \Innovacy\Up\IoC::get('config');
     }
 
 }

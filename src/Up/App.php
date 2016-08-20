@@ -203,7 +203,7 @@ HIGHLIGHTJS;
         } elseif ($this->config->hasValue('additionalFooterText')) {
             $footer = $this->config->get('additionalFooterText');
         }
-
+        // TODO: Move page.tpl into Up directory and allow a page.tpl override in main folder (avoids pull conflicts when modified)
         if (!file_exists($this->basePath . '/page.tpl')) {
             throw new \RuntimeException('File page.tpl not found, but is required');
         }

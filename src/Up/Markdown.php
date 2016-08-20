@@ -45,7 +45,10 @@ class Markdown extends \cebe\markdown\GithubMarkdown
     public $title;
 
     /** @var array List of gimmick classes */
-    protected $gimmicks = array();
+    protected $gimmicks = array(
+        'link' => array('implicit' => array(), 'explicit' => array()),
+        'paragraph' => array('implicit' => array(), 'explicit' => array()),
+    );
 
     /**
      * Markdown constructor.
@@ -140,7 +143,6 @@ class Markdown extends \cebe\markdown\GithubMarkdown
      */
     protected function renderParagraph($block)
     {
-        $alertClass = '';
         // concatenates from an array of arrays of 2-column arrays (index 0 is type and index 1 is content)
         // all content that is of type text
         $text = join('', array_map(
@@ -151,16 +153,16 @@ class Markdown extends \cebe\markdown\GithubMarkdown
                 return ($var[0] == 'text');
             })
         ));
-        if (preg_match('/^(warning|achtung|attention|warnung|atención|guarda|advertimiento)[\:\!]\s/i', $text)) {
-            $alertClass = 'warning';
-        } elseif (preg_match('/^(note|beachte)[\:\!]\s/i', $text)) {
-            $alertClass = 'info';
-        } elseif (preg_match('/^(hint|tip|tipp|hinweis)[\:\!]\s/i', $text)) {
-            $alertClass = 'success';
+        /** @var GimmickBase $gimmick */
+        foreach ($this->gimmicks['paragraph']['implicit'] as $gimmick) {
+            $return = $gimmick->renderParagraph($block, $text);
+            if ($return === false) {
+                return '';
+            } else if ($return !== true) {
+                return $return;
+            }
         }
-        return (!empty($alertClass) ? '<div class="alert alert-' . $alertClass . '"><p class="md-text">' : '<p>') .
-        $this->renderAbsy($block['content']) .
-        (!empty($alertClass) ? '</p></div>' : '</p>') . "\n";
+        return '<p>' . $this->renderAbsy($block['content']) . '</p>' . "\n";
     }
 
     /**
