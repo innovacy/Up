@@ -59,7 +59,7 @@ The documentation has been split from this document into the docs folder, for tw
 Once you install Up!, you can browse the documentation by opening http://<yourhost>/docs/ in your browser 
 and you can use these files as starting point to modify and experiment with.
 
-Browse the full documentation [here](docs/index.md) or start at [Getting started](docs/getting-started.md).
+Browse the full documentation [here](docs/) or start at [Getting started](docs/getting-started.md).
 
 There is also a [FAQ](docs/faq.md).
 
