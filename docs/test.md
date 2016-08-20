@@ -208,9 +208,13 @@ _ _ _ _ _ _ _ _ _
 
 [](http://www.youtube.com/watch?v=Lc-vINJmhNk)
 
-[](https://www.youtube.com/watch?v=JuyB7NO0EYY)
+[](https://www.youtube.com/watch?v=JuyB7NO0EYY&t=2)
 
 [](https://youtu.be/PTdzCAGH3lU)
+
+[](https://youtu.be/PTdzCAGH3lU?t=10)
+
+[Youtube video link](https://www.youtube.com/watch?v=JuyB7NO0EYY)
 
 _ _ _ _ _ _ _ _ _
 
