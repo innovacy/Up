@@ -20,7 +20,7 @@ abstract class GimmickBase
     /**
      * @var \Innovacy\Up\MarkDown active parser calling the gimmick class
      */
-    public $parser = null;
+    protected $parser = null;
 
     /**
      * @var bool Should this be registered as link gimmick? Requires the method renderLink() to be implemented.
@@ -36,5 +36,13 @@ abstract class GimmickBase
      * @var bool Should this be registered as paragraph gimmick? Requires renderParagraph() to be implemented.
      */
     public $isParagraphGimmick = false;
+
+    /**
+     * GimmickBase constructor.
+     */
+    public function __construct()
+    {
+        $this->parser = \Innovacy\Up\IoC::get('parser');
+    }
 
 }

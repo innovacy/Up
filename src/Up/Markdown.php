@@ -73,7 +73,6 @@ class Markdown extends \cebe\markdown\GithubMarkdown
                     if (!is_subclass_of($gimmick, '\\Innovacy\\Up\\Gimmick\\GimmickBase')) {
                         continue;
                     }
-                    $gimmick->parser = $this;
                     $reflector = new \ReflectionClass($gimmick);
                     if ($gimmick->isLinkGimmick && $reflector->hasMethod('renderLink')) {
                         if (!empty($gimmick->gimmickKeyword)) {

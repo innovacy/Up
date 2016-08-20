@@ -37,13 +37,16 @@ class App
     protected $parserNavigation;
 
     /** @var MarkDown The parser class */
-    protected $parserMain;
+    protected $parser;
 
     /** @var MarkDown The parser class */
     protected $parserFooter;
 
     /** @var string Base local path */
     protected $basePath;
+
+    /** @var string Holds the output */
+    protected $output;
 
     /** @var array Configuration */
     protected $config = array(
@@ -61,13 +64,16 @@ class App
         $this->basePath = $this->getBasePath();
         $this->virtualUri = $this->getVirtualUri();
 
-        $this->parserMain = new Markdown();
-        $this->parserMain->html5 = true;
+        $this->parser = new Markdown();
+        IoC::register('parser', $this->parser);
+        $this->parser->html5 = true;
 
         $this->parserNavigation = new Navigation();
+        IoC::register('navigation', $this->parserNavigation);
         $this->parserNavigation->html5 = true;
 
         $this->parserFooter = new Markdown();
+        IoC::register('footer', $this->parserFooter);
         $this->parserFooter->html5 = true;
     }
 
@@ -92,6 +98,7 @@ We\'re sorry, but we couldn\'t find the requested document.
 END_FILE_NOT_FOUND;
         }
 
+        $this->output = $markdown;
         $meta = '<meta name="generator" content="Up!">';
         $scripts =
             '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>' .
@@ -143,10 +150,10 @@ END_FILE_NOT_FOUND;
 HIGHLIGHTJS;
         }
 
-        $this->parserMain->useSideNav = $this->config['useSideNav'];
-        $this->parserMain->enableNewlines = $this->config['lineBreaks'] == 'original';
+        $this->parser->useSideNav = $this->config['useSideNav'];
+        $this->parser->enableNewlines = $this->config['lineBreaks'] == 'original';
         if (!preg_match('#\.html$#', $file)) { // TODO: simply not very elegant and error-prone
-            $markup = $this->parserMain->parse($markdown);
+            $markup = $this->parser->parse($markdown);
         } else {
             $markup = $markdown;  // do not parse html files, display them as-is
         }
@@ -190,8 +197,8 @@ HIGHLIGHTJS;
         $tpl = file_get_contents($this->basePath . '/page.tpl');
         $tpl = str_replace(
             '{$title}',
-            ((!$titleEmpty = empty($this->parserMain->title))
-                ? $this->parserMain->title : '') .
+            ((!$titleEmpty = empty($this->parser->title))
+                ? $this->parser->title : '') .
             (isset($this->config['title'])
                 ? ($titleEmpty ? '' : ' - ') . $this->config['title'] : ''),
             $tpl
@@ -210,7 +217,12 @@ HIGHLIGHTJS;
         $copyright = '<p>Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> ' .
             '&mdash; &copy; 2015-' . date('Y') . ' Innovacy, Dimitrios Karvounaris.</p>';
         $tpl = str_replace('{$copyright}', $copyright, $tpl);
-        return $tpl;
+        $this->output = $tpl;
+    }
+
+    public function output()
+    {
+        echo $this->output;
     }
 
     /**

@@ -27,13 +27,18 @@ error_reporting(E_ALL);
 
 ini_set('default_charset', 'utf-8');
 
+# Initialize the autoloader
 require __DIR__.'/src/Up/Autoloader.php';
 
 $autoloader = new \Innovacy\Up\Psr4Autoloader();
+\Innovacy\Up\IoC::register('autoloader', $autoloader);
 $autoloader->register();
 $autoloader->addNamespace('Innovacy\Up', __DIR__.'/src/Up');
 $autoloader->addNamespace('cebe\markdown', __DIR__.'/src/markdown');
 
+# Initialize the app
 $app = new \Innovacy\Up\App();
-$html = $app->run();
-echo $html;
+\Innovacy\Up\IoC::register('Up', $app);
+
+$app->run();
+$app->output();

@@ -26,6 +26,7 @@ it as easy as it was always intended to be.
   * Default "File not found" message when no 404.md exists is now fully rendered like a 404.md instead of dying with an one-liner
   * 404.md no longer part of the repository, so it can be created without conflicting with 'git pull' updates
   * Proper support of mdwiki-style links officially dropped and won't be implemented
+  * Introducing Inversion of Control, code refactoring
 
 Version 1.0.1
 -------------
