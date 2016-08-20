@@ -367,12 +367,3 @@ HIGHLIGHTJS;
             , '/');
     }
 }
-
-/** TODO: For mdwiki-style links #!name.md and making them crawlable, speak returning the rendered version when links
- * on a different server couldn't have been modified by Up!,
- * see https://developers.google.com/webmasters/ajax-crawling/docs/specification,
- * Quick infos: https://prerender.io/js-seo/angularjs-seo-get-your-site-indexed-and-to-the-top-of-the-search-results/
- */
-
-/** To Decide: Force redirect *.md reqeusts to .html? Or leave them as is? Or leave that as a task for .htaccess? */
-
