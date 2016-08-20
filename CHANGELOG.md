@@ -9,7 +9,7 @@ it as easy as it was always intended to be.
 
   * Easy installation also without composer
   * Completely revamped and improved documentation (wip)
-  * Youtube links can be rendered as Youtube embedded videos (planned)
+  * Youtube links can be rendered as Youtube embedded videos
   * New default theme that is shipped with Up! (planned)
   * New extension system for implicit/explicit gimmicks (wip)
   * Experimental extension system and documentation for custom gimmicks (wip)

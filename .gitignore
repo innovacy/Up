@@ -1,3 +1,4 @@
 ## Directory-based PhpStorm project format:
 .idea/
 /vendor
+docs/my-refs.md

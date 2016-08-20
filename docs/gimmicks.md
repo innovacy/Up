@@ -39,6 +39,29 @@ Warning    |warning, achtung, attention, warnung, atención, guarda, advertimien
 Note       |note, beachte
 Hint       |hint, tip, tipp, hinweis
 
+**Example:**
+
+    Hint: This is an alert paragraph. 
+
+**Preview:**
+
+Hint: This is an alert paragraph. 
 
 ## Youtube videos
-(coming next)
+
+Whenever you insert an youtube link without a caption, the Youtube gimmick will recognize it and embed 
+the video directly. 
+
+Recognized are youtube.com and youtu.be links. It does not matter if a protocol is used or it has additional
+parameters. It should recognize all such links including additional parameters, which it will append to 
+the embedded video. 
+
+If the link caption is not empty, it will render simply as a regular link.
+
+**Example:**
+
+    [](https://youtu.be/Lc-vINJmhNk?t=1)
+
+**Preview:**
+
+[](https://youtu.be/Lc-vINJmhNk?t=1)
