@@ -29,7 +29,7 @@ much more modular and extensible.
   * Proper support of mdwiki-style links officially dropped and won't be implemented
   * Introducing Inversion of Control, code refactoring
   * Refactoring configuration into own class (single reponsibility principle), making it possible with IoC
-    for gimmicks to have and access their own or existing configuration values
+    for gimmicks to have and access (or even modify) their own or existing configuration values
 
 Version 1.0.1
 -------------
