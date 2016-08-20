@@ -33,7 +33,7 @@ class Youtube extends GimmickBase
     /**
      * @var bool Should this be registered as link gimmick? Requires the method renderLink() to be implemented.
      */
-    public $isLinkGimmick = false;
+    public $isLinkGimmick = true;
 
     /**
      * @var string No suffix keyword to recognize default youtube links.
