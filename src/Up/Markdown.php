@@ -117,7 +117,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
             $first = false;
             $this->tableCellCount = 0;
         }
-        return '<table class="table table-bordered">' . $content . '</tbody>\n</table>' . "\n";
+        return '<table class="table table-bordered">' . $content . "</tbody>\n</table>\n";
     }
 
     /**
@@ -174,7 +174,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
     {
         $parseText = true;
         if (preg_match('#^\[gimmick:(.+)\]\(.*\)$#', $block['orig'], $m)) {
-            if (array_key_exists($this->gimmicks['link']['explicit'], $m[1])) {
+            if (array_key_exists($m[1], $this->gimmicks['link']['explicit'])) {
                 /** @var Gimmick\GimmickBase $gimmick */
                 $gimmick = $this->gimmicks['link']['explicit'][$m[1]];
                 $return = $gimmick->renderLink($block);
@@ -202,6 +202,10 @@ class Markdown extends \cebe\markdown\GithubMarkdown
         }
         if (isset($block['url']) && strpos($block['url'], '://') === false) {
             $block['url'] = preg_replace('/\.md$/', '.html', $block['url']);
+        } else {
+            // set text to url if no text, and no further parsing
+            $block['text'] = $block['url'];
+            $parseText = false;
         }
         return '<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"'
         . (empty($block['title'])

@@ -210,9 +210,17 @@ _ _ _ _ _ _ _ _ _
 
 [](https://www.youtube.com/watch?v=JuyB7NO0EYY&t=2)
 
+[](https://youtube.com/watch?v=JuyB7NO0EYY&fs=0)
+
 [](https://youtu.be/PTdzCAGH3lU)
 
 [](https://youtu.be/PTdzCAGH3lU?t=10)
+
+Empty caption (non-youtube link) should render with link as caption:
+
+[](http://www.youtub.com/watch?v=Lc-vINJmhNk)
+
+Youtube video link:
 
 [Youtube video link](https://www.youtube.com/watch?v=JuyB7NO0EYY)
 

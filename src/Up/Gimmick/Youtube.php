@@ -48,7 +48,7 @@ class Youtube extends GimmickBase
     public function renderLink($block)
     {
         // check first for not empty caption to increase performance and parse the host only when empty
-        if (!empty($block['text']) || !preg_match('#^((https?:)?//)?(?P<host>youtube.com|youtu.be)/(watch\?v=)?(?P<videoid>[^&\#\?]+)(?P<params>.+)?$#', $block['url'], $m)) {
+        if (!empty($block['text']) || !preg_match('#^((https?:)?//)?(?P<host>(www\.)?youtube.com|youtu.be)/(watch\?v=)?(?P<videoid>[^&\#\?]+)(?P<params>.+)?$#', $block['url'], $m)) {
             return true;
         }
         // TODO: Responsive video frame, see CSS
