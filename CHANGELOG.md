@@ -5,7 +5,8 @@ Version 2.0.0
 -------------
 
 This version tends to improve first of all to get started using Up!, making 
-it as easy as it was always intended to be.
+it as easy as it was always intended to be. Another goal is to make it 
+much more modular and extensible. 
 
   * Easy installation also without composer
   * Completely revamped and improved documentation (wip)
@@ -27,6 +28,8 @@ it as easy as it was always intended to be.
   * 404.md no longer part of the repository, so it can be created without conflicting with 'git pull' updates
   * Proper support of mdwiki-style links officially dropped and won't be implemented
   * Introducing Inversion of Control, code refactoring
+  * Refactoring configuration into own class (single reponsibility principle), making it possible with IoC
+    for gimmicks to have and access their own or existing configuration values
 
 Version 1.0.1
 -------------

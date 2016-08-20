@@ -49,12 +49,10 @@ class App
     protected $output;
 
     /** @var array Configuration */
-    protected $config = array(
-        'useSideNav' => true,
-        'lineBreaks' => 'gfm',
-        'highlightJs' => true,
-        'theme' => ''
-    );
+    protected $config = null;
+
+    /** @var string Last configuration file found */
+    private $configOverrideFile;
 
     /**
      * Constructor
@@ -63,6 +61,27 @@ class App
     {
         $this->basePath = $this->getBasePath();
         $this->virtualUri = $this->getVirtualUri();
+
+        $this->config = new Configuration();
+        IoC::register('config', $this->config);
+
+        // setting default configuration
+        $this->config->setValues(array(
+            'useSideNav' => true,
+            'lineBreaks' => 'gfm',
+            'highlightJs' => true,
+        ));
+
+        // search for global configuration file config.json in main directory
+        if ($configFile = $this->discoverFile('config.json')) {
+            $this->config->loadConfiguration($configFile);
+            $this->configOverrideFile = $configFile;
+        }
+        // search recursively for config.json starting in the document's subdirectory, allowing overriding global values
+        if ($configFile = $this->discoverFile($this->virtualUri, true, 'config.json')) {
+            $this->configOverrideFile = $configFile;
+            $this->config->loadConfiguration($this->configOverrideFile);
+        }
 
         $this->parser = new Markdown();
         IoC::register('parser', $this->parser);
@@ -105,36 +124,27 @@ END_FILE_NOT_FOUND;
             '<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
         $scripts_footer = '';
 
-        // load generic configuration in main directory if exists
-        if ($fileConfig = $this->discoverFile('config.json')) {
-            $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
-        }
-        // allow overriding configuration in a subdirectory, also partially. Only takes the first file found in parents
-        if ($fileConfig = $this->discoverFile($this->virtualUri, true, 'config.json')) {
-            $this->config = array_merge($this->config, json_decode(file_get_contents($fileConfig), true));
-        }
-
-        if (!empty($this->config['loadCss'])) {
-            $cssUri = $this->config['loadCss'];
+        if ($this->config->hasValue('loadCss')) {
+            $cssUri = $this->config->get('loadCss');
             // is it an absolute url?
             if (preg_match('#^(\w+:)?//#', $cssUri)) {
                 $meta .= '<link rel="stylesheet" type="text/css" href="' . $cssUri . '">';
-            } elseif ($fileCss = $this->discoverFile($this->getVirtualUriFromFile($fileConfig), true, $cssUri)) {
+            } elseif ($fileCss = $this->discoverFile($this->getVirtualUriFromFile($this->configOverrideFile), true, $cssUri)) {
                 $meta .= '<link rel="stylesheet" type="text/css" href="' .
                     str_replace($this->basePath, '', $fileCss) . '">';
             }
         }
-        if (!empty($this->config['gAnalytics'])) {
+        if ($this->config->hasValue('gAnalytics')) {
             $scripts_footer .= "<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', '" . $this->config['gAnalytics'] . "', 'auto');
+  ga('create', '" . $this->config->get('gAnalytics') . "', 'auto');
   ga('send', 'pageview');
 </script>";
         }
-        if ($this->config['highlightJs']) {
+        if ($this->config->get('highlightJs')) {
             $meta .=
                 '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">'
                 . '<style type="text/css">.hljs {background:transparent;}</style>';
@@ -150,12 +160,12 @@ END_FILE_NOT_FOUND;
 HIGHLIGHTJS;
         }
 
-        $this->parser->useSideNav = $this->config['useSideNav'];
-        $this->parser->enableNewlines = $this->config['lineBreaks'] == 'original';
+        $this->parser->useSideNav = $this->config->get('useSideNav');
+        $this->parser->enableNewlines = $this->config->get('lineBreaks') == 'original';
         if (!preg_match('#\.html$#', $file)) { // TODO: simply not very elegant and error-prone
-            $markup = $this->parser->parse($markdown);
+            $this->output = $this->parser->parse($markdown);
         } else {
-            $markup = $markdown;  // do not parse html files, display them as-is
+            $this->output = $markdown;  // do not parse html files, display them as-is
         }
 
         $navigation = '';
@@ -163,32 +173,35 @@ HIGHLIGHTJS;
         if ($fileNav = $this->discoverFile($this->virtualUri, true, 'navigation.md')) {
             if (is_readable($fileNav)) {
                 $navContent = file_get_contents($fileNav);
+                // TODO: 1. make theme part of regular parsing 2. create theme gimmick extension 3. maybe allow in .md files then, allow overriding in regular .md file???
                 if (preg_match(
                     '/\[gimmick\:theme\s*(\(inverse\:\s*(false|true)\))?\]\(([a-z]+)\)/',
                     $navContent,
                     $matches
                 )) {
                     $navContent = str_replace($matches[0], '', $navContent);
-                    $this->config['theme'] = empty($this->config['theme']) ? $matches[3] : $this->config['theme'];
+                    if (!$this->config->hasValue('theme')) {  // setting in config.json has priority
+                        $this->config->setValues(array('theme' => $matches[3]));
+                    }
                 }
                 $navigation = $this->parserNavigation->parse($navContent, $this->getVirtualUriFromFile($fileNav));
             }
         } else {
             $hide_navigation = 'hide';
         }
-        if (empty($this->config['theme']) || $this->config['theme'] == 'bootstrap') {
+        if (!$this->config->hasValue('theme') || $this->config->get('theme') == 'bootstrap') {
             $meta .= '<link rel="stylesheet" type="text/css" ' .
                 'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
         } else {
             $meta .= '<link rel="stylesheet" type="text/css" ' .
-                'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/' . $this->config['theme'] . '/bootstrap.min.css">';
+                'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/' . $this->config->get('theme') . '/bootstrap.min.css">';
         }
 
         $footer = '';
         if ($fileFooter = $this->discoverFile($this->virtualUri, true, 'footer')) {
             $footer = $this->parserFooter->parse(file_get_contents($fileFooter));
-        } elseif (isset($this->config['additionalFooterText'])) {
-            $footer = $this->config['additionalFooterText'];
+        } elseif ($this->config->hasValue('additionalFooterText')) {
+            $footer = $this->config->get('additionalFooterText');
         }
 
         if (!file_exists($this->basePath . '/page.tpl')) {
@@ -199,14 +212,14 @@ HIGHLIGHTJS;
             '{$title}',
             ((!$titleEmpty = empty($this->parser->title))
                 ? $this->parser->title : '') .
-            (isset($this->config['title'])
-                ? ($titleEmpty ? '' : ' - ') . $this->config['title'] : ''),
+            ($this->config->hasValue('title')
+                ? ($titleEmpty ? '' : ' - ') . $this->config->get('title') : ''),
             $tpl
         );
         $tpl = str_replace('{$meta}', $meta, $tpl);
         $tpl = str_replace('{$scripts}', $scripts, $tpl);
         $tpl = str_replace('{$scripts_footer}', $scripts_footer, $tpl);
-        $tpl = str_replace('{$markup}', $markup, $tpl);
+        $tpl = str_replace('{$markup}', $this->output, $tpl);
         $tpl = str_replace('{$navigation}', $navigation, $tpl);
         $tpl = str_replace('{$hide_navigation}', $hide_navigation, $tpl);
         $tpl = str_replace('{$footer}', $footer, $tpl);
