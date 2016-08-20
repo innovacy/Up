@@ -173,7 +173,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
     protected function renderLink($block)
     {
         $parseText = true;
-        if (preg_match('#^\[gimmick:(.+)\]\(.*\)$', $block['orig'], $m)) {
+        if (preg_match('#^\[gimmick:(.+)\]\(.*\)$#', $block['orig'], $m)) {
             if (array_key_exists($this->gimmicks['link']['explicit'], $m[1])) {
                 /** @var Gimmick\GimmickBase $gimmick */
                 $gimmick = $this->gimmicks['link']['explicit'][$m[1]];

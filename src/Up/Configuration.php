@@ -26,7 +26,7 @@ class Configuration
      */
     public function hasValue($key)
     {
-        return array_key_exists($this->registry, $key);
+        return array_key_exists($key, $this->registry);
     }
 
     /**
@@ -37,7 +37,7 @@ class Configuration
      */
     public function get($key)
     {
-        if (array_key_exists($this->registry, $key)) {
+        if (array_key_exists($key, $this->registry)) {
             return $this->registry[$key];
         }
         return array();
