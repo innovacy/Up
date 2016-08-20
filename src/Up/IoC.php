@@ -19,8 +19,8 @@ class IoC
 
     /**
      * Registers an object with a key
-     * @param $key
-     * @param $object
+     * @param string $key
+     * @param object $object
      * @return void
      */
     public static function register($key, $object)
@@ -30,7 +30,7 @@ class IoC
 
     /**
      * Returns the requested object
-     * @param $key
+     * @param string $key
      * @return object
      */
     public static function get($key)

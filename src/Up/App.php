@@ -85,6 +85,7 @@ class App
 
         $this->parser = new Markdown();
         IoC::register('parser', $this->parser);
+        $this->parser->registerGimmicks();
         $this->parser->html5 = true;
 
         $this->parserNavigation = new Navigation();
@@ -93,6 +94,7 @@ class App
 
         $this->parserFooter = new Markdown();
         IoC::register('footer', $this->parserFooter);
+        $this->parserFooter->registerGimmicks();
         $this->parserFooter->html5 = true;
     }
 

@@ -53,7 +53,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
     /**
      * Markdown constructor.
      */
-    public function __construct()
+    public function registerGimmicks()
     {
         $gimmickPath = __DIR__ . '/Gimmick';
 

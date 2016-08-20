@@ -55,7 +55,7 @@ class Configuration
 
     /**
      * Sets values with an map array
-     * @param $map
+     * @param array $map
      * @return void
      */
     public function setValues($map)

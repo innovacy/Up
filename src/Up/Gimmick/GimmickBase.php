@@ -47,8 +47,8 @@ abstract class GimmickBase
      */
     public function __construct()
     {
-        $this->parser = \Innovacy\Up\IoC::get('parser');
         $this->config = \Innovacy\Up\IoC::get('config');
+        $this->parser = \Innovacy\Up\IoC::get('parser');
     }
 
 }
