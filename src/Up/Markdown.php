@@ -194,7 +194,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
             }
         }
         /** @var GimmickBase $gimmick */
-        foreach ($this->gimmicks['paragraph']['implicit'] as $gimmick) {
+        foreach ($this->gimmicks['link']['implicit'] as $gimmick) {
             $return = $gimmick->renderLink($block);
             if ($return === false) {
                 return '';
