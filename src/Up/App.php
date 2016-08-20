@@ -70,7 +70,7 @@ class App
         $this->parserFooter = new Markdown();
         $this->parserFooter->html5 = true;
     }
-    
+
     /**
      * This is the main app
      */
@@ -94,8 +94,8 @@ END_FILE_NOT_FOUND;
 
         $meta = '<meta name="generator" content="Up!">';
         $scripts =
-         '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>'.
-         '<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
+            '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>' .
+            '<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
         $scripts_footer = '';
 
         // load generic configuration in main directory if exists
@@ -111,10 +111,10 @@ END_FILE_NOT_FOUND;
             $cssUri = $this->config['loadCss'];
             // is it an absolute url?
             if (preg_match('#^(\w+:)?//#', $cssUri)) {
-                $meta .= '<link rel="stylesheet" type="text/css" href="'.$cssUri.'">';
+                $meta .= '<link rel="stylesheet" type="text/css" href="' . $cssUri . '">';
             } elseif ($fileCss = $this->discoverFile($this->getVirtualUriFromFile($fileConfig), true, $cssUri)) {
-                $meta .= '<link rel="stylesheet" type="text/css" href="'.
-                    str_replace($this->basePath, '', $fileCss).'">';
+                $meta .= '<link rel="stylesheet" type="text/css" href="' .
+                    str_replace($this->basePath, '', $fileCss) . '">';
             }
         }
         if (!empty($this->config['gAnalytics'])) {
@@ -123,14 +123,14 @@ END_FILE_NOT_FOUND;
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', '".$this->config['gAnalytics']."', 'auto');
+  ga('create', '" . $this->config['gAnalytics'] . "', 'auto');
   ga('send', 'pageview');
 </script>";
         }
         if ($this->config['highlightJs']) {
             $meta .=
-             '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">'
-             .'<style type="text/css">.hljs {background:transparent;}</style>';
+                '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css">'
+                . '<style type="text/css">.hljs {background:transparent;}</style>';
             $scripts .= '<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>';
             $scripts_footer .= <<<HIGHLIGHTJS
     <script type="text/javascript">
@@ -170,11 +170,11 @@ HIGHLIGHTJS;
             $hide_navigation = 'hide';
         }
         if (empty($this->config['theme']) || $this->config['theme'] == 'bootstrap') {
-            $meta .= '<link rel="stylesheet" type="text/css" '.
+            $meta .= '<link rel="stylesheet" type="text/css" ' .
                 'href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">';
         } else {
-            $meta .= '<link rel="stylesheet" type="text/css" '.
-                'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/'.$this->config['theme'].'/bootstrap.min.css">';
+            $meta .= '<link rel="stylesheet" type="text/css" ' .
+                'href="//netdna.bootstrapcdn.com/bootswatch/3.3.5/' . $this->config['theme'] . '/bootstrap.min.css">';
         }
 
         $footer = '';
@@ -184,16 +184,16 @@ HIGHLIGHTJS;
             $footer = $this->config['additionalFooterText'];
         }
 
-        if (!file_exists($this->basePath.'/page.tpl')) {
+        if (!file_exists($this->basePath . '/page.tpl')) {
             throw new \RuntimeException('File page.tpl not found, but is required');
         }
-        $tpl = file_get_contents($this->basePath.'/page.tpl');
+        $tpl = file_get_contents($this->basePath . '/page.tpl');
         $tpl = str_replace(
             '{$title}',
             ((!$titleEmpty = empty($this->parserMain->title))
-                ? $this->parserMain->title : '').
+                ? $this->parserMain->title : '') .
             (isset($this->config['title'])
-                ? ($titleEmpty ? '' : ' - ').$this->config['title'] : ''),
+                ? ($titleEmpty ? '' : ' - ') . $this->config['title'] : ''),
             $tpl
         );
         $tpl = str_replace('{$meta}', $meta, $tpl);
@@ -207,8 +207,8 @@ HIGHLIGHTJS;
             die('You are not allowed to remove the copyright footer notice by the software\'s license. 
                 Please contact the author for a commercial license allowing you to remove the copyright footer.');
         }
-        $copyright = '<p>Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> '.
-            '&mdash; &copy; 2015-'.date('Y').' Innovacy, Dimitrios Karvounaris.</p>';
+        $copyright = '<p>Website generated with <a href="http://github.com/innovacy/up" target="_blank">Up!</a> ' .
+            '&mdash; &copy; 2015-' . date('Y') . ' Innovacy, Dimitrios Karvounaris.</p>';
         $tpl = str_replace('{$copyright}', $copyright, $tpl);
         return $tpl;
     }
@@ -268,8 +268,8 @@ HIGHLIGHTJS;
     protected function discoverFile($relativePath, $recursive = false, $overrideFile = null)
     {
         $relativePath = ($relativePath == '') ? '/' : $relativePath;
-        if (is_dir($this->basePath.$relativePath)
-            && !is_file($this->basePath.$relativePath)
+        if (is_dir($this->basePath . $relativePath)
+            && !is_file($this->basePath . $relativePath)
             && substr($relativePath, -1) != "/"
         ) {
             $relativePath .= '/';
@@ -278,7 +278,7 @@ HIGHLIGHTJS;
         $relativePath .= (substr($relativePath, -1) == '/') ? 'index' : '';
         $pathBits = pathinfo($relativePath);
         $pathBits['dirname'] = str_replace('\\', '', $pathBits['dirname']); // windows
-        $pathBits['dirname'] = '/'.ltrim($pathBits['dirname'], '/');
+        $pathBits['dirname'] = '/' . ltrim($pathBits['dirname'], '/');
         $paths = array();
         if ($recursive) {
             // construct a list of all parent paths
@@ -286,16 +286,16 @@ HIGHLIGHTJS;
             $e = '';
             foreach ($ls as $l) {
                 $e .= $l . '/';
-                $paths[] = $this->basePath.$e;
+                $paths[] = $this->basePath . $e;
             }
         } else {
-            $paths[] = $this->basePath.rtrim($pathBits['dirname'], '/').'/';
+            $paths[] = $this->basePath . rtrim($pathBits['dirname'], '/') . '/';
         }
 
         $extraPath = '';
         if (!empty($overrideFile)) {
             $_p = pathinfo($overrideFile);
-            $extraPath = rtrim(ltrim(str_replace('\\', '', $_p['dirname']), '/'), '/').'/';
+            $extraPath = rtrim(ltrim(str_replace('\\', '', $_p['dirname']), '/'), '/') . '/';
             $pathBits['basename'] = $_p['basename'];
             $pathBits['filename'] = $_p['filename'];
             $pathBits['extension'] = isset($_p['extension']) ? $_p['extension'] : '';  // avoid warning when undefined
@@ -306,32 +306,32 @@ HIGHLIGHTJS;
         foreach ($paths as $path) {
             if (empty($pathBits['extension'])) {
                 // uri without extension called, look for md first, html second
-                if (is_readable($path.$pathBits['filename'].'.md')) {
-                    return $path.$pathBits['filename'].'.md';
-                } elseif (is_readable($path.$pathBits['filename'].'.html')) {
-                    return $path.$pathBits['filename'].'.html';
+                if (is_readable($path . $pathBits['filename'] . '.md')) {
+                    return $path . $pathBits['filename'] . '.md';
+                } elseif (is_readable($path . $pathBits['filename'] . '.html')) {
+                    return $path . $pathBits['filename'] . '.html';
                 }
             } elseif ($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md') {
                 // always prefer md over html if both exist, but uri could have been called as html
                 if ($pathBits['extension'] == 'html'
-                    && is_readable($path.$extraPath.$pathBits['filename'].'.md')
+                    && is_readable($path . $extraPath . $pathBits['filename'] . '.md')
                 ) {
-                    return $path.$extraPath.$pathBits['filename'].'.md';
-                // next, check if html or md was requested and if it exists
+                    return $path . $extraPath . $pathBits['filename'] . '.md';
+                    // next, check if html or md was requested and if it exists
                 } elseif (($pathBits['extension'] == 'html' || $pathBits['extension'] == 'md')
-                    && is_readable($path.$extraPath.$pathBits['filename'].'.'.$pathBits['extension'])
+                    && is_readable($path . $extraPath . $pathBits['filename'] . '.' . $pathBits['extension'])
                 ) {
-                    return $path.$extraPath.$pathBits['filename'].'.'.$pathBits['extension'];
-                // last, look for html if md was requested but not found (i.e. old link referring, changed to new file)
+                    return $path . $extraPath . $pathBits['filename'] . '.' . $pathBits['extension'];
+                    // last, look for html if md was requested but not found (i.e. old link referring, changed to new file)
                 } elseif ($pathBits['extension'] == 'md'
-                    && is_readable($path.$extraPath.$pathBits['filename'].'.html')
+                    && is_readable($path . $extraPath . $pathBits['filename'] . '.html')
                 ) {
-                    return $path.$extraPath.$pathBits['filename'].'.html';
+                    return $path . $extraPath . $pathBits['filename'] . '.html';
                 }
             } else {
                 // so we can search resursively for other file types for other purposes too
-                if (is_readable($path.$extraPath.$pathBits['filename'].'.'.$pathBits['extension'])) {
-                    return $path.$extraPath.$pathBits['filename'] . '.' . $pathBits['extension'];
+                if (is_readable($path . $extraPath . $pathBits['filename'] . '.' . $pathBits['extension'])) {
+                    return $path . $extraPath . $pathBits['filename'] . '.' . $pathBits['extension'];
                 }
             }
         }
@@ -348,11 +348,11 @@ HIGHLIGHTJS;
             isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
                 ? $_SERVER['CONTEXT_DOCUMENT_ROOT']
                 : (
-                    isset($_SERVER['DOCUMENT_ROOT'])
-                        ? $_SERVER['DOCUMENT_ROOT']
-                        : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME'])
-                )
-        , '/');
+            isset($_SERVER['DOCUMENT_ROOT'])
+                ? $_SERVER['DOCUMENT_ROOT']
+                : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME'])
+            )
+            , '/');
     }
 }
 

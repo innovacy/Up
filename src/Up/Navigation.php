@@ -23,13 +23,11 @@
 
 namespace Innovacy\Up;
 
-use cebe\markdown\Markdown as cebe_MarkDown;
-
 /**
  * Renders the navigation.md file
  * @package Innovacy\Up
  */
-class Navigation extends cebe_MarkDown
+class Navigation extends \cebe\markdown\Markdown
 {
     private $firstLink = true;
     private $withinDropdown = false;
@@ -45,15 +43,15 @@ class Navigation extends cebe_MarkDown
     protected function renderHeadline($block)
     {
         if ($block['level'] == 1 && !$this->withinDropdown) {
-            return '<div class="navbar-header">'.
-                '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">'
-                .'<span class="sr-only">Toggle navigation</span>'
-                .'<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>'
-                .'</button>'
-                .'<a class="navbar-brand" href="#">'.$this->renderAbsy($block['content']).'</a>'
-                .'</div>';
+            return '<div class="navbar-header">'
+            . '<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">'
+            . '<span class="sr-only">Toggle navigation</span>'
+            . '<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>'
+            . '</button>'
+            . '<a class="navbar-brand" href="#">' . $this->renderAbsy($block['content']) . '</a>'
+            . '</div>';
         } elseif ($block['level'] == 1 && $this->withinDropdown) {
-            return '<li class="dropdown-header">'.$this->renderAbsy($block['content']).'</li>';
+            return '<li class="dropdown-header">' . $this->renderAbsy($block['content']) . '</li>';
         } else {
             $tag = 'h' . $block['level'];
             return "<$tag>" . $this->renderAbsy($block['content']) . "</$tag>\n";
@@ -161,6 +159,6 @@ class Navigation extends cebe_MarkDown
     {
         $this->baseUri = $baseUri;
         $markup = parent::parse($text);
-        return '<div class="collapse navbar-collapse navbar-ex1-collapse">'.$markup.'</div>';
+        return '<div class="collapse navbar-collapse navbar-ex1-collapse">' . $markup . '</div>';
     }
 }

@@ -23,14 +23,14 @@
 
 namespace Innovacy\Up;
 
-use cebe\markdown\GithubMarkdown;
+use Innovacy\Up\Gimmick\GimmickBase;
 
 /**
  * Class Markdown
  * Parses a document and converts it into HTML
  * @package Innovacy\Up
  */
-class Markdown extends GithubMarkdown
+class Markdown extends \cebe\markdown\GithubMarkdown
 {
     private $tableCellTag = 'td';
     private $tableCellCount = 0;
@@ -52,17 +52,41 @@ class Markdown extends GithubMarkdown
      */
     public function __construct()
     {
-        $gimmickPath = __DIR__.'/Gimmick';
+        $gimmickPath = __DIR__ . '/Gimmick';
 
         if ($d = opendir($gimmickPath)) {
             while (($filename = readdir($d)) !== false) {
                 if (preg_match('#^(.+)\.php$#', $filename, $match)) {
-                    if ($match[1] != 'GimmickBase') {
-                        array_push($this->gimmicks, $match[1]);
+                    if ($match[1] == 'GimmickBase') {
+                        continue;
+                    }
+                    $class = __NAMESPACE__ . '\\Gimmick\\' . $match[1];
+                    //require_once $gimmickPath.'/'.$match[1];
+                    //if (!class_exists($class, false)) {
+                    //    continue;
+                    //}
+                    if (!class_exists($class, true)) {
+                        continue;
+                    }
+                    /** @var $gimmick GimmickBase */
+                    $gimmick = new $class;
+                    if (!is_subclass_of($gimmick, '\\Innovacy\\Up\\Gimmick\\GimmickBase')) {
+                        continue;
+                    }
+                    $gimmick->parser = $this;
+                    $reflector = new \ReflectionClass($gimmick);
+                    if ($gimmick->isLinkGimmick && $reflector->hasMethod('renderLink')) {
+                        if (!empty($gimmick->gimmickKeyword)) {
+                            $this->gimmicks['link']['explicit'][$gimmick->gimmickKeyword] = $gimmick;
+                        } else {
+                            $this->gimmicks['link']['implicit'][] = $gimmick;
+                        }
+                    } elseif ($gimmick->isParagraphGimmick && $reflector->hasMethod('renderParagraph')) {
+                        $this->gimmicks['paragraph']['implicit'][] = $gimmick;
                     }
                 }
             }
-        closedir($d);
+            closedir($d);
         }
     }
 
@@ -91,7 +115,7 @@ class Markdown extends GithubMarkdown
             $first = false;
             $this->tableCellCount = 0;
         }
-        return '<table class="table table-bordered">'.$content.'</tbody>\n</table>'."\n";
+        return '<table class="table table-bordered">' . $content . '</tbody>\n</table>' . "\n";
     }
 
     /**
@@ -135,20 +159,38 @@ class Markdown extends GithubMarkdown
         } elseif (preg_match('/^(hint|tip|tipp|hinweis)[\:\!]\s/i', $text)) {
             $alertClass = 'success';
         }
-        return (!empty($alertClass) ? '<div class="alert alert-'.$alertClass.'"><p class="md-text">' : '<p>') .
+        return (!empty($alertClass) ? '<div class="alert alert-' . $alertClass . '"><p class="md-text">' : '<p>') .
         $this->renderAbsy($block['content']) .
         (!empty($alertClass) ? '</p></div>' : '</p>') . "\n";
     }
 
     /**
-     * Handles gimmick links by currently removing them to avoid text like "gimmick:something" with invalid links
+     * Handles links and gimmicks
      * @param $block
      * @return string
      */
     protected function renderLink($block)
     {
-        if (strpos($block['orig'], '[gimmick:') !== false) {
-            return '';
+        $parseText = true;
+        if (preg_match('#^\[gimmick:(.+)\]\(.*\)$', $block['orig'], $m)) {
+            if (array_key_exists($this->gimmicks['link']['explicit'], $m[1])) {
+                /** @var Gimmick\GimmickBase $gimmick */
+                $gimmick = $this->gimmicks['link']['explicit'][$m[1]];
+                $return = $gimmick->renderLink($block);
+                if ($return === false) {
+                    return '';
+                } else if ($return !== true) {
+                    return $return;
+                }
+            }
+            if (!isset($block['url']) || strpos($block['url'], '://') === false) {
+                // output nothing if gimmick has no regular link
+                return '';
+            } else {
+                // replace 'gimmick:' specification with url to output and no further parsing
+                $block['text'] = $block['url'];
+                $parseText = false;
+            }
         }
         if (isset($block['refkey'])) {
             if (($ref = $this->lookupReference($block['refkey'])) !== false) {
@@ -164,7 +206,7 @@ class Markdown extends GithubMarkdown
         . (empty($block['title'])
             ? ''
             : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
-        . '>' . $this->renderAbsy($block['text']) . '</a>';
+        . '>' . ($parseText ? $this->renderAbsy($block['text']) : $block['text']) . '</a>';
     }
 
     /**
@@ -176,23 +218,23 @@ class Markdown extends GithubMarkdown
         $_r = $this->renderAbsy($block['content']);
         $_rs = str_replace(' ', '_', strip_tags($_r));
         if ($this->useSideNav && $block['level'] == 2) {
-            $this->sideNav .= '<li class="list-group-item"><a href="#'.
-                $_rs.'">'.strip_tags($_r).'</a></li>';
+            $this->sideNav .= '<li class="list-group-item"><a href="#' .
+                $_rs . '">' . strip_tags($_r) . '</a></li>';
         }
         $tag = 'h' . $block['level'];
-        return '<'.$tag.' id="'.$_rs.'"'.
+        return '<' . $tag . ' id="' . $_rs . '"' .
         ((!empty($this->anchorCharacter))
-            ? ' class="md-inpage-anchor">'.$_r.'<span class="anchor-highlight"><a
-                href="#'.$_rs.'">'.$this->anchorCharacter.'</a></span>'
-            : '>' . $_r ).
-        '</'.$tag.'>'."\n";
+            ? ' class="md-inpage-anchor">' . $_r . '<span class="anchor-highlight"><a
+                href="#' . $_rs . '">' . $this->anchorCharacter . '</a></span>'
+            : '>' . $_r) .
+        '</' . $tag . '>' . "\n";
     }
 
     /**
      * @param $blocks
      * @return string
      */
-    protected function renderAbsy($blocks)
+    public function renderAbsy($blocks)
     {
         $output = '';
         if ($this->isFirstBlock && $blocks[0][0] == 'headline' && $blocks[0]['level'] == 1) {
@@ -221,33 +263,33 @@ class Markdown extends GithubMarkdown
                 <div class="container" id="md-title-container">
                     <div class="row" id="md-title-row">
                         <div id="md-title" class="col-md-12">
-                            '.'<div class="page-header"><h1>'.$this->title.'</h1></div>'.'
+                            ' . '<div class="page-header"><h1>' . $this->title . '</h1></div>' . '
                         </div>
                     </div>
                 </div>
             ';
         }
-        $markup = $head.'
+        $markup = $head . '
                     <div class="container" id="md-menu-container">
                         <div class="row" id="md-menu-row"></div>
                     </div>
 
                     <div class="container" id="md-content-container">
                         <div class="row" id="md-content-row">
-                        '.($this->useSideNav && !empty($this->sideNav)
-                            ? '
+                        ' . ($this->useSideNav && !empty($this->sideNav)
+                ? '
                             <div class="col-md-3" id="md-left-column">
                                 <div class="panel panel-default">
                                     <ul class="list-group">
-                                    '.$this->sideNav.'
+                                    ' . $this->sideNav . '
                                     </ul>
                                 </div>
                             </div>
                             <div id="md-content" class="col-md-9">'
-                            : '
+                : '
                             <div id="md-content" class="col-md-12">'
-                        ) .
-                                $markup.'
+            ) .
+            $markup . '
                             </div>
                         </div>
                     </div>

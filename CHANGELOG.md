@@ -7,11 +7,12 @@ Version 2.0.0
 This version tends to improve first of all to get started using Up!, making 
 it as easy as it was always intended to be.
 
+  * Easy installation also without composer
   * Completely revamped and improved documentation (wip)
-  * New default theme that is shipped with Up! (planned)
-  * New extensible gimmick plugin system (planned)
-  * Easy installation also without composer (planned)
   * Youtube links can be rendered as Youtube embedded videos (planned)
+  * New default theme that is shipped with Up! (planned)
+  * New extension system for implicit/explicit gimmicks (wip)
+  * Experimental extension system and documentation for custom gimmicks (wip)
   * Mobile optimizations: App-style menu (planned)
   * New `test.md`
     * ... provides examples for all syntax
@@ -20,11 +21,11 @@ it as easy as it was always intended to be.
   * Documentation itself is an Up! wiki, can be browsed after installing Up!
   * Documentation itself serves as example implementation
   * Example config.json provided (wip)
-  * Example navigation file provided (wip)
-  * Proper support of mdwiki-style links officially dropped and won't be implemented
+  * Example navigation file provided
   * A generic title can be set/appended for all documents
   * Default "File not found" message when no 404.md exists is now fully rendered like a 404.md instead of dying with an one-liner
   * 404.md no longer part of the repository, so it can be created without conflicting with 'git pull' updates
+  * Proper support of mdwiki-style links officially dropped and won't be implemented
 
 Version 1.0.1
 -------------
