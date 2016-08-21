@@ -176,7 +176,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
                     return $return;
                 }
             }
-            if (!isset($block['url']) || strpos($block['url'], '://') === false) {
+            if (!isset($block['url']) || $block['url'] == null || strpos($block['url'], '://') === false) {
                 // output nothing if gimmick has no regular link
                 return '';
             } else {
@@ -207,7 +207,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
         . (empty($block['title'])
             ? ''
             : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
-        . '>' . (($outputLinkOnly || $text == '' || !isset($block['text'])) ? $block['url'] : $this->renderAbsy($block['text'])) . '</a>';
+        . '>' . (($outputLinkOnly || $text == '') ? $block['url'] : $this->renderAbsy($block['text'])) . '</a>';
     }
 
     /**
