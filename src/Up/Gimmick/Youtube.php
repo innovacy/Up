@@ -48,7 +48,7 @@ class Youtube extends GimmickBase
     public function renderLink($block, $text)
     {
         // check first for not empty caption to increase performance and parse the host only when empty
-        if (!empty($block['text']) || !preg_match('#^((https?:)?//)?(?P<host>(www\.)?youtube.com|youtu.be)/(watch\?v=)?(?P<videoid>[^&\#\?]+)(?P<params>.+)?$#', $block['url'], $m)) {
+        if (!empty($text) || !preg_match('#^((https?:)?//)?(?P<host>(www\.)?youtube.com|youtu.be)/(watch\?v=)?(?P<videoid>[^&\#\?]+)(?P<params>.+)?$#', $block['url'], $m)) {
             return true;
         }
         // TODO: Responsive video frame, see CSS
@@ -70,7 +70,7 @@ class Youtube extends GimmickBase
         /* See https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php for javascript resize and non 16:9 */
         return '<div class="video_frame"><iframe width="560" height="315" '
             . 'src="//www.youtube.com/embed/'.$m['videoid'].'?iv_load_policy=3&rel=0'
-            . (!empty($m['params']) ? ltrim($m['params'], '&?') : '')
+            . (!empty($m['params']) ? '&'.ltrim($m['params'], '&?') : '')
             . '" frameborder="0" allowfullscreen></iframe></div>';
     }
 }

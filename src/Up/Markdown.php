@@ -207,7 +207,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
         . (empty($block['title'])
             ? ''
             : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
-        . '>' . (!$outputLinkOnly ? $this->renderAbsy($block['text']) : $block['url']) . '</a>';
+        . '>' . (($outputLinkOnly || $text == '')? $block['url'] : $this->renderAbsy($block['text'])) . '</a>';
     }
 
     /**
