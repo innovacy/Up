@@ -11,7 +11,7 @@ namespace Innovacy\Up\Gimmick;
 /**
  * Class Gimmick
  * All gimmick plugins must inherit this class
- * @method renderLink($block)
+ * @method renderLink($block, $text)
  * @method renderParagraph($block, $text)
  * @package Innovacy\Up\Gimmick
  */

@@ -45,7 +45,7 @@ class Youtube extends GimmickBase
      * @param $block
      * @return bool|string
      */
-    public function renderLink($block)
+    public function renderLink($block, $text)
     {
         // check first for not empty caption to increase performance and parse the host only when empty
         if (!empty($block['text']) || !preg_match('#^((https?:)?//)?(?P<host>(www\.)?youtube.com|youtu.be)/(watch\?v=)?(?P<videoid>[^&\#\?]+)(?P<params>.+)?$#', $block['url'], $m)) {
@@ -72,6 +72,5 @@ class Youtube extends GimmickBase
             . 'src="//www.youtube.com/embed/'.$m['videoid'].'?iv_load_policy=3&rel=0'
             . (!empty($m['params']) ? ltrim($m['params'], '&?') : '')
             . '" frameborder="0" allowfullscreen></iframe></div>';
-        return $block['url'];
     }
 }

@@ -143,16 +143,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
      */
     protected function renderParagraph($block)
     {
-        // concatenates from an array of arrays of 2-column arrays (index 0 is type and index 1 is content)
-        // all content that is of type text
-        $text = join('', array_map(
-            function ($arr) {
-                return $arr[1];
-            },
-            array_filter($block['content'], function ($var) {
-                return ($var[0] == 'text');
-            })
-        ));
+        $text = $this->getSimpleText($block['content']);
         /** @var GimmickBase $gimmick */
         foreach ($this->gimmicks['paragraph']['implicit'] as $gimmick) {
             $return = $gimmick->renderParagraph($block, $text);
@@ -172,12 +163,13 @@ class Markdown extends \cebe\markdown\GithubMarkdown
      */
     protected function renderLink($block)
     {
-        $parseText = true;
+        $outputLinkOnly = false;
+        $text = $this->getSimpleText($block['text']);
         if (preg_match('#^\[gimmick:(.+)\]\(.*\)$#', $block['orig'], $m)) {
             if (array_key_exists($m[1], $this->gimmicks['link']['explicit'])) {
                 /** @var Gimmick\GimmickBase $gimmick */
                 $gimmick = $this->gimmicks['link']['explicit'][$m[1]];
-                $return = $gimmick->renderLink($block);
+                $return = $gimmick->renderLink($block, $text);
                 if ($return === false) {
                     return '';
                 } else if ($return !== true) {
@@ -189,13 +181,12 @@ class Markdown extends \cebe\markdown\GithubMarkdown
                 return '';
             } else {
                 // replace 'gimmick:' specification with url to output and no further parsing
-                $block['text'] = $block['url'];
-                $parseText = false;
+                $outputLinkOnly = true;
             }
         }
         /** @var GimmickBase $gimmick */
         foreach ($this->gimmicks['link']['implicit'] as $gimmick) {
-            $return = $gimmick->renderLink($block);
+            $return = $gimmick->renderLink($block, $text);
             if ($return === false) {
                 return '';
             } else if ($return !== true) {
@@ -211,16 +202,12 @@ class Markdown extends \cebe\markdown\GithubMarkdown
         }
         if (isset($block['url']) && strpos($block['url'], '://') === false) {
             $block['url'] = preg_replace('/\.md$/', '.html', $block['url']);
-        } else {
-            // set text to url if no text, and no further parsing
-            $block['text'] = $block['url'];
-            $parseText = false;
         }
         return '<a href="' . htmlspecialchars($block['url'], ENT_COMPAT | ENT_HTML401, 'UTF-8') . '"'
         . (empty($block['title'])
             ? ''
             : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
-        . '>' . ($parseText ? $this->renderAbsy($block['text']) : $block['text']) . '</a>';
+        . '>' . (!$outputLinkOnly ? $this->renderAbsy($block['text']) : $block['url']) . '</a>';
     }
 
     /**
@@ -310,5 +297,25 @@ class Markdown extends \cebe\markdown\GithubMarkdown
 
         ';
         return $markup;
+    }
+
+    /**
+     * Concatenates from an array of arrays of 2-column arrays (index 0 is type and index 1 is content)
+     * all content that is of type text
+     * @param array $b
+     * @return string
+     */
+    private function getSimpleText($b)
+    {
+        //
+        return join('', array_map(
+            function ($arr) {
+                return $arr[1];
+            },
+            array_filter($b, function ($var) {
+                return ($var[0] == 'text');
+            })
+        ));
+
     }
 }
