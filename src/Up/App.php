@@ -379,6 +379,6 @@ HIGHLIGHTJS;
                 ? $_SERVER['DOCUMENT_ROOT']
                 : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME'])
             )
-            , '/');
+            , '/').str_replace($this->getVirtualUri(), '', $_SERVER['REQUEST_URI']);
     }
 }
