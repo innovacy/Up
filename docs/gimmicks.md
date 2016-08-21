@@ -26,7 +26,7 @@ isn't applied.
 
 
 
-## Alert gimmick
+## Alerts
 
 Whenever a paragraph starts with a special trigger word that is followed by a colon `:` or exclamation mark `!`,
 they are rendered as alert boxes.

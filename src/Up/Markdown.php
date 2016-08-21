@@ -164,8 +164,8 @@ class Markdown extends \cebe\markdown\GithubMarkdown
     protected function renderLink($block)
     {
         $outputLinkOnly = false;
-        $text = $this->getSimpleText($block['text']);
-        if (preg_match('#^\[gimmick:(.+)\]\(.*\)$#', $block['orig'], $m)) {
+        $text = isset($block['text']) ? $this->getSimpleText($block['text']) : '';
+        if (preg_match('#^\[gimmick:(.+)\](\(.*\))?$#', $block['orig'], $m)) {
             if (array_key_exists($m[1], $this->gimmicks['link']['explicit'])) {
                 /** @var Gimmick\GimmickBase $gimmick */
                 $gimmick = $this->gimmicks['link']['explicit'][$m[1]];
@@ -207,7 +207,7 @@ class Markdown extends \cebe\markdown\GithubMarkdown
         . (empty($block['title'])
             ? ''
             : ' title="' . htmlspecialchars($block['title'], ENT_COMPAT | ENT_HTML401 | ENT_SUBSTITUTE, 'UTF-8') . '"')
-        . '>' . (($outputLinkOnly || $text == '')? $block['url'] : $this->renderAbsy($block['text'])) . '</a>';
+        . '>' . (($outputLinkOnly || $text == '' || !isset($block['text'])) ? $block['url'] : $this->renderAbsy($block['text'])) . '</a>';
     }
 
     /**
