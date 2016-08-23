@@ -30,6 +30,7 @@ much more modular and extensible.
   * Introducing Inversion of Control, code refactoring
   * Refactoring configuration into own class (single reponsibility principle), making it possible with IoC
     for gimmicks to have and access (or even modify) their own or existing configuration values
+  * Improved path/basePath discovery to operate on more servers
 
 Version 1.0.1
 -------------
