@@ -371,14 +371,14 @@ HIGHLIGHTJS;
      */
     private function getBasePath()
     {
-        return rtrim(
+        $basePath =
             isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
                 ? $_SERVER['CONTEXT_DOCUMENT_ROOT']
                 : (
             isset($_SERVER['DOCUMENT_ROOT'])
                 ? $_SERVER['DOCUMENT_ROOT']
-                : str_replace($_SERVER['PHP_SELF'], '', $_SERVER['SCRIPT_FILENAME'])
-            )
-            , '/').str_replace($this->getVirtualUri(), '', $_SERVER['REQUEST_URI']);
+                : dirname($_SERVER['SCRIPT_FILENAME']));
+        $requestScriptDir = dirname(parse_url($_SERVER['SCRIPT_NAME'], PHP_URL_PATH));
+        return rtrim($basePath.$requestScriptDir, '/');
     }
 }
