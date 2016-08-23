@@ -25,7 +25,11 @@ ini_set('display_startup_errors', 1);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// Suppress DateTime warnings
+date_default_timezone_set(@date_default_timezone_get());
+
 ini_set('default_charset', 'utf-8');
+
 
 # Initialize the autoloader
 require __DIR__.'/src/Up/Autoloader.php';
