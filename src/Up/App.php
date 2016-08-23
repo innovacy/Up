@@ -205,11 +205,14 @@ HIGHLIGHTJS;
         } elseif ($this->config->hasValue('additionalFooterText')) {
             $footer = $this->config->get('additionalFooterText');
         }
-        // TODO: Move page.tpl into Up directory and allow a page.tpl override in main folder (avoids pull conflicts when modified)
-        if (!file_exists($this->basePath . '/page.tpl')) {
-            throw new \RuntimeException('File page.tpl not found, but is required');
+        if (($filePageTpl = $this->discoverFile($this->virtualUri, true, 'page.tpl')) === false) {
+            if (!file_exists($this->basePath . '/upify/page.tpl')) {
+                throw new \RuntimeException('File page.tpl not found, but is required');
+            } else {
+                $filePageTpl = $this->basePath . '/upify/page.tpl';
+            }
         }
-        $tpl = file_get_contents($this->basePath . '/page.tpl');
+        $tpl = file_get_contents($filePageTpl);
         $tpl = str_replace(
             '{$title}',
             ((!$titleEmpty = empty($this->parser->title))
@@ -235,6 +238,9 @@ HIGHLIGHTJS;
         $this->output = $tpl;
     }
 
+    /**
+     * Outputs the rendered document
+     */
     public function output()
     {
         echo $this->output;

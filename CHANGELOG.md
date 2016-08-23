@@ -12,9 +12,11 @@ much more modular and extensible.
   * Completely revamped and improved documentation (wip)
   * Youtube links can be rendered as Youtube embedded videos
   * New default theme that is shipped with Up! (planned)
+    * Page header larger/distinguished from other 1st level headers (planned)
   * New extension system for implicit/explicit gimmicks (wip)
   * Experimental extension system and documentation for custom gimmicks (wip)
   * Mobile optimizations: App-style menu (planned)
+  * page.tpl (render layout) can be now overridden too
   * New `test.md`
     * ... provides examples for all syntax
     * ... assists testing proper rendering of all syntax
